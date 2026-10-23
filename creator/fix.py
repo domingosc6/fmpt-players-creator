@@ -262,7 +262,11 @@ def build_fix(row, out_xml):
         pr["divi"] = build.comp_ref(r["divi"]) if r["divi"] else None
         pr["apps"], pr["gols"] = r["apps"], r["gols"]
         pr["ytht"], pr["onln"] = r["ytht"], r["onln"]
-        pr["cash"] = ET.Element("integer", value=str(r["cash"])) if r["cash"] is not None else None
+        # FM26's own negative fee codes (-2) are refused by the editor, and the
+        # row's later cells - join, leaving, club, division - then fail with it
+        # (user, 2026-10-23: Pedro Ferreira's Varzim 2019/20). Only real fees go.
+        pr["cash"] = (ET.Element("integer", value=str(r["cash"]))
+                      if r["cash"] is not None and r["cash"] >= 0 else None)
         pr["join"] = build.date_el(shift(r["join"], offset)) if r["join"] else None
         pr["leaving"] = build.date_el(shift(r["leaving"], offset)) if r["leaving"] else None
         plhs_rows.append(pr)
