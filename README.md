@@ -20,8 +20,32 @@ and traps.
   repo's data from its own location. Paths you pass as arguments are read
   relative to where you run it.
 - An FM26 Editor install, for the scripts that read the FM26 database
-  (`scripts/fm_db_*.py`, `creator/fm26_*.py`).
+  (`scripts/fm_db_*.py`, `creator/fm26_*.py`). `creator/fm26_install.py` finds
+  it in any Steam library on macOS or Windows; set `FM26_EDITOR_DIR` to the
+  editor's folder to point it elsewhere. Unpacking the database needs Python
+  3.14 (or, under an older Python, the `zstd` command). Without the editor,
+  copy `creator/cache/` from a computer that has it.
 - Internet access for the FM club/person search and the creator's web sources.
+
+## Windows
+
+1. Install Python 3.14 from python.org (tick "Add to PATH") and Git for Windows.
+2. `git clone https://github.com/domingosc6/fmpt-players-creator.git`, sign in
+   as `domingosc6` when Git asks, then in the clone:
+   `git config user.email 30902660+domingosc6@users.noreply.github.com`.
+3. Turn on Python's UTF-8 mode once: `setx PYTHONUTF8 1`, then open a new
+   terminal. `create_legends.py` switches it on by itself; the other scripts
+   rely on it.
+4. Copy in what git does not carry (see below): at least `creator/cache/`
+   unless the FM26 Editor is installed there.
+5. Run with `py`, e.g.
+   `py creator\create_legends.py "<sheet>.csv" --out-dir "creator\out\<team>" --import-downloads`.
+
+`scripts/batch/batch_template.sh` is bash; run it from Git Bash.
+
+**`creator/ids.json` travels through git.** `git pull` before creating
+players and commit + push it right after, on every computer - two diverged
+copies give the same player two ids.
 
 ## Not in the repo
 

@@ -32,6 +32,16 @@ investigations), the caches (`creator/cache/`, `scripts/fm_names_cache.json`,
   directory - shared intermediates go in `work/` at the repo root.
 - **FM26's people table** comes from `build.people_db()` (`creator/build.py`,
   cached in `creator/cache/fm26_basic_people_db.bin`), not a copy.
+- **The FM26 Editor install and zstd go through `creator/fm26_install.py`**:
+  `db_dir()` (any Steam library on macOS/Windows, `FM26_EDITOR_DIR` overrides),
+  `decompress()` (built-in zstd on 3.14, the `zstd` command on 3.9) and
+  `zstd_python()` (the interpreter a `--build` runs under). Never hardcode the
+  Steam path or `/opt/homebrew/bin/python3` again. The user runs on macOS and
+  Windows.
+- **`creator/ids.json` is synced through git** between computers: pull before
+  creating players, commit + push after. The `Legends Creator/` package is
+  retired as the place to run from (its ledger was merged into the repo on
+  2026-10-23).
 - **Git:** commit as `Domingos Costa <30902660+domingosc6@users.noreply.github.com>`
   (set in this repo's config). The global Jira-ticket commit hook is switched
   off here (`core.hooksPath = .git/hooks`). `git push` works as is; any `gh`

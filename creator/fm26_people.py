@@ -23,14 +23,14 @@ import struct
 import subprocess
 import sys
 
+import fm26_install
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache", "fm26_people_dob.json")
 # every DBID people_db holds: playing history and the site index also name
 # people FM26 no longer has (Kali 7002246, user 2026-10-22: "Record not found")
 IDS_CACHE = os.path.join(HERE, "cache", "fm26_people_ids.json.gz")
-DB_DIR = os.path.expanduser(
-    "~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor"
-    "/shared/data/database/db/2620/2620_fm")
+DB_DIR = fm26_install.db_dir()
 
 
 def record_dob(rec):
@@ -73,7 +73,7 @@ def _build():
 
 
 def refresh():
-    subprocess.run(["/opt/homebrew/bin/python3", os.path.abspath(__file__), "--build"], check=True)
+    subprocess.run(fm26_install.zstd_python() + [os.path.abspath(__file__), "--build"], check=True)
 
 
 _DATA = None

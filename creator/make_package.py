@@ -18,7 +18,7 @@ ROOT = os.path.dirname(HERE)
 
 CREATOR = ["build.py", "create_legends.py", "fix.py", "fm26_history.py", "fm26_leagues.py",
            "fm26_people.py", "fm26_achievements.py",
-           "fm26_world.py", "model.py", "verify.py", "make_package.py",
+           "fm26_world.py", "fm26_install.py", "model.py", "verify.py", "make_package.py",
            "club_overrides.json", "division_overrides.json", "levels.json", "template.xml", "PLAN.md"]
 SOURCES = ["__init__.py", "bdfutbol.py", "carrierecalciatori.py", "foradejogo.py", "nft.py", "wikipedia.py",
            "zerozero.py", "zerozero_extract.js", "bdfutbol_extract.js"]

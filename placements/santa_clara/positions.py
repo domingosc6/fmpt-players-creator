@@ -1,8 +1,9 @@
 import os,sys,json
-sys.path.insert(0,".")
-import fm_db_people
-D=os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor/shared/data/database/db/2620/2620_fm")
-db=fm_db_people.PeopleDB(D, cache="/private/tmp/claude-502/-Users-domingos-costa-Documents-Hivebrite-alumni-connect/6a2b49f3-24eb-4202-8bad-957a0d6fb4f9/scratchpad/fm26_people.pkl")
+ROOT=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0,os.path.join(ROOT,"scripts")); sys.path.insert(0,os.path.join(ROOT,"creator"))
+import fm_db_people, fm26_install
+os.makedirs(os.path.join(ROOT,"work"),exist_ok=True)
+db=fm_db_people.PeopleDB(fm26_install.db_dir(), cache=os.path.join(ROOT,"work","fm26_people.pkl"))
 POS=["GK","DL","DC","DR","DM","ML","MC","MR","AML","AMC","AMR","ST","WBL","WBR"]
 players=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "pos_targets.json")))
 def fmstring(r):

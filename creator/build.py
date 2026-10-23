@@ -31,6 +31,7 @@ import name_rebuilt_records as nrr
 import rebuild_lost_records as rlr
 import repair_type_change as rtc
 
+import fm26_install
 import model
 
 BUILD = "3733"
@@ -223,9 +224,7 @@ def person_name(profile, namer=None):
 
 FM26_DIR = os.path.join(os.path.dirname(HERE), "FM 26 XML Files")
 PEOPLE_DB = os.path.join(HERE, "cache", "fm26_basic_people_db.bin")
-FM26_PEOPLE_DAT = os.path.expanduser(
-    "~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor"
-    "/shared/data/database/db/2620/2620_fm/basic_people_db.dat")
+FM26_PEOPLE_DAT = os.path.join(fm26_install.db_dir(), "basic_people_db.dat")
 UID_RE = re.compile(r'id="db_unique_id" value="(\d+)"')
 
 
@@ -259,14 +258,11 @@ def seed_id_ledger(path):
 
 
 def people_db():
-    """FM26's person table, decompressed once. Python 3.9 has no zstd, so the
-    CLI does it; the high word of a new id must not name a real person."""
+    """FM26's person table, decompressed once; the high word of a new id must
+    not name a real person."""
     if not os.path.exists(PEOPLE_DB):
-        import subprocess
         raw = open(FM26_PEOPLE_DAT, "rb").read()[12:]
-        out = subprocess.run(["zstd", "-d", "-q", "-c"], input=raw,
-                             stdout=subprocess.PIPE, check=True).stdout
-        open(PEOPLE_DB, "wb").write(out)
+        open(PEOPLE_DB, "wb").write(fm26_install.decompress(raw))
     return open(PEOPLE_DB, "rb").read()
 
 

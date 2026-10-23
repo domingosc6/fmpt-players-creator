@@ -15,11 +15,11 @@ import struct
 import subprocess
 import sys
 
+import fm26_install
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache", "fm26_city_nation.json")
-DB_DIR = os.path.expanduser(
-    "~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor"
-    "/shared/data/database/db/2620/2620_fm")
+DB_DIR = fm26_install.db_dir()
 CITY_TABLE, NATION_TABLE, ROW, START = 2, 11, 43, 12
 
 
@@ -43,7 +43,7 @@ def _build():
 
 
 def refresh():
-    subprocess.run(["/opt/homebrew/bin/python3", os.path.abspath(__file__), "--build"], check=True)
+    subprocess.run(fm26_install.zstd_python() + [os.path.abspath(__file__), "--build"], check=True)
 
 
 _DATA = None

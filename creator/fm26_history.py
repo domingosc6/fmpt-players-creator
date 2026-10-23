@@ -14,17 +14,16 @@ Row layout, checked against the editor on Gattuso and Maldini (2026-10-08):
   11 u32 club  x2       15 u32 division x2   FM26 DBIDs
   27 u8  order          the editor's Order column (0-8, not only 0/1/2)
   28 (u16 day of year, u16 year) x3: join, leave, unused; year 1900 = empty
-Python 3.9 has no zstd, so the CLI decompresses each file once into cache/.
+Each file is decompressed once into cache/ (`fm26_install.decompress`).
 """
 import datetime
 import os
 import struct
-import subprocess
+
+import fm26_install
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DB_DIR = os.path.expanduser(
-    "~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor"
-    "/shared/data/database/db/2620/2620_fm")
+DB_DIR = fm26_install.db_dir()
 NONE = 0xFFFFFFFF          # an empty club or division cell
 HEADER = {"pl_hist_dt": 8, "pl_hist_id": 8, "pl_hist_index": 12}
 
@@ -33,9 +32,7 @@ def _load(name):
     path = os.path.join(HERE, "cache", "fm26_%s.bin" % name)
     if not os.path.exists(path):
         raw = open(os.path.join(DB_DIR, name + ".dat"), "rb").read()[HEADER[name]:]
-        out = subprocess.run(["zstd", "-d", "-q", "-c"], input=raw,
-                             stdout=subprocess.PIPE, check=True).stdout
-        open(path, "wb").write(out)
+        open(path, "wb").write(fm26_install.decompress(raw))
     return open(path, "rb").read()
 
 
