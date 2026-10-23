@@ -28,6 +28,9 @@ Read `PLAN.md` first; its "Decided" and "Fix mode" sections hold every rule agre
 `python3 creator/make_package.py` builds `FMPT-Legends/Legends Creator/`: the creator, the scripts/
 modules it imports, template.xml (changeset header/footer), README. Code is refreshed on every
 run; ids.json and cache/ are copied only when the package has none (the carried copies win).
-The user runs from the package on both computers; create_legends.py restarts itself in
+RETIRED 2026-10-23: run from the git repo on both computers instead, and sync
+`creator/ids.json` through git (pull before, commit + push after). Running from the package
+writes its own ledger, outputs and cache, which then have to be merged back by hand.
+create_legends.py restarts itself in
 Python's UTF-8 mode (Windows). Without "FM 26 XML Files" beside it, the id ledger keeps the
 used ids it already holds.
