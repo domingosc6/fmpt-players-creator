@@ -11,6 +11,7 @@ index's `nation` on a person is the country of the club he plays in today, not
 his passport: it calls Modou Sougou French for playing at Amiens.
 """
 import argparse, json, os, random, re, sys, unicodedata, urllib.parse, urllib.request
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import xml.etree.ElementTree as ET
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fm_names
@@ -138,7 +139,7 @@ def main():
             if len(c) >= 3:
                 pais[(c[0], c[2])] = None          # club, player - filled from the squad sheet below
     squad, club = {}, None
-    for line in open("FM 26 XML Files/explanations/Primeira Liga Historica - non-bold main team.md",
+    for line in open(ROOT + "/FM 26 XML Files/explanations/Primeira Liga Historica - non-bold main team.md",
                      encoding="utf-8"):
         if line.startswith("## "):
             club = re.sub(r"\s*_\(.*", "", line[3:]).strip()

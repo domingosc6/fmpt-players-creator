@@ -53,7 +53,8 @@ def scan(path):
     return spells, bad_dates, people_bad, club_mismatch
 
 
-NEW, X = sys.argv[1], "FM 26 XML Files/converted_xmls"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+NEW, X = sys.argv[1], os.path.join(ROOT, "FM 26 XML Files/converted_xmls")
 tot = collections.Counter()
 for np_ in sorted(glob.glob(f"{NEW}/*.xml")):
     c = os.path.basename(np_)[:-4]

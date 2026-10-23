@@ -1,5 +1,6 @@
-import json, re, unicodedata, collections
-P = [p for p in json.load(open("santa_clara/profiles.json")) if p["name"] not in ("Gabriel Batista","Sidney Lima","Gabriel Silva","Vinícius Lopes","Pedro Ferreira")]; B = json.load(open("squads.json")); hits = []
+import json, re, unicodedata, collections, os
+PLACEMENTS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+P = [p for p in json.load(open(os.path.join(PLACEMENTS, "santa_clara/profiles.json"))) if p["name"] not in ("Gabriel Batista","Sidney Lima","Gabriel Silva","Vinícius Lopes","Pedro Ferreira")]; B = json.load(open(os.path.join(PLACEMENTS, "squads.json"))); hits = []
 GENERIC = set("clube club futebol football fc cf cd gd sc sd ud ac ad as sl cs sporting sport grupo desportivo deportivo de da do dos das del la el le les fk nk sk if bk kv kas rc rcd real atletico atlético associação associacao sociedade sad união uniao uniao united city 1893 1911 1910 1904 1919 1906 calcio ssc ss us futbol fútbol kulübü kulubu spor sportif olympique athletic sv tsv vfb vfl".split())
 def norm(t):
     t = unicodedata.normalize("NFKD", t or ""); return re.sub(r"[^a-z0-9 ]", " ", "".join(c for c in t if not unicodedata.combining(c)).lower())

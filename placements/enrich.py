@@ -1,9 +1,10 @@
 """Names, nations and league reputations for every club and competition in the careers."""
 import json, os, sys
+HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator")); sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import fm_names, build
 names = fm_names.Names()
-P = json.load(open(sys.argv[1] if len(sys.argv) > 1 else "profiles.json"))
+P = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "profiles.json")))
 want = [("person", p["dbid"]) for p in P]
 for p in P:
     for r in p["career"]:
@@ -24,6 +25,6 @@ for p in P:
         r["club_nation"] = names.nation(r["club"]) if r["club"] else None
         c = reps.get(r["divi"]) or {}
         r["divi_name"], r["divi_rep"] = c.get("name"), c.get("rep")
-json.dump(P, open(sys.argv[1] if len(sys.argv) > 1 else "profiles.json", "w"), ensure_ascii=False, indent=1)
-json.dump({str(k): v for k, v in reps.items()}, open("comps.json", "w"), ensure_ascii=False, indent=1)
+json.dump(P, open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "profiles.json"), "w"), ensure_ascii=False, indent=1)
+json.dump({str(k): v for k, v in reps.items()}, open(os.path.join(HERE, "comps.json"), "w"), ensure_ascii=False, indent=1)
 print(len(comps), "competitions;", sum(1 for p in P for r in p["career"] if r["club"] and not r["club_name"]), "club rows unnamed")

@@ -1,12 +1,13 @@
 """Every cell of every squad file that names one of the sheet's players."""
-import glob, json, re, unicodedata
+import glob, json, re, unicodedata, os
+HERE = os.path.dirname(os.path.abspath(__file__))
 import xlsx_read as X
 
 def norm(t):
     t = unicodedata.normalize("NFKD", t or "")
     return re.sub(r"[^a-z ]", "", "".join(c for c in t if not unicodedata.combining(c)).lower()).strip()
 
-players = [r for r in X.rows(X.read("xlsx/Players for script.xlsx")["Avulsos"])[1:] if r[1]]
+players = [r for r in X.rows(X.read(os.path.join(HERE, "xlsx/Players for script.xlsx"))["Avulsos"])[1:] if r[1]]
 want = {norm(r[1]): r[1] for r in players}
 last = {}
 for k, v in want.items():
@@ -27,7 +28,7 @@ def club_of(cells, r, c):
     return None, youth
 
 hits = []
-for f in sorted(glob.glob("xlsx/*.xlsx")):
+for f in sorted(glob.glob(os.path.join(HERE, "xlsx/*.xlsx"))):
     if "Players for" in f:
         continue
     for sheet, cells in X.read(f).items():
@@ -40,10 +41,10 @@ for f in sorted(glob.glob("xlsx/*.xlsx")):
             if exact or (n.split() and n.split()[-1] in last and len(n.split()) <= 4):
                 row = [cells.get((r, k), "") for k in range(c, c + 5)]
                 club, youth = club_of(cells, r, c)
-                hits.append({"player": exact, "cell_text": v, "file": f[5:-5], "sheet": sheet,
+                hits.append({"player": exact, "cell_text": v, "file": os.path.basename(f)[:-5], "sheet": sheet,
                              "cell": [r, c], "row": row, "club_block": club, "youth_block": youth,
                              "exact": bool(exact)})
-json.dump(hits, open("assigned_hits.json", "w"), ensure_ascii=False, indent=1)
+json.dump(hits, open(os.path.join(HERE, "assigned_hits.json"), "w"), ensure_ascii=False, indent=1)
 print(len(hits), "hits,", sum(h["exact"] for h in hits), "exact")
 for h in hits:
     if h["exact"]:

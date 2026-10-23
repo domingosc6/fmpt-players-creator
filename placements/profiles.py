@@ -1,5 +1,6 @@
 """FM26 profile per sheet player: nation, DOB, club, position and career."""
 import json, os, sys
+HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator"))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import build, fm26_history, fm26_people, fm26_leagues
@@ -9,9 +10,9 @@ names = build._names()
 hist = fm26_history.History()
 out = []
 SRC = sys.argv[1] if len(sys.argv) > 1 else None
-OUT = sys.argv[2] if len(sys.argv) > 2 else "profiles.json"
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "profiles.json")
 src_rows = ([["", n, "", "", "", "", str(d), "", str(ca), str(pa)] for d, n, ca, pa in json.load(open(SRC))]
-            if SRC else X.rows(X.read("xlsx/Players for script.xlsx")["Avulsos"])[1:])
+            if SRC else X.rows(X.read(os.path.join(HERE, "xlsx/Players for script.xlsx"))["Avulsos"])[1:])
 for r in src_rows:
     if not r[1]:
         continue

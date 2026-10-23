@@ -1,5 +1,6 @@
-import json, random
-P = {p["name"]: p for p in json.load(open("santa_clara/profiles.json"))}
+import json, random, os
+PLACEMENTS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+P = {p["name"]: p for p in json.load(open(os.path.join(PLACEMENTS, "santa_clara/profiles.json")))}
 TM_DOB = {"MT": [1, 3, 2001], "Lucas Soares": [4, 5, 1998], "Bruno Almeida": [9, 9, 1996], "Rildo": [21, 1, 2000], "Jader": [24, 7, 2003]}
 YOUTH = {"MT": 339, "Lucas Soares": 321, "Serginho": 2389, "Bruno Almeida": 2386, "Rildo": 324, "Klismahn": 2390,
          "Welinton Torrão": 314, "Brenner": 311036, "Henrique Silva": 321, "Gonçalo Paciência": 1478, "Reinaldo": 320,
@@ -28,4 +29,4 @@ for name, season in SENIOR.items():
     nca, npa = ca - 5, (neg(pa) if a <= 21 else pa - 5)
     out[name] = (season, nca, npa)
     print("%-18s S season %s age %s CA %s->%s PA %s->%s" % (name, season, a, ca, nca, pa, npa))
-json.dump(out, open("santa_clara/ratings.json", "w"), ensure_ascii=False, indent=1)
+json.dump(out, open(os.path.join(PLACEMENTS, "santa_clara/ratings.json"), "w"), ensure_ascii=False, indent=1)

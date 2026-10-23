@@ -1,5 +1,6 @@
-import json, collections
-P = {p["name"]: p for p in json.load(open("santa_clara/profiles.json"))}
+import json, collections, os
+PLACEMENTS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+P = {p["name"]: p for p in json.load(open(os.path.join(PLACEMENTS, "santa_clara/profiles.json")))}
 PROP = [  # name, kind, club-name substring
  ("Gabriel Batista","A","Santa Clara"),("Sidney Lima","A","Santa Clara"),("Gabriel Silva","A","Santa Clara"),
  ("Vinícius Lopes","A","Santa Clara"),("Pedro Ferreira","A","Santa Clara"),

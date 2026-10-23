@@ -3,11 +3,12 @@ Grid sheets: a club header cell, then a header row (Posição | Nome/Jogador/Nam
 | Nacio.), then rows; a "CAMADAS JOVENS" row starts the youth part. Table
 sheets ("Avulsos", "Camadas Jovens"): Jogador | Posição | País | Equipa |
 Camadas Jovens?"""
-import glob, json, re
+import glob, json, re, os
+HERE = os.path.dirname(os.path.abspath(__file__))
 import xlsx_read as X
 HEAD = ("Nome", "Jogador", "Name")
 blocks = []
-for f in sorted(glob.glob("xlsx/*.xlsx")):
+for f in sorted(glob.glob(os.path.join(HERE, "xlsx/*.xlsx"))):
     if "Players for" in f:
         continue
     for sheet, cells in X.read(f).items():
@@ -22,7 +23,7 @@ for f in sorted(glob.glob("xlsx/*.xlsx")):
                     if not name:
                         continue
                     youth = "jovens" in sheet.lower() or "cj" in sheet.lower().split() or bool(cells.get((rr, ecol + 1)))
-                    blocks.append({"file": f[5:-5], "sheet": sheet, "club": cells.get((rr, ecol)) or "(free)",
+                    blocks.append({"file": os.path.basename(f)[:-5], "sheet": sheet, "club": cells.get((rr, ecol)) or "(free)",
                                    "kind": "table", "senior": [] if youth else [name], "youth": [name] if youth else []})
                 continue
             club = cells.get((r - 1, c - 1)) or cells.get((r - 1, c)) or cells.get((r - 2, c - 1)) or "?"
@@ -41,9 +42,9 @@ for f in sorted(glob.glob("xlsx/*.xlsx")):
                     (youth if in_youth else senior).append(name)
                 elif pos and not in_youth:
                     empty_slots += 1
-            blocks.append({"file": f[5:-5], "sheet": sheet, "club": club, "kind": "grid",
+            blocks.append({"file": os.path.basename(f)[:-5], "sheet": sheet, "club": club, "kind": "grid",
                            "senior": senior, "youth": youth, "empty_slots": empty_slots})
-json.dump(blocks, open("squads.json", "w"), ensure_ascii=False, indent=1)
+json.dump(blocks, open(os.path.join(HERE, "squads.json"), "w"), ensure_ascii=False, indent=1)
 g = [b for b in blocks if b["kind"] == "grid"]
 print(len(g), "club blocks;", sum(len(b["senior"]) for b in g), "senior names;", sum(len(b["youth"]) for b in g), "youth;",
       sum(1 for b in blocks if b["kind"] == "table"), "table rows")

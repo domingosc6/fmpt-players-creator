@@ -1,10 +1,11 @@
 """One pass over the FM26 file: what the changeset says about each person."""
 import json, os, sys
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import xml.etree.ElementTree as ET
-sys.path.insert(0, "scripts")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fm_names
 
-SRC = "FM 26 XML Files/extracts/FM26 Files/FMPT Legends - Portugal - Squads.xml"
+SRC = ROOT + "/FM 26 XML Files/extracts/FM26 Files/FMPT Legends - Portugal - Squads.xml"
 PERSON, ADDR = "1", "55"
 
 def fourcc(n):
@@ -47,7 +48,7 @@ for _, el in ET.iterparse(SRC, events=("end",)):
 
 for u, d in people.items():
     d["addr"] = u in addr
-WORK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work")
+WORK = os.path.join(ROOT, "work")
 os.makedirs(WORK, exist_ok=True)
 json.dump(people, open(os.path.join(WORK, "people.json"), "w"))
 print("people:", len(people), "with ADDR:", sum(1 for d in people.values() if d["addr"]))

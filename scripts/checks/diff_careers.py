@@ -11,7 +11,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import convert_edition as ce, clean_import as ci, probe_editor_replay as pr, fm_names, extract_squad as ex
 
 nm = fm_names.Names(offline=True)
-NEW, X = sys.argv[1], "FM 26 XML Files/converted_xmls"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+NEW, X = sys.argv[1], os.path.join(ROOT, "FM 26 XML Files/converted_xmls")
 
 def index(p):
     return ex.people_index(ce, nm, ET.parse(p).getroot())

@@ -16,6 +16,7 @@ exists is asked of FM26's own decompressed table, not of the fmref index -
 fmref is a directory of names, not a statement about this edition.
 """
 import json, os, re, struct, sys, unicodedata, urllib.parse, urllib.request
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fm_names
 
@@ -54,7 +55,7 @@ def main():
         by_dbid.setdefault(int(u) >> 32, []).append(u)
 
     repaired = set(re.findall(r"^\| [^|]+ \| (\d+) \|",
-                              open("FM 26 XML Files/explanations/Portugal FM26 - "
+                              open(ROOT + "/FM 26 XML Files/explanations/Portugal FM26 - "
                                    "repair after type change.md", encoding="utf-8").read(),
                               re.M))
 
@@ -86,7 +87,7 @@ def main():
 
     rows, cache = [], {}
     club = None
-    for line in open("FM 26 XML Files/explanations/Primeira Liga Historica - "
+    for line in open(ROOT + "/FM 26 XML Files/explanations/Primeira Liga Historica - "
                      "non-bold main team.md", encoding="utf-8"):
         if line.startswith("## "):
             club = re.sub(r"\s*_\(.*", "", line[3:]).strip()

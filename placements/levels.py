@@ -4,12 +4,13 @@ played count). A level is a competition name with any group suffix removed
 ("Portuguese Second Division - South" -> "Portuguese Second Division"),
 ranked by the best reputation among its competitions."""
 import json, os, re, sys
+HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator")); sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import build, fm26_leagues
 fm26_leagues.division(0, 2000)                    # loads _DATA
 H = fm26_leagues._DATA
-P = json.load(open(sys.argv[1] if len(sys.argv) > 1 else "profiles.json"))
-comps = {int(k): v for k, v in json.load(open("comps.json")).items()}
+P = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "profiles.json")))
+comps = {int(k): v for k, v in json.load(open(os.path.join(HERE, "comps.json"))).items()}
 clubs = {r["club"] for p in P for r in p["career"] if r["club"]}
 need = {row[1] for c in clubs for row in H.get(str(c), [])} - set(comps)
 for c in need:
@@ -17,7 +18,7 @@ for c in need:
     d = h[0]["document"] if h else {}
     comps[c] = {"name": d.get("name"), "rep": d.get("reputation"), "nation": (d.get("nation") or {}).get("name"),
                 "kind": d.get("classification_id")}
-json.dump({str(k): v for k, v in comps.items()}, open("comps.json", "w"), ensure_ascii=False, indent=1)
+json.dump({str(k): v for k, v in comps.items()}, open(os.path.join(HERE, "comps.json"), "w"), ensure_ascii=False, indent=1)
 
 def level(cid):
     n = (comps.get(cid) or {}).get("name") or str(cid)
@@ -39,5 +40,5 @@ for p in P:
         r["divi_level"] = level(r["divi"]) if r["divi"] else None
         r["counts"] = bool(r["club"] and r["divi"] and r["divi_level"] in top2.get(r["club"], []))
     p["club_top2"] = {str(c): top2[c] for c in {r["club"] for r in p["career"] if r["club"]}}
-json.dump(P, open(sys.argv[1] if len(sys.argv) > 1 else "profiles.json", "w"), ensure_ascii=False, indent=1)
+json.dump(P, open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "profiles.json"), "w"), ensure_ascii=False, indent=1)
 print("clubs", len(clubs), "extra comps", len(need))

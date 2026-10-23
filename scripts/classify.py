@@ -1,6 +1,7 @@
 """Match the sheet's non-bold main-team players to the records in the FM26 file."""
 import json, os, re, sys, unicodedata
-sys.path.insert(0, "scripts")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fm_names
 
 T = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work") + "/"
@@ -37,7 +38,7 @@ for u, d in people.items():
 # the sheet
 rows = []
 club = None
-for line in open("FM 26 XML Files/explanations/Primeira Liga Historica - non-bold main team.md",
+for line in open(ROOT + "/FM 26 XML Files/explanations/Primeira Liga Historica - non-bold main team.md",
                 encoding="utf-8"):
     if line.startswith("## "):
         club = re.sub(r"\s*_\(.*", "", line[3:]).strip()

@@ -1,13 +1,15 @@
 """Position and nationality from Transfermarkt's quick search: the row whose
 club matches FM26's current club, else whose age matches FM26's birth year."""
+import os
 import json, re, time, unicodedata, urllib.parse, urllib.request
+HERE = os.path.dirname(os.path.abspath(__file__))
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"}
 def norm(t):
     t = unicodedata.normalize("NFKD", t or ""); return re.sub(r"[^a-z0-9 ]", " ", "".join(c for c in t if not unicodedata.combining(c)).lower())
 GEN = set("fc cf cd sc club clube futebol football sport sporting de da do the ac".split())
 def toks(t): return {w for w in norm(t).split() if w not in GEN and len(w) > 2}
-P = {p["name"]: p for p in json.load(open("profiles.json"))}
-T = json.load(open("targets.json")) + ["Rafael Brito"]
+P = {p["name"]: p for p in json.load(open(os.path.join(HERE, "profiles.json")))}
+T = json.load(open(os.path.join(HERE, "targets.json"))) + ["Rafael Brito"]
 out = {}
 for name in T:
     p = P[name]
@@ -30,4 +32,4 @@ for name in T:
     best = rows[0] if rows and score(rows[0]) >= 2 else None
     out[name] = {"best": best, "score": score(rows[0]) if rows else 0, "n": len(rows)}
     print("%-20s %s" % (name, "%s | %s | %s | age %s | %s" % (best["tm_name"], best["pos"], "/".join(best["nations"]), best["age"], best["club"]) if best else "NO MATCH (%d rows)" % len(rows)))
-json.dump(out, open("tm.json", "w"), ensure_ascii=False, indent=1)
+json.dump(out, open(os.path.join(HERE, "tm.json"), "w"), ensure_ascii=False, indent=1)

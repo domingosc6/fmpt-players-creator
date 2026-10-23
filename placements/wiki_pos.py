@@ -1,11 +1,12 @@
 import json, re, time, urllib.parse, urllib.request, os
+HERE = os.path.dirname(os.path.abspath(__file__))
 UA={"User-Agent":"fmpt-legends/1.0 (research)"}
 def api(lang, **q):
     q.update(format="json", formatversion=2)
     time.sleep(0.5)
     return json.load(urllib.request.urlopen(urllib.request.Request("https://%s.wikipedia.org/w/api.php?%s"%(lang,urllib.parse.urlencode(q)),headers=UA),timeout=30))
-P=json.load(open("profiles.json"))
-keep=set(json.load(open("targets.json"))) if os.path.exists("targets.json") else None
+P=json.load(open(os.path.join(HERE, "profiles.json")))
+keep=set(json.load(open(os.path.join(HERE, "targets.json")))) if os.path.exists(os.path.join(HERE, "targets.json")) else None
 out={}
 for p in P:
     if keep and p["name"] not in keep: continue
@@ -30,4 +31,4 @@ for p in P:
         if best: break
     out[p["name"]]=best
     print("%-20s %s"%(p["name"],best and "%s | pos=%s | nt=%s | born=%s"%(best["title"],best["position"],best["national_team"],best["birth_place"])))
-json.dump(out,open("wiki_pos.json","w"),ensure_ascii=False,indent=1)
+json.dump(out,open(os.path.join(HERE, "wiki_pos.json"),"w"),ensure_ascii=False,indent=1)

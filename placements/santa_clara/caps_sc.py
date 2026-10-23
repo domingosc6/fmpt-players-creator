@@ -1,10 +1,11 @@
 import json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
+PLACEMENTS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "creator"))
 import sources.nft as nft
 UA = {"User-Agent": "Mozilla/5.0", "X-Requested-With": "XMLHttpRequest"}
-os.makedirs("nft_cache", exist_ok=True)
+os.makedirs(os.path.join(PLACEMENTS, "nft_cache"), exist_ok=True)
 def get(url):
-    path = os.path.join("nft_cache", re.sub(r"[^A-Za-z0-9]", "_", url)[-150:])
+    path = os.path.join(PLACEMENTS, "nft_cache", re.sub(r"[^A-Za-z0-9]", "_", url)[-150:])
     if os.path.exists(path):
         return open(path, encoding="utf-8").read()
     for attempt in range(3):
@@ -21,7 +22,7 @@ def norm(t):
 def nation(html):
     m = re.search(r'<a[^>]+href="/country/\d+/[^"]*"[^>]*>\s*([^<]+?)\s*</a>', html)
     return m.group(1) if m else None
-P = [p for p in json.load(open("santa_clara/profiles.json"))]; C = {p["name"]: {"candidates": []} for p in P}
+P = [p for p in json.load(open(os.path.join(PLACEMENTS, "santa_clara/profiles.json")))]; C = {p["name"]: {"candidates": []} for p in P}
 for p in P:
     res = C[p["name"]]
     terms = [p["name"]] + ([p["name"].split()[-1]] if len(p["name"].split()) > 1 else [])
@@ -55,4 +56,4 @@ for p in P:
     best = [c for c in res["candidates"] if c["dob_match"]] or ([] if p["dob"] else res["candidates"])
     res["best"] = best
     print("%-20s %s" % (p["name"], "; ".join("%s [%s] %s caps dob=%s%s" % (c["label"], c["nation"], c["caps"], c["dob"], " MATCH" if c["dob_match"] else "") for c in best) or "- no senior caps on NFT"))
-json.dump(C, open("santa_clara/caps.json", "w"), ensure_ascii=False, indent=1)
+json.dump(C, open(os.path.join(PLACEMENTS, "santa_clara/caps.json"), "w"), ensure_ascii=False, indent=1)

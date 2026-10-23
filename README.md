@@ -16,8 +16,9 @@ and traps.
 ## Requirements
 
 - Python 3.10 or newer, standard library only. Run everything with
-  `/usr/bin/python3` (or `python3`) **from the repo root**, except `placements/`
-  (see below).
+  `/usr/bin/python3` (or `python3`) from any directory: each script finds the
+  repo's data from its own location. Paths you pass as arguments are read
+  relative to where you run it.
 - An FM26 Editor install, for the scripts that read the FM26 database
   (`scripts/fm_db_*.py`, `creator/fm26_*.py`).
 - Internet access for the FM club/person search and the creator's web sources.
@@ -106,9 +107,8 @@ is where the creator work last stopped.
 
 ## Placements (`placements/`)
 
-These scripts read and write paths relative to `placements/`, so run them from
-inside it (`cd placements && python3 squads.py`). Each step writes a JSON file
-the next one reads; the JSON outputs are not tracked.
+Each step writes a JSON file in `placements/` that the next one reads; the
+JSON outputs are not tracked.
 
 | script | what it produces |
 |---|---|
