@@ -4,6 +4,40 @@ Guidance for Claude Code on this **personal** project (unrelated to any work
 repo; no work conventions apply). Reference document — read top to bottom when
 resuming.
 
+## 0. Repository layout
+
+This folder is the git repo **`domingosc6/fmpt-players-creator`** (private,
+the user's personal GitHub account, branch `main`). `README.md` describes every
+script; this section is what Claude needs to work in it.
+
+| folder | what it is |
+|---|---|
+| `scripts/` | the edition converter and its helpers (§3); `checks/` is the promotion gate, `batch/` the batch runner |
+| `creator/` | Legends Creator: creates and fixes FM26 legends from a sheet. Rules in `creator/PLAN.md` |
+| `placements/` | club/slot proposals per sheet player; `santa_clara/` is the same pipeline for one sheet |
+
+**In git:** code, docs, `creator/` configs and input sheets, and
+`creator/ids.json` (the ledger of every created id - one copy only, never
+regenerate it). **On disk only** (`.gitignore`): the `FM 18/24/26 XML Files/`
+data, `scripts/archive/` (frozen versions), `scripts/probes/` (one-off
+investigations), the caches (`creator/cache/`, `scripts/fm_names_cache.json`,
+`placements/nft_cache/`), run outputs (`creator/out/`, `placements/*.json`,
+`placements/xlsx/`), `work/`, and the packaged `Legends Creator/` + its zip
+(rebuilt by `creator/make_package.py`).
+
+- **Scripts run from any directory.** Each one finds the repo's data from its
+  own location (`__file__`); paths given as arguments are relative to the
+  caller's cwd. Keep it that way: never hardcode `/Users/...` or
+  `~/Documents/FMPT-Legends`, and never write scratch files to a session's job
+  directory - shared intermediates go in `work/` at the repo root.
+- **FM26's people table** comes from `build.people_db()` (`creator/build.py`,
+  cached in `creator/cache/fm26_basic_people_db.bin`), not a copy.
+- **Git:** commit as `Domingos Costa <30902660+domingosc6@users.noreply.github.com>`
+  (set in this repo's config). The global Jira-ticket commit hook is switched
+  off here (`core.hooksPath = .git/hooks`). `git push` works as is; any `gh`
+  command must run as `env -u GITHUB_TOKEN gh ...`, or it acts as the work
+  account and cannot see the repo. Commit or push only when the user asks.
+
 ## 1. The project
 
 **FMPT Legends** is a Football Manager editor database (FM Portugal community
@@ -59,9 +93,10 @@ record preserved for future editions. Report any person with a `PErt` addition.
 - DBIDs are **not** names — never claim a club/nation name from an ID; it comes
   from a user mapping or is labelled inference.
 
-## 3. The converter — `convert_edition.py` (v9, this folder)
+## 3. The converter — `scripts/convert_edition.py`
 
-Frozen copies: `convert_edition_v1_backup.py` (v1), `convert_edition_v2.py` (v2,
+Frozen copies live in `scripts/archive/` (on disk, not in git); the latest is
+`*_v32.py`, which produced the current files. The history: `convert_edition_v1_backup.py` (v1), `convert_edition_v2.py` (v2,
 conversion of cumulative files) `convert_edition_v3.py` + `clean_import_v3.py`
 (v3, conversion + career rebuild) `convert_edition_v4.py` +
 `clean_import_v4.py` (v4: v3 + dead-weight removal, fee re-attachment, whole-row
@@ -91,7 +126,7 @@ convert_edition.py INPUT OUTPUT (--offset N | --target-season YEAR)
   where the author's own dates disagree with the table).
   Standard run: `--target-season 2025 --flag-year-only --rebuild-careers
   --drop-retired-adaptations --rebuild-real-history --names --report <file>.md`.
-  Write it to `FM 26 XML Files/explanations/`, the XML to `FM 26 XML Files/xmls/`,
+  Write it to `FM 26 XML Files/explanations/`, the XML to `FM 26 XML Files/converted_xmls/`,
   named `FMPT Legends - <Country> - target2025 - clean.*`. **Only the `- clean`
   files are for import**; superseded conversions live in the `old/` subfolder of
   each output directory (moved there 2026-09-03) - never import from `old/`.
@@ -419,7 +454,7 @@ records, staff, `Pnph`.
 One row per stay at a club: club, date joined, date left, job. Only year-shifted
 so far (the leap-day clamp applies). **Most players are already correct** - the
 user verified Denis Law, Bentley, Trautmann, Woodcock, McDonald, Pallister,
-A. Smith, Waddle, Ginola, Diouf. Audit script: `audit_club_spells.py` (writes
+A. Smith, Waddle, Ginola, Diouf. Audit script: `scripts/probes/audit_club_spells.py` (writes
 `FM 26 XML Files/explanations/club-spells audit.md`). Everything it finds is a
 SOURCE error carried over faithfully, in three classes:
 - **more than one open-ended spell** - one open spell is the current club and
@@ -797,7 +832,7 @@ the real-career images, so ALWAYS regenerate from the FM24 source; and a real
 person edited in two country files now has his grids cleared twice, so the last
 file imported wins outright.
 
-Superseded probes, kept as a record of what does NOT work - do not resurrect:
+Superseded probes in `scripts/probes/`, kept as a record of what does NOT work - do not resurrect:
 `probe_real_replay.py` (42% coherent, 52% invented duplicates),
 `probe_real_statements.py` (9%), `probe_real_strict_replay.py` (16%),
 `probe_real_shift_model.py` (the model itself, 73% of records fit it).
@@ -1037,7 +1072,7 @@ Bring any file (single or mixed vintage) to the current 25/26 season, shifting
 managers too, and list rows needing a hand-check:
 
 ```
-/usr/bin/python3 ~/Documents/FMPT-Legends/convert_edition.py \
+/usr/bin/python3 scripts/convert_edition.py \
   "IN.xml" "OUT.xml" --target-season 2025 --shift-staff --flag-year-only \
   --report "OUT.md"
 ```
