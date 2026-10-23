@@ -1,0 +1,656 @@
+
+====================================================================================================
+MT | FM26 19410808 | nat Portugal | dob None | CA 120 PA 130 | now Clube Desportivo Santa Clara
+  Volta Redonda Futebol Clube                Brazil       2019-2019 apps   0 counted   0 Brazilian National Third Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série C - Atual: Volta Redonda (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Atual: Volta Redonda (0 senior, 0 youth)
+  Club de Regatas Vasco da Gama SAF          Brazil       2019-2023 apps  22 counted  22 loan Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Vasco da Gama (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Vasco da Gama (31 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2022-2024 apps  74 counted  74 loan Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Darlan Mendes | FM26 19250985 | nat Thailand | dob [16, 4, 1998] | CA 117 PA 127 | now Buriram United
+  Grêmio Foot-Ball Porto Alegrense           Brazil       2012-2023 apps  46 counted  46 YOUTH(ages [14, 15, 16, 17, 18]) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Grêmio (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Atual: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: FC Porto (32 senior, 0 youth)
+  Esporte Clube Juventude                    Brazil       2022-2022 apps   5 counted   5 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Juventude (0 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Juventude (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Juventude (3 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Juventude (4 senior, 1 youth)
+  Associação Chapecoense de Futebol          Brazil       2022-2022 apps  13 counted  13 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Chapecoense (27 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Histórico: Chapecoense (27 senior, 0 youth)
+  PFC Levski Sofia                           Bulgaria     2023-2023 apps  12 counted  12 Bulgarian First League | top2 ['Bulgarian First League']
+      sheet: Bulgária/Bulgária - Parva Liga: Levski Sofia (23 senior, 1 youth)
+  Wuhan Three Towns                          The People's 2024-2025 apps  60 counted  60 Chinese Super League | top2 ['Chinese Super League', 'Chinese National First Division']
+
+====================================================================================================
+Lucas Soares | FM26 19319372 | nat Portugal | dob None | CA 117 PA 120 | now Clube Desportivo Santa Clara
+  Goiás Esporte Clube                        Brazil       2013-2013 apps   0 counted   0 YOUTH(ages []) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Histórico: Goiás (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - Atu: Goiás (27 senior, 5 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Goiás (25 senior, 5 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Goiás (0 senior, 0 youth)
+  Vila Nova Futebol Clube                    Brazil       2015-2015 apps   0 counted   0 YOUTH(ages []) Brazilian National Third Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Vila Nova (0 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Histórico: Vila Nova (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Vila Nova FC (0 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Históri: Vila Nova FC (0 senior, 1 youth)
+  Cruzeiro Esporte Clube SAF                 Brazil       2016-2018 apps   0 counted   0 YOUTH(ages []) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Cruzeiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Cruzeiro (31 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2018-2022 apps  12 counted   0 Portugal Championship; Portuguese Third Division | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Vitória Sport Club B                       Portugal     2019-2020 apps  33 counted   0 loan Portugal Championship | top2 ['Portuguese Second League', 'Portuguese Third Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Vitória (27 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Vitória (27 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: EC Vitória (28 senior, 4 youth)
+      sheet: Portugal/Primeira Liga Atual: Vitória SC (28 senior, 0 youth)
+  Casa Pia Atlético Clube                    Portugal     2021-2022 apps  56 counted  56 loan Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Casa Pia (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: Casa Pia (26 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2024 apps  62 counted  62 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Serginho | FM26 83224027 | nat Bulgaria | dob [1, 12, 1999] | CA 117 PA 124 | now PFC Levski Sofia
+  Moreirense Futebol Clube                   Portugal     2016-2017 apps   0 counted   0 YOUTH(ages [16, 17]) Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Moreirense (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Moreirense (26 senior, 0 youth)
+  Clube Desportivo de Ponte                  Portugal     2018-2018 apps  21 counted   0 YOUTH(ages [18])  | top2 ['Portuguese Braga First Division', 'Portuguese Braga First Division Serie B']
+      sheet: Brasil/Brasileirão Série B - Atual: Ponte Preta (3 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Ponte Preta (3 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Ponte Preta (4 senior, 3 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Ponte Preta (4 senior, 3 youth)
+  Grupo Desportivo de Joane                  Portugal     2019-2019 apps  21 counted   0 Portuguese Braga First Division | top2 ['Portugal Championship', 'Portuguese Second Division']
+  Futebol Clube de Felgueiras                Portugal     2020-2021 apps  46 counted   0 Portugal Championship; Portuguese Third Division | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: FC Felgueiras (26 senior, 0 youth)
+      sheet: Portugal/Folha4: Felgueiras (26 senior, 0 youth)
+  União Desportiva Oliveirense               Portugal     2022-2022 apps  33 counted  33 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Liga 3 - Grupo B - Atual: UD Oliveirense (23 senior, 0 youth)
+      sheet: Portugal/Folha6: Oliveirense (23 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2024 apps  47 counted  47 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Bruno Almeida | FM26 84112312 | nat Cyprus | dob None | CA 113 PA 118 | now AE Limassol
+  Padroense Futebol Clube                    Portugal     2013-2013 apps   0 counted   0 YOUTH(ages []) Portuguese Porto First Division | top2 ['Portuguese Second Division', 'Portuguese Third Division']
+  Futebol Clube Paços de Ferreira            Portugal     2014-2014 apps   0 counted   0 YOUTH(ages []) Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Paços de Ferreira (27 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo A - Atual: Paços de Ferreira (27 senior, 0 youth)
+  Sporting Clube de Bustelo                  Portugal     2015-2015 apps  13 counted  13 Portugal Championship | top2 ['Portugal Championship', 'Portuguese Second Division']
+  Associação Desportiva Sanjoanense          Portugal     2015-2015 apps  13 counted   0 Portugal Championship | top2 ['Portuguese Premier League', 'Portuguese Third Division']
+      sheet: Portugal/Liga 3 - Grupo A - Histórica: Sanjoanense (6 senior, 0 youth)
+      sheet: Portugal/Folha5: AD Sanjoanense (4 senior, 0 youth)
+  Futebol Clube de Pedras Rubras             Portugal     2016-2016 apps  27 counted  27 Portugal Championship | top2 ['Portugal Championship', 'Portuguese Second Division']
+  Anadia Futebol Clube                       Portugal     2017-2017 apps  24 counted  24 Portugal Championship | top2 ['Portuguese Third Division', 'Portugal Championship']
+      sheet: Portugal/Folha6: Anadia FC (24 senior, 0 youth)
+  Estoril Praia Futebol                      Portugal     2018-2018 apps   0 counted   0 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Estoril-Praia (26 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Estoril-Praia (26 senior, 0 youth)
+  Clube Desportivo Trofense                  Portugal     2018-2022 apps  86 counted  32 Portugal Championship; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Liga 3 - Grupo A - Atual: Trofense (25 senior, 0 youth)
+      sheet: Portugal/Folha4: Trofense (25 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2022-2024 apps  61 counted  61 loan Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  FC Noah Yerevan                            Armenia      2024-2024 apps  12 counted  12 loan Armenian Premier League | top2 ['Armenian Premier League', 'Armenian First League']
+      sheet: Avulsos - Europa/Arménia: FC Noah (1 senior, 0 youth)
+  Sporting Clube Farense                     Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Farense (28 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Farense (28 senior, 0 youth)
+
+====================================================================================================
+Rildo | FM26 19382567 | nat Brazil | dob None | CA 113 PA 120 | now Avaí Futebol Clube
+  São Paulo Futebol Clube                    Brazil       2016-2016 apps   0 counted   0 YOUTH(ages []) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian São Paulo State Championship']
+      sheet: Brasil/Brasileirão Série A - Atual: São Paulo (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: São Paulo (32 senior, 0 youth)
+  Grêmio Foot-Ball Porto Alegrense           Brazil       2017-2022 apps   2 counted   2 YOUTH(ages []) loan Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Grêmio (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Atual: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: FC Porto (32 senior, 0 youth)
+  Grêmio Esportivo Brasil                    Brazil       2021-2021 apps  18 counted  18 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Grêmio (32 senior, 0 youth)
+  Esporte Clube Bahia SAF                    Brazil       2022-2022 apps  15 counted  15 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Bahia (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Bahia (29 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2022-2022 apps  23 counted  23 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Portimonense Sporting Clube                Portugal     2023-2023 apps  11 counted  11 loan Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: Portimonense (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Portimonense (26 senior, 0 youth)
+  Esporte Clube Juventude                    Brazil       2024-2024 apps   6 counted   6 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Juventude (0 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Juventude (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Juventude (3 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Juventude (4 senior, 1 youth)
+  Goiás Esporte Clube                        Brazil       2024-2024 apps  16 counted  16 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Histórico: Goiás (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - Atu: Goiás (27 senior, 5 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Goiás (25 senior, 5 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Goiás (0 senior, 0 youth)
+  Associação Portuguesa de Desportos SAF     Brazil       2025-2025 apps   5 counted   0 loan Brazilian National Fourth Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Histórico: Portuguesa (3 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Portuguesa (28 senior, 3 youth)
+  PFC Levski Sofia                           Bulgaria     2025-2025 apps   0 counted   0 loan Bulgarian First League | top2 ['Bulgarian First League']
+      sheet: Bulgária/Bulgária - Parva Liga: Levski Sofia (23 senior, 1 youth)
+
+====================================================================================================
+Paulo Victor | FM26 19400568 | nat Mexico | dob [13, 4, 2001] | CA 112 PA 119 | now Querétaro Fútbol Club
+  Nova Iguaçu Futebol Clube                  Brazil       2017-2020 apps   0 counted   0 YOUTH(ages [16, 17, 18]) Brazilian National Fourth Division | top2 ['Brazilian Rio de Janeiro State Championship', 'Brazilian National Fourth Division']
+  Botafogo de Futebol e Regatas SAF          Brazil       2021-2021 apps   5 counted   5 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Botafogo (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Botafogo (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Botafogo-SP (1 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Atual: Botafogo-PB (0 senior, 0 youth)
+  Sport Club Internacional                   Brazil       2021-2024 apps  19 counted  19 Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Internacional (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Internacional (31 senior, 0 youth)
+  Club de Regatas Vasco da Gama SAF          Brazil       2022-2023 apps   7 counted   7 loan Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Vasco da Gama (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Vasco da Gama (31 senior, 0 youth)
+  Ceará Sporting Club                        Brazil       2023-2024 apps  27 counted  27 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Ceará (4 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Ceará (4 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Ceará (2 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Ceará (2 senior, 1 youth)
+  Sporting Clube Farense                     Portugal     2024-2024 apps  24 counted  24 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Farense (28 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Farense (28 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2025-2025 apps   0 counted   0 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Matheusinho | FM26 19284049 | nat Brazil | dob [11, 2, 1998] | CA 112 PA 125 | now Atlético Clube Goianiense Sociedade Anônima do Futebol
+  América Futebol Clube SAF (MG)             Brazil       2012-2024 apps 134 counted 134 YOUTH(ages [14, 15, 16, 17, 18]) Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Histórico: América-RJ (1 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: América-RN (1 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: América (RN) (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: América (MG) (1 senior, 0 youth)
+  Beitar Jerusalem                           Israel       2020-2021 apps  14 counted  14 Israeli Premier League | top2 ['Israeli Premier League', 'Israeli National League']
+      sheet: Avulsos - Europa/Israel: Beitar Jerusalem (14 senior, 0 youth)
+  Sport Club Ironi Ashdod                    Israel       2021-2021 apps  14 counted  14 loan Israeli Premier League | top2 ['Israeli Premier League', 'Israeli National League']
+  Criciúma Esporte Clube                     Brazil       2024-2024 apps  28 counted  28 Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Criciúma (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Criciúma (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2024 apps   9 counted   9 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Sport Club do Recife                       Brazil       2025-2025 apps  25 counted  25 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Sport Recife (28 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Sport Recife (27 senior, 0 youth)
+  Ceará Sporting Club                        Brazil       2026-2026 apps   0 counted   0 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Ceará (4 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Ceará (4 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Ceará (2 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Ceará (2 senior, 1 youth)
+
+====================================================================================================
+Klismahn | FM26 83257041 | nat Azerbaijan | dob [23, 11, 1999] | CA 110 PA 118 | now Neftçi Peşakar Futbol Klubu
+  Desportivo Brasil Participações Ltda       Brazil       2016-2017 apps   0 counted   0 YOUTH(ages [16, 17])  | top2 []
+  Estoril Praia Futebol                      Portugal     2018-2020 apps   0 counted   0 YOUTH(ages [18]) Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Estoril-Praia (26 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Estoril-Praia (26 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2021-2021 apps  25 counted   0 Portuguese Third Division | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Portimonense Sporting Clube                Portugal     2022-2022 apps  15 counted  15 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: Portimonense (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Portimonense (26 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2025 apps  49 counted  49 loan Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Vissel Kobe                                Japan        2025-2025 apps   9 counted   9 loan J1 League | top2 ['J1 League', 'J2 League']
+      sheet: Japão/Japão - J.League: Vissel Kobe (7 senior, 0 youth)
+
+====================================================================================================
+Pedro Pacheco | FM26 98037828 | nat Portugal | dob [27, 1, 1997] | CA 109 PA 118 | now Clube Desportivo Santa Clara
+  FC Basel 1893                              Switzerland  2013-2013 apps   0 counted   0 YOUTH(ages [16]) Swiss Super League | top2 ['Swiss Super League', 'Swiss Challenge League']
+      sheet: Suíça/Super League - Atual: FC Basel (26 senior, 0 youth)
+      sheet: Suíça/Super League - Histórica: FC Basel (26 senior, 0 youth)
+  FC Basel 1893 U21                                       2014-2018 apps  64 counted  64 YOUTH(ages [17, 18]) Swiss Promotion League | top2 ['Swiss Promotion League', 'Swiss First League Classic']
+      sheet: Suíça/Super League - Atual: FC Basel (26 senior, 0 youth)
+      sheet: Suíça/Super League - Histórica: FC Basel (26 senior, 0 youth)
+  FC Rapperswil-Jona                         Switzerland  2017-2018 apps   3 counted   3 loan Swiss Challenge League | top2 ['Swiss Challenge League', 'Swiss First League']
+      sheet: Suíça/Challenge League - Atual: FC Rapperswil-Jona (1 senior, 0 youth)
+  SC YF Juventus                             Switzerland  2018-2018 apps   8 counted   0 loan Swiss Promotion League | top2 ['Swiss Challenge League', 'Swiss First League']
+      sheet: Itália/Serie A - Atual: Juventus (33 senior, 0 youth)
+      sheet: Itália/Serie A - Histórica: Juventus (33 senior, 0 youth)
+      sheet: Itália/Serie C G1 - Atual: Juventus Next Gen (0 senior, 0 youth)
+  Amarante Futebol Clube                     Portugal     2019-2020 apps  48 counted  48 Portugal Championship | top2 ['Portuguese Third Division', 'Portugal Championship']
+      sheet: Portugal/Segunda Liga Atual: Amarante (0 senior, 0 youth)
+      sheet: Portugal/Folha4: Amarante (0 senior, 0 youth)
+  Clube Desportivo de Mafra                  Portugal     2021-2022 apps  57 counted  57 Portuguese Second League | top2 ['Portuguese Second League', 'Portugal Championship']
+      sheet: Portugal/Liga 3 - Grupo B - Atual: CD Mafra (27 senior, 0 youth)
+      sheet: Portugal/Folha8: Mafra (27 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2024 apps  32 counted  32 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Welinton Torrão | FM26 19334653 | nat Portugal | dob [30, 6, 1999] | CA 108 PA 114 | now Clube Desportivo Santa Clara
+  PSTC Procopense                            Brazil       2014-2015 apps   0 counted   0 YOUTH(ages [15, 16])  | top2 ['Brazilian National Fourth Division']
+  Clube Atlético Mineiro SAF                 Brazil       2015-2018 apps   0 counted   0 YOUTH(ages [16, 17, 18]) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Atlético Mineiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Atlético Mineiro (31 senior, 0 youth)
+  Clube Athlético Paranaense                 Brazil       2018-2019 apps   0 counted   0 Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Athletico Paranaense (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Athletico Paranaense (29 senior, 0 youth)
+  Cruzeiro Esporte Clube SAF                 Brazil       2019-2021 apps  23 counted  23 Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Cruzeiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Cruzeiro (31 senior, 0 youth)
+  Associação Atlética Internacional          Brazil       2021-2021 apps   0 counted   0 loan Brazilian National Fourth Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Internacional (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Internacional (31 senior, 0 youth)
+  Grêmio Esportivo Brasil                    Brazil       2021-2021 apps   7 counted   7 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Grêmio (32 senior, 0 youth)
+  Grêmio Novorizontino SAF                   Brazil       2021-2022 apps   7 counted   7 Brazilian National Second Division; Brazilian National Third | top2 ['Brazilian National Second Division', 'Brazilian National Third Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Grêmio (32 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Grêmio Novorizontino (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Grêmio Novorizontino (0 senior, 0 youth)
+  Associação Ferroviária de Esportes         Brazil       2022-2022 apps  13 counted   0 Brazilian National Fourth Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série C - Atual: Ferroviária-SP (1 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Ferroviária (1 senior, 0 youth)
+  Athletic Club Sociedade Anônima do Futebol Brazil       2023-2025 apps  53 counted  53 Brazilian National Fourth Division; Brazilian National Secon | top2 ['Brazilian National Second Division', 'Brazilian National Third Division']
+  Criciúma Esporte Clube                     Brazil       2023-2023 apps  11 counted  11 Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Criciúma (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Criciúma (0 senior, 0 youth)
+
+====================================================================================================
+Brenner | FM26 2000246120 | nat Portugal | dob [2, 1, 2002] | CA 108 PA 126 | now Clube Desportivo Santa Clara
+  Esporte Clube Taubaté                      Brazil       2020-2021 apps  13 counted   0 YOUTH(ages [18])  | top2 []
+  Esporte Clube Bahia SAF                    Brazil       2021-2022 apps   2 counted   2 Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Bahia (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Bahia (29 senior, 0 youth)
+  Club Football Estrela da Amadora SAD B     Portugal     2022-2023 apps  10 counted   5 Portuguese Lisbon First Division; Portuguese Lisbon Second D | top2 ['Portugal Championship', 'Portuguese Lisbon First Division']
+      sheet: Portugal/Primeira Liga Atual: Estrela Amadora (27 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Estrela Amadora (27 senior, 0 youth)
+  União Desportiva de Leiria                 Portugal     2023-2023 apps   6 counted   6 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: U. Leiria (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: U. Leiria (26 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2024-2024 apps  33 counted  33 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+
+====================================================================================================
+Henrique Silva | FM26 2000243121 | nat Portugal | dob [17, 10, 2005] | CA 108 PA -65 | now Clube Desportivo Santa Clara
+  Cruzeiro Esporte Clube SAF                 Brazil       2021-2024 apps   0 counted   0 YOUTH(ages [15, 16, 17, 18]) Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Cruzeiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Cruzeiro (31 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2024 apps   0 counted   0 YOUTH(ages [18]) Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Gonçalo Paciência | FM26 55028073 | nat Portugal | dob [1, 8, 1994] | CA 108 PA 132 | now Clube Desportivo Santa Clara
+  Futebol Clube do Porto                     Portugal     2009-2017 apps  10 counted  10 YOUTH(ages [14, 15, 16, 17]) loan Portuguese Premier League | top2 ['Portuguese Premier League']
+      sheet: Portugal/Primeira Liga Atual: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: FC Porto "B" (0 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo A - Histórica: Académico Porto (24 senior, 0 youth)
+  Futebol Clube do Porto B                   Portugal     2013-2014 apps  35 counted  35 YOUTH(ages [18]) loan Portuguese Second League | top2 ['Portuguese Second League', 'Portuguese Second Division']
+      sheet: Portugal/Primeira Liga Atual: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: FC Porto (32 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: FC Porto "B" (0 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo A - Histórica: Académico Porto (24 senior, 0 youth)
+  Associação Académica de Coimbra            Portugal     2015-2015 apps  27 counted  27 loan Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Académica (28 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Académica (28 senior, 0 youth)
+      sheet: Portugal/Folha6: União Coimbra (23 senior, 0 youth)
+  Olympiacos SF Piraeus                      Greece       2016-2016 apps   1 counted   1 loan Greek Super League 1 | top2 ['Greek Super League 1']
+  Rio Ave Futebol Clube                      Portugal     2016-2016 apps  15 counted  15 loan Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Rio Ave (26 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Rio Ave (26 senior, 0 youth)
+  Vitória Futebol Clube                      Portugal     2017-2017 apps  18 counted  18 loan Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Brasil/Brasileirão Série A - Atual: Vitória (27 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Vitória (27 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: EC Vitória (28 senior, 4 youth)
+      sheet: Portugal/Primeira Liga Atual: Vitória SC (28 senior, 0 youth)
+  Eintracht Frankfurt                        Germany      2018-2021 apps  52 counted  52 Bundesliga | top2 ['Bundesliga', 'Bundesliga 2']
+      sheet: Alemanha/Bundesliga - Atual: Eintracht Frankfurt (29 senior, 0 youth)
+      sheet: Alemanha/Bundesliga - Histórica: Eintracht Frankfurt (29 senior, 0 youth)
+  FC Schalke 04                              Germany      2020-2020 apps  15 counted  15 loan Bundesliga | top2 ['Bundesliga', 'Bundesliga 2']
+      sheet: Alemanha/Bundesliga - Atual: Schalke 04 (31 senior, 0 youth)
+      sheet: Alemanha/Bundesliga - Histórica: Schalke 04 (31 senior, 0 youth)
+  R.C. Celta de Vigo                         Spain        2022-2024 apps  25 counted  25 Spanish First Division | top2 ['Spanish First Division', 'Spanish Second Division']
+      sheet: Espanha/La Liga EA Sports Atual: Celta de Vigo (26 senior, 0 youth)
+      sheet: Espanha/La Liga EA Sports Histórica: Celta de Vigo (26 senior, 0 youth)
+      sheet: Espanha/Liga Adelante Atual: Celta de Vigo B (0 senior, 0 youth)
+  VfL Bochum 1848                            Germany      2023-2023 apps  19 counted  19 loan Bundesliga | top2 ['Bundesliga', 'Bundesliga 2']
+      sheet: Alemanha/Bundesliga - Histórica: VfL Bochum (27 senior, 0 youth)
+      sheet: Alemanha/2. Bundesliga - Atual: VfL Bochum (27 senior, 0 youth)
+  Sanfrecce Hiroshima                        Japan        2024-2024 apps   8 counted   8 J1 League | top2 ['J1 League', 'J2 League']
+      sheet: Japão/Japão - J.League: Sanfrecce Hiroshima (16 senior, 0 youth)
+  Sport Club do Recife                       Brazil       2025-2025 apps   6 counted   6 Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Sport Recife (28 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Sport Recife (27 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2025-2025 apps   0 counted   0 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Reinaldo | FM26 19364487 | nat Bulgaria | dob [8, 6, 2001] | CA 108 PA 119 | now PFC Levski Sofia
+  Criciúma Esporte Clube                     Brazil       2015-2019 apps  22 counted  22 YOUTH(ages [14, 15, 16, 17, 18]) Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Criciúma (3 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Criciúma (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Criciúma (0 senior, 0 youth)
+  Clube Athlético Paranaense                 Brazil       2020-2023 apps  12 counted  12 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Athletico Paranaense (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Athletico Paranaense (29 senior, 0 youth)
+  Centro Sportivo Alagoano                   Brazil       2021-2021 apps  24 counted  24 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: CS Alagoano (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Atual: CS Alagoano (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2023 apps   0 counted   0 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Guarani Futebol Clube                      Brazil       2024-2024 apps  23 counted  23 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Avulsos - América do Sul/Paraguai: Club Guaraní (4 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Guarani (2 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Atual: Guarani (2 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Guarani (24 senior, 3 youth)
+  Futebol Clube de Alverca                   Portugal     2024-2024 apps  13 counted  13 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Grupo Desportivo de Chaves                 Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: Desp. Chaves (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Desp. Chaves (26 senior, 0 youth)
+      sheet: Portugal/Campeonato de Portugal - Grupo : GD Chaves B (0 senior, 0 youth)
+
+====================================================================================================
+Anthony Carter | FM26 57109433 | nat Portugal | dob [31, 8, 1994] | CA 108 PA 110 | now Futebol Clube de Vizela
+  FC CFR 1907 Cluj II                        Romania      2012-2013 apps   0 counted   0 YOUTH(ages [17, 18])  | top2 ['Romanian Third League']
+      sheet: Roménia/Liga I - Atual: CFR Cluj (26 senior, 0 youth)
+      sheet: Roménia/Liga I - Histórica: CFR Cluj (27 senior, 0 youth)
+  FC CFR 1907 Cluj                           Romania      2012-2015 apps   5 counted   5 YOUTH(ages [17, 18]) Romanian First League | top2 ['Romanian First League', 'Romanian Second League']
+      sheet: Roménia/Liga I - Atual: CFR Cluj (26 senior, 0 youth)
+      sheet: Roménia/Liga I - Histórica: CFR Cluj (27 senior, 0 youth)
+  CS Sănătatea Servicii Publice              Romania      2014-2014 apps   0 counted   0 loan Romanian Third League | top2 ['Romanian Third League']
+  Clube Desportivo Trofense                  Portugal     2016-2017 apps  37 counted   0 Portugal Championship | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Liga 3 - Grupo A - Atual: Trofense (25 senior, 0 youth)
+      sheet: Portugal/Folha4: Trofense (25 senior, 0 youth)
+  Sport Lisboa e Benfica B                   Portugal     2017-2017 apps  13 counted  13 Portuguese Second League | top2 ['Portuguese Second League', 'Portuguese Second Division']
+      sheet: Portugal/Primeira Liga Atual: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Benfica B (0 senior, 0 youth)
+  Sport Lisboa e Benfica                     Portugal     2018-2018 apps   0 counted   0 Portuguese Premier League | top2 ['Portuguese Premier League']
+      sheet: Portugal/Primeira Liga Atual: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Benfica B (0 senior, 0 youth)
+  Académico de Viseu Futebol Clube           Portugal     2019-2020 apps  53 counted  53 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Académico FC (27 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo A - Histórica: Académico FC (27 senior, 0 youth)
+  Bangkok United                             Thailand     2021-2021 apps  19 counted  19 Thai League One | top2 ['Thai League One', 'Thai League Two']
+  Macarthur Football Club                    Australia    2022-2022 apps  10 counted  10 Isuzu UTE A-League (Regular Season) | top2 ['Isuzu UTE A-League (Regular Season)']
+  União Desportiva Oliveirense               Portugal     2022-2023 apps  37 counted  37 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Liga 3 - Grupo B - Atual: UD Oliveirense (23 senior, 0 youth)
+      sheet: Portugal/Folha6: Oliveirense (23 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2024-2024 apps  32 counted  32 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2025-2025 apps   5 counted   5 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Sporting Clube Farense                     Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Farense (28 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Farense (28 senior, 0 youth)
+
+====================================================================================================
+Diogo Calila | FM26 83111376 | nat Morocco | dob [10, 10, 1998] | CA 108 PA 112 | now Maghreb Association Sportive de Fès
+  Sport Lisboa e Benfica                     Portugal     2015-2016 apps   0 counted   0 YOUTH(ages [16, 17]) Portuguese Premier League | top2 ['Portuguese Premier League']
+      sheet: Portugal/Primeira Liga Atual: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Primeira Liga Histórica: Benfica (32 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Atual: Benfica B (0 senior, 0 youth)
+  Futebol Clube Paços de Ferreira B          Portugal     2017-2017 apps  24 counted  24 YOUTH(ages [18]) Portuguese Porto First Division Serie 2 | top2 ['Portuguese Porto First Division Serie 2']
+      sheet: Portugal/Primeira Liga Histórica: Paços de Ferreira (27 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo A - Atual: Paços de Ferreira (27 senior, 0 youth)
+  B-SAD                                                   2018-2022 apps  64 counted  64 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+  B-SAD B                                                 2020-2020 apps   1 counted   1 Portugal Championship | top2 ['Portugal Championship']
+  Clube Desportivo Santa Clara               Portugal     2022-2024 apps  64 counted  64 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+João Bravim | FM26 19348575 | nat Armenia | dob [3, 5, 1998] | CA 107 PA 112 | now Ararat-Armenia Yerevan
+  Santos Futebol Clube                       Brazil       2016-2018 apps   0 counted   0 YOUTH(ages [18, 19, 20]) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Avulsos - África/Southern Africa: Santos F.C. (3 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Atual: Santos (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Santos (31 senior, 0 youth)
+      sheet: México/Primera División MX: Santos Laguna (26 senior, 1 youth)
+  Futebol Clube de Alverca B                 Portugal     2018-2019 apps  10 counted   0 Portuguese Lisbon Second Division Serie 1 | top2 ['Portugal Championship', 'Portuguese Lisbon First Division']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2019-2024 apps  54 counted  34 loan Portugal Championship; Portuguese Second League; Portuguese  | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Casa Pia Atlético Clube                    Portugal     2020-2022 apps   3 counted   3 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Casa Pia (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: Casa Pia (26 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2023 apps   0 counted   0 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  União Desportiva de Leiria                 Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: U. Leiria (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: U. Leiria (26 senior, 0 youth)
+
+====================================================================================================
+João Costa | FM26 2000013710 | nat Portugal | dob [7, 3, 2000] | CA 107 PA 112 | now Futebol Clube de Felgueiras
+  Grupo Sportivo de Loures                   Portugal     2017-2021 apps  24 counted  24 YOUTH(ages [17]) loan Portugal Championship | top2 ['Portugal Championship', 'Portuguese Second Division']
+  Vitória Futebol Clube                      Portugal     2018-2018 apps   0 counted   0 YOUTH(ages [18]) Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Brasil/Brasileirão Série A - Atual: Vitória (27 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Vitória (27 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: EC Vitória (28 senior, 4 youth)
+      sheet: Portugal/Primeira Liga Atual: Vitória SC (28 senior, 0 youth)
+  Associação Cultural Desportiva do Bocal                 2019-2019 apps  19 counted  19 Portuguese Lisbon Second Division Serie 1 | top2 ['Portuguese Lisbon First Division', 'Portuguese Lisbon Second Division Serie 1']
+  Club Football Estrela da Amadora SAD B     Portugal     2020-2020 apps  12 counted   0  | top2 ['Portugal Championship', 'Portuguese Lisbon First Division']
+      sheet: Portugal/Primeira Liga Atual: Estrela Amadora (27 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Estrela Amadora (27 senior, 0 youth)
+  Club Football Estrela da Amadora           Portugal     2020-2020 apps   2 counted   0 Portugal Championship | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Estrela Amadora (27 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Estrela Amadora (27 senior, 0 youth)
+  Grupo Sportivo de Loures B                 Portugal     2021-2021 apps   1 counted   1 loan Portuguese Lisbon Second Division Serie 1 | top2 ['Portuguese Lisbon Second Division Serie 1']
+  Clube de Futebol Os Belenenses             Portugal     2022-2022 apps  27 counted   0 Portuguese Third Division | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Histórica: Belenenses (28 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Atual: Belenenses (28 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2023-2023 apps  32 counted   0 Portuguese Third Division | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2024 apps  24 counted  24 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Djé | FM26 2000292454 | nat Portugal | dob [2, 6, 2003] | CA 106 PA 118 | now Clube Desportivo Santa Clara
+  Futebol Clube de Alverca C                 Portugal     2023-2023 apps   3 counted   3 Portuguese Lisbon Second Division Serie 1 | top2 ['Portuguese Lisbon Second Division Serie 1']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Futebol Clube de Alverca B                 Portugal     2023-2023 apps  24 counted  24 Portugal Championship | top2 ['Portugal Championship', 'Portuguese Lisbon First Division']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Santa Clara Açores Futebol B               Portugal     2024-2024 apps  13 counted  13 Portuguese Azores League | top2 ['Portuguese Azores League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+
+====================================================================================================
+Andrey | FM26 19399110 | nat Portugal | dob [6, 2, 2002] | CA 105 PA 126 | now Clube Desportivo Santa Clara
+  Avaí Futebol Clube                         Brazil       2016-2025 apps  38 counted  38 YOUTH(ages [14, 15, 16, 17, 18]) Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Avaí (0 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Histórico: Avaí (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Avaí (0 senior, 1 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Históri: Avaí (0 senior, 1 youth)
+  Clube Náutico Capibaribe                   Brazil       2024-2024 apps   8 counted   0 loan Brazilian National Third Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Histórico: Náutico (2 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - His: Náutico (2 senior, 2 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Náutico (2 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Atual: Náutico (1 senior, 2 youth)
+
+====================================================================================================
+Miguel Pires | FM26 2000060768 | nat Portugal | dob [23, 5, 2002] | CA 105 PA 120 | now Futebol Clube de Vizela
+  Amora Futebol Clube                        Portugal     2019-2019 apps   0 counted   0 YOUTH(ages [17]) Portugal Championship | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Folha9: Amora (22 senior, 0 youth)
+      sheet: Portugal/Folha10: Amora (23 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2020-2024 apps  75 counted  34 YOUTH(ages [18]) loan Portugal Championship; Portuguese Second League; Portuguese  | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Futebol Clube de Alverca B                 Portugal     2021-2021 apps  26 counted  26 Portuguese Lisbon First Division | top2 ['Portugal Championship', 'Portuguese Lisbon First Division']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2023-2025 apps   3 counted   3 Portuguese Premier League; Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  União Desportiva de Leiria                 Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: U. Leiria (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: U. Leiria (26 senior, 0 youth)
+
+====================================================================================================
+Edney | FM26 2000149293 | nat Portugal | dob [26, 7, 2004] | CA 105 PA 118 | now Clube Desportivo Santa Clara
+  Associação Desportiva Confiança SAF        Brazil       2020-2021 apps   0 counted   0 YOUTH(ages [15, 16]) Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série C - Atual: Confiança-SE (0 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série C - Histórico: Confiança-SE (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Atual: AD Confiança (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Históri: Confiança-SE (0 senior, 0 youth)
+  São Caetano Futebol SAF                    Brazil       2021-2022 apps  11 counted   0 YOUTH(ages [16, 17])  | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série C - Histórico: São Caetano (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Históri: São Caetano (0 senior, 0 youth)
+  Sociedade Esportiva Palmeiras              Brazil       2022-2024 apps   0 counted   0 YOUTH(ages [17, 18]) loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Palmeiras (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Palmeiras (31 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2025 apps   3 counted   3 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Portimonense Sporting Clube                Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: Portimonense (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Portimonense (26 senior, 0 youth)
+
+====================================================================================================
+Jader | FM26 19380069 | nat Portugal | dob None | CA 105 PA 126 | now Portimonense Sporting Clube
+  Clube Athlético Paranaense                 Brazil       2019-2024 apps  13 counted  13 YOUTH(ages []) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Athletico Paranaense (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Athletico Paranaense (29 senior, 0 youth)
+  Atlético Nacional S.A.                     Colombia     2023-2023 apps  29 counted  29 loan Colombian First Division | top2 ['Colombian First Division', 'Colombian First Division Aggregate Table']
+      sheet: Avulsos - América do Sul/Bolívia: Nacional Potosí (0 senior, 0 youth)
+      sheet: Avulsos - América do Sul/Colômbia: Atlético Nacional (27 senior, 0 youth)
+      sheet: Avulsos - América do Sul/Equador: C.D. El Nacional (8 senior, 0 youth)
+      sheet: Avulsos - América do Sul/Paraguai: Club Nacional (2 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2025 apps   0 counted   0 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Universidad Católica                       Chile        2024-2025 apps  19 counted  19 loan Chilean First Division | top2 ['Chilean First Division', 'Chilean First Division Opening Stage']
+      sheet: Avulsos - América do Sul/Chile: CD Universidad Católica (29 senior, 0 youth)
+      sheet: Avulsos - América do Sul/Equador: C.D. Universidad Católica (2 senior, 0 youth)
+  Cuiabá Esporte Clube SAF                   Brazil       2025-2025 apps  15 counted  15 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - Atu: Cuiabá (1 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Cuiabá (0 senior, 0 youth)
+  Atlético Clube Goianiense SAF              Brazil       2026-2026 apps   0 counted   0 loan Brazilian National Second Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série B - Atual: Atlético Goianiense (1 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Atlético Goianiense (1 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Atual: Atlético Goianiense (0 senior, 1 youth)
+
+====================================================================================================
+Thauan Lara | FM26 2000020549 | nat Portugal | dob [22, 1, 2004] | CA 104 PA 125 | now Portimonense Sporting Clube
+  Sport Club Internacional                   Brazil       2018-2024 apps  18 counted  18 YOUTH(ages [14, 15, 16, 17, 18]) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Internacional (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Internacional (31 senior, 0 youth)
+  Fortaleza Esporte Clube SAF                Brazil       2024-2024 apps   0 counted   0 loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/VERSÃO ANTIGA Brasileirão - Atu: Fortaleza (4 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Atual: Fortaleza (1 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série B - Histórico: Fortaleza (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Fortaleza (3 senior, 0 youth)
+  Futebol Clube de Alverca                   Portugal     2024-2024 apps  18 counted  18 Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Liga 3 - Grupo B - Histórica: FC Alverca (26 senior, 0 youth)
+      sheet: Portugal/Folha7: FC Alverca "B" (0 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2025-2025 apps   0 counted   0 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  Portimonense Sporting Clube                Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: Portimonense (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Portimonense (26 senior, 0 youth)
+
+====================================================================================================
+Daniel Borges | FM26 2000090815 | nat Portugal | dob [6, 4, 2003] | CA 102 PA 130 | now Clube Desportivo Santa Clara
+  Aracaju Futebol Clube                      Brazil       2018-2018 apps   0 counted   0 YOUTH(ages [15])  | top2 []
+  Associação Desportiva Bahia de Feira       Brazil       2018-2019 apps   0 counted   0 YOUTH(ages [15, 16]) Brazilian National Fourth Division | top2 ['Brazilian National Fourth Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Bahia (29 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Bahia (29 senior, 0 youth)
+  Clube Atlético Mineiro SAF                 Brazil       2019-2023 apps   0 counted   0 YOUTH(ages [16, 17, 18]) Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Atlético Mineiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Atlético Mineiro (31 senior, 0 youth)
+  Clube Desportivo Santa Clara               Portugal     2024-2024 apps  16 counted  16 Portuguese Premier League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Primeira Liga Atual: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: Santa Clara (25 senior, 0 youth)
+      sheet: Portugal/Folha9: Santa Clara B (0 senior, 0 youth)
+  União Desportiva de Leiria                 Portugal     2025-2025 apps   0 counted   0 loan Portuguese Second League | top2 ['Portuguese Premier League', 'Portuguese Second League']
+      sheet: Portugal/Segunda Liga Atual: U. Leiria (26 senior, 0 youth)
+      sheet: Portugal/Segunda Liga Histórica: U. Leiria (26 senior, 0 youth)
+
+====================================================================================================
+Luis Fernando | FM26 2000273538 | nat Portugal | dob [12, 4, 2005] | CA 96 PA 138 | now Clube Desportivo Santa Clara
+  Mauá Futebol Clube                         Brazil       2018-2018 apps   0 counted   0 YOUTH(ages [13])  | top2 []
+  Esporte Clube São Bernardo Sociedade Anôni Brazil       2019-2019 apps   0 counted   0 YOUTH(ages [14])  | top2 []
+      sheet: Brasil/Brasileirão Série B - Atual: São Bernardo (0 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA Série C - Atual: São Bernardo FC (0 senior, 0 youth)
+  Esporte Clube Água Santa                   Brazil       2020-2022 apps   0 counted   0 YOUTH(ages [15, 17])  | top2 ['Brazilian National Fourth Division']
+  Sociedade Esportiva Palmeiras              Brazil       2021-2021 apps   0 counted   0 YOUTH(ages [16]) loan Brazilian National First Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Palmeiras (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Palmeiras (31 senior, 0 youth)
+  Cruzeiro Esporte Clube SAF                 Brazil       2022-2025 apps   1 counted   1 YOUTH(ages [17, 18, 19, 20]) loan Brazilian National First Division; Brazilian National Second | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série A - Atual: Cruzeiro (31 senior, 0 youth)
+      sheet: Brasil/Brasileirão Série A - Histórico: Cruzeiro (31 senior, 0 youth)
+  Associação Ferroviária de Esportes         Brazil       2024-2024 apps  11 counted   0 YOUTH(ages [19]) loan Brazilian National Third Division | top2 ['Brazilian National First Division', 'Brazilian National Second Division']
+      sheet: Brasil/Brasileirão Série C - Atual: Ferroviária-SP (1 senior, 0 youth)
+      sheet: Brasil/VERSÃO ANTIGA  Série B - Histór: Ferroviária (1 senior, 0 youth)
+  Maringá Futebol Clube SAF                  Brazil       2025-2025 apps   2 counted   2 YOUTH(ages [20]) loan Brazilian National Third Division | top2 ['Brazilian National Third Division', 'Brazilian National Fourth Division']
+      sheet: Brasil/Brasileirão Série C - Atual: Maringá (0 senior, 0 youth)

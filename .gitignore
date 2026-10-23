@@ -1,0 +1,31 @@
+# Football Manager changesets: sources, outputs, probes (GBs)
+FM 18 XML Files/
+FM 24 XML Files/
+FM 26 XML Files/
+
+# Packaged distribution, rebuilt by creator/make_package.py
+Legends Creator/
+Legends Creator.zip
+
+# Kept out of the repo by choice
+scripts/archive/
+scripts/probes/
+
+# Caches written on every run
+creator/cache/
+scripts/fm_names_cache.json
+placements/nft_cache/
+*.pickle
+*.pkl
+
+# Run outputs
+creator/out/
+placements/*.json
+placements/santa_clara/*.json
+placements/digest.txt
+placements/xlsx/
+
+# Python / OS
+__pycache__/
+*.pyc
+.DS_Store

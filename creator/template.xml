@@ -1,0 +1,24 @@
+<record>
+	<list id="verf" />
+	<integer id="XSvC" value="708" />
+	<string id="EdBr" value="fm26-rel-prod" />
+	<date id="EdDt" day="16" month="9" year="2026" time="0" />
+	<integer id="EDvb" value="0" />
+	<string id="EDfb" value="peixe" />
+	<integer id="version" value="3733" />
+	<integer id="rule_group_version" value="1639" />
+	<boolean id="beta" value="false" />
+	<string id="orvs" value="2430" />
+	<string id="svvs" value="2620" />
+	<list id="files" />
+	<string id="description" value="" />
+	<string id="author" value="" />
+	<list id="nation_list" />
+	<list id="grouped_nations_list" />
+	<list id="teams" />
+	<list id="cup_comps" />
+	<list id="other_cup_comps" />
+	<list id="stages" />
+	<list id="db_changes">
+	</list>
+</record>

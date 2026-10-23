@@ -1,0 +1,41 @@
+{
+  "_comment": "(nation, roman level) -> current FM26 competition id, from the fmref search index. A level FM26 plays in groups maps to the umbrella league the author's own files use (Italy file: Serie C 43127171, Serie D 831597), not to a group.",
+  "Italy": {
+    "I": {
+      "id": 32,
+      "name": "Italian Serie A"
+    },
+    "II": {
+      "id": 33,
+      "name": "Serie BKT"
+    },
+    "III": {
+      "id": 43127171,
+      "name": "Italian Serie C"
+    },
+    "IV": {
+      "id": 831597,
+      "name": "Italian Serie D"
+    }
+  },
+  "Spain": {
+    "I": {
+      "id": 67,
+      "name": "Spanish First Division"
+    },
+    "II": {
+      "id": 68,
+      "name": "Spanish Second Division"
+    }
+  },
+  "Portugal": {
+    "I": {
+      "id": 60,
+      "name": "Portuguese Premier League"
+    },
+    "II": {
+      "id": 61,
+      "name": "Portuguese Second League"
+    }
+  }
+}
