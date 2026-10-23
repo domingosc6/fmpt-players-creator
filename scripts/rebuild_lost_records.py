@@ -124,7 +124,9 @@ def main():
     a = ap.parse_args()
 
     work = json.load(open(a.work, encoding="utf-8"))
-    db = open(os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work"), "basic_people_db.dat.bin"), "rb").read()
+    sys.path.insert(0, os.path.join(os.path.dirname(HERE), "creator"))
+    import build                           # here, not at the top: build imports this module
+    db = build.people_db()
     rng = random.Random(20260916)
 
     fm26_uids = [w["uid"] for w in work if w["src"] == "fm26"]

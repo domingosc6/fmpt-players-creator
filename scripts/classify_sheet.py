@@ -47,7 +47,9 @@ def main():
     T = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work") + "/"
     people = json.load(open(T + "people.json"))
     careers = json.load(open(T + "careers.json"))
-    DB = open(T + "basic_people_db.dat.bin", "rb").read()
+    sys.path.insert(0, os.path.join(ROOT, "creator"))
+    import build
+    DB = build.people_db()
     lives = lambda d: DB.find(struct.pack("<II", d, d)) >= 0
 
     by_dbid = {}
