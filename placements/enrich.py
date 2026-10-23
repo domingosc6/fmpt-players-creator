@@ -1,6 +1,6 @@
 """Names, nations and league reputations for every club and competition in the careers."""
 import json, os, sys
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/creator")); sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator")); sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import fm_names, build
 names = fm_names.Names()
 P = json.load(open(sys.argv[1] if len(sys.argv) > 1 else "profiles.json"))

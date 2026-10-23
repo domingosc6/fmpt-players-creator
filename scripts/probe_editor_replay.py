@@ -22,10 +22,11 @@ to the FIRST of the pair - the original, not the copy. That is not a bug: the
 pair are interchangeable, and the values land on one of them either way.
 """
 import copy
+import os
 import sys
 import xml.etree.ElementTree as ET
 
-sys.path.insert(0, "/Users/domingos.costa/Documents/FMPT-Legends/scripts")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import convert_edition as c
 import clean_import as ci
 

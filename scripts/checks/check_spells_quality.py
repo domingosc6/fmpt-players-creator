@@ -9,7 +9,7 @@ A date is UNUSABLE when the editor shows it as 0: absent, a sentinel year, or
 year-only (`0/0/2024`).
 """
 import sys, os, glob, collections, xml.etree.ElementTree as ET
-sys.path.insert(0, "/Users/domingos.costa/Documents/FMPT-Legends/scripts")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import convert_edition as ce, clean_import as ci, probe_editor_replay as pr, fm_names, extract_squad as ex
 
 nm = fm_names.Names(offline=True)

@@ -14,5 +14,7 @@ for _, el in ET.iterparse(SRC, events=("end",)):
         if u is not None and d is not None:
             out[u.get("value")] = d.get("value")     # last club wins
     el.clear()
-json.dump(out, open(os.environ["CLAUDE_JOB_DIR"] + "/tmp/clubs.json", "w"))
+WORK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work")
+os.makedirs(WORK, exist_ok=True)
+json.dump(out, open(os.path.join(WORK, "clubs.json"), "w"))
 print("records with a club:", len(out))

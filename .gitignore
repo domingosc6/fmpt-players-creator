@@ -19,6 +19,7 @@ placements/nft_cache/
 *.pkl
 
 # Run outputs
+work/
 creator/out/
 placements/*.json
 placements/santa_clara/*.json

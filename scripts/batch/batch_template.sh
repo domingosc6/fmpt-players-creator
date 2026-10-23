@@ -1,6 +1,6 @@
 #!/bin/bash
 # v23 (strip_repeat verify guard): convert every file to scratch, promote nothing.
-cd ~/Documents/FMPT-Legends || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 S="$1"; LOG="$S/batch23/log.txt"; : > "$LOG"
 for f in "FM 24 XML Files"/*.xml; do
   c=$(basename "$f" | sed 's/^FMPT Legends - //; s/ - Squads - FM24\.xml$//; s/ - FM24\.xml$//')

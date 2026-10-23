@@ -11,8 +11,8 @@ So this checks a named list and FAILS on any of:
   - FEWER CLUB SPELLS  <- the one that let Tambling through
   - a spell date that was usable becoming unusable
 """
-import sys, xml.etree.ElementTree as ET
-sys.path.insert(0, "/Users/domingos.costa/Documents/FMPT-Legends/scripts")
+import os, sys, xml.etree.ElementTree as ET
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import convert_edition as ce, clean_import as ci, probe_editor_replay as pr, fm_names, extract_squad as ex
 
 nm = fm_names.Names(offline=True)

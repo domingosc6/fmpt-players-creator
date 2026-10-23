@@ -124,13 +124,13 @@ def main():
     a = ap.parse_args()
 
     work = json.load(open(a.work, encoding="utf-8"))
-    db = open(os.environ["CLAUDE_JOB_DIR"] + "/tmp/basic_people_db.dat.bin", "rb").read()
+    db = open(os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work"), "basic_people_db.dat.bin"), "rb").read()
     rng = random.Random(20260916)
 
     fm26_uids = [w["uid"] for w in work if w["src"] == "fm26"]
     fm18_uids = [w["uid"] for w in work if w["src"] == "fm18"]
     src = records_for(a.fm26, fm26_uids)
-    tmp = os.path.join(os.environ["CLAUDE_JOB_DIR"], "tmp", "conv")
+    tmp = os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work"), "conv")
     os.makedirs(tmp, exist_ok=True)
     src.update(convert(a.fm18, fm18_uids, tmp))
 

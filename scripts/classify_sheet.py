@@ -43,7 +43,7 @@ def fmref(name, cache):
     return cache[name]
 
 def main():
-    T = os.environ["CLAUDE_JOB_DIR"] + "/tmp/"
+    T = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work") + "/"
     people = json.load(open(T + "people.json"))
     careers = json.load(open(T + "careers.json"))
     DB = open(T + "basic_people_db.dat.bin", "rb").read()

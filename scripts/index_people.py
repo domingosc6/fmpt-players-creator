@@ -47,7 +47,9 @@ for _, el in ET.iterparse(SRC, events=("end",)):
 
 for u, d in people.items():
     d["addr"] = u in addr
-json.dump(people, open(os.environ["CLAUDE_JOB_DIR"] + "/tmp/people.json", "w"))
+WORK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work")
+os.makedirs(WORK, exist_ok=True)
+json.dump(people, open(os.path.join(WORK, "people.json"), "w"))
 print("people:", len(people), "with ADDR:", sum(1 for d in people.values() if d["addr"]))
 print("named in file:", sum(1 for d in people.values() if d["s"]))
 from collections import Counter

@@ -1,6 +1,6 @@
 import json, os, re, sys, unicodedata
 sys.path.insert(0, "scripts"); import fm_names
-T = os.environ["CLAUDE_JOB_DIR"] + "/tmp/"
+T = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "work") + "/"
 people = json.load(open(T + "people.json")); idx = json.load(open(T + "idx_names.json"))
 m = json.load(open(T + "match.json"))
 namer = fm_names.Names()

@@ -29,7 +29,7 @@ import os
 import re
 import xml.etree.ElementTree as ET
 
-ROOT = "/Users/domingos.costa/Documents/FMPT-Legends/FM 26 XML Files"
+ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "FM 26 XML Files")
 DELIV = f"{ROOT}/final_xmls"
 BASE = 2_100_000_000
 ADDR_PROP = "1094992978"

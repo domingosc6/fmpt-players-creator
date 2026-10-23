@@ -4,7 +4,7 @@ import fm_db_people
 D=os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Football Manager 26 Editor/shared/data/database/db/2620/2620_fm")
 db=fm_db_people.PeopleDB(D, cache="/private/tmp/claude-502/-Users-domingos-costa-Documents-Hivebrite-alumni-connect/6a2b49f3-24eb-4202-8bad-957a0d6fb4f9/scratchpad/fm26_people.pkl")
 POS=["GK","DL","DC","DR","DM","ML","MC","MR","AML","AMC","AMR","ST","WBL","WBR"]
-players=json.load(open("/Users/domingos.costa/Documents/FMPT-Legends/placements/santa_clara/pos_targets.json"))
+players=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "pos_targets.json")))
 def fmstring(r):
     rows=[("D",{"R":r["DR"],"L":r["DL"],"C":r["DC"]}),("WB",{"R":r["WBR"],"L":r["WBL"]}),("M",{"R":r["MR"],"L":r["ML"],"C":r["MC"]}),("AM",{"R":r["AMR"],"L":r["AML"],"C":r["AMC"]})]
     sided=[(name,"".join(s for s in "RLC" if v.get(s,0)>=18)) for name,v in rows]
@@ -51,4 +51,4 @@ for name,dbid in players:
     c1=code(*parts[0]); db_=c1 if len(parts)==1 else round(c1+code(*parts[1])/100,2)
     out[name]={"pos":txt,"db":db_,"ratings":{k:v for k,v in r.items() if v>1},"flag":flag}
     print("%-20s %-22s DB %-5s %s %s"%(name,txt,db_,{k:v for k,v in r.items() if v>1},flag))
-json.dump(out,open("/Users/domingos.costa/Documents/FMPT-Legends/placements/santa_clara/positions.json","w"),ensure_ascii=False,indent=1)
+json.dump(out,open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "positions.json"),"w"),ensure_ascii=False,indent=1)

@@ -13,7 +13,7 @@ import re
 import sys
 import collections
 
-ROOT = "/Users/domingos.costa/Documents/FMPT-Legends"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 E = os.path.join(ROOT, "FM 26 XML Files/explanations")
 MERGED_REPORT = os.path.join(
     ROOT, "FM 26 XML Files/merged",

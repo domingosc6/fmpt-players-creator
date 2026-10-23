@@ -1,7 +1,7 @@
 """FM26 profile per sheet player: nation, DOB, club, position and career."""
 import json, os, sys
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/creator"))
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import build, fm26_history, fm26_people, fm26_leagues
 import xlsx_read as X
 

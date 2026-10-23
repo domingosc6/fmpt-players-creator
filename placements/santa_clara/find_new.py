@@ -1,6 +1,6 @@
 import json, os, sys, collections
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/creator"))
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "creator"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "scripts"))
 import build, fm26_history, fm26_people
 names = build._names(); hist = fm26_history.History()
 NEW = [("GR","Marco Pereira","Portugal"),("GR","Serginho","Portugal"),("DC","Kali","Angola"),("DC","Mikel Villanueva","Venezuela"),

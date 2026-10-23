@@ -4,7 +4,7 @@ played count). A level is a competition name with any group suffix removed
 ("Portuguese Second Division - South" -> "Portuguese Second Division"),
 ranked by the best reputation among its competitions."""
 import json, os, re, sys
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/creator")); sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator")); sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import build, fm26_leagues
 fm26_leagues.division(0, 2000)                    # loads _DATA
 H = fm26_leagues._DATA

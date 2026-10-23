@@ -10,7 +10,7 @@ spell going from unusable to a real date is a GAIN, the reverse is a REGRESSION,
 and a real date changing to a different real date is reported for an eye.
 """
 import sys, os, glob, collections, xml.etree.ElementTree as ET
-sys.path.insert(0, "/Users/domingos.costa/Documents/FMPT-Legends/scripts")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import convert_edition as ce, fm_names, extract_squad as ex
 
 nm = fm_names.Names(offline=True)

@@ -7,7 +7,7 @@ set a name, and both of those made Thomas Finney look unchanged when he had lost
 half his career.
 """
 import sys, os, glob, collections, xml.etree.ElementTree as ET
-sys.path.insert(0, "/Users/domingos.costa/Documents/FMPT-Legends/scripts")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import convert_edition as ce, clean_import as ci, probe_editor_replay as pr, fm_names, extract_squad as ex
 
 nm = fm_names.Names(offline=True)

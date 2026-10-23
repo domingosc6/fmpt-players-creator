@@ -34,6 +34,7 @@ The data and everything the scripts regenerate stay out of git (see
 | `creator/cache/` | FM26 database extracts and every web page already fetched. Rebuilt on demand, but slowly |
 | `scripts/fm_names_cache.json` | FM search lookups, filled as the converter runs |
 | `placements/xlsx/` | the project's squad spreadsheets |
+| `work/` | scratch files shared between `scripts/index_people.py`, `clubs.py`, `classify*.py`, `report2.py` and `rebuild_lost_records.py`. `rebuild_lost_records.py` and `classify_sheet.py` also expect `basic_people_db.dat.bin` here |
 | `Legends Creator/`, `Legends Creator.zip` | the packaged creator, rebuilt by `creator/make_package.py` |
 
 `creator/ids.json` **is** tracked: it records the id of every created player.

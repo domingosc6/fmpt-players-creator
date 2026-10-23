@@ -1,7 +1,7 @@
 """Senior caps from national-football-teams.com: the search's JSON endpoint,
 the exact name (accents ignored), confirmed by date of birth when both have one."""
 import json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
-sys.path.insert(0, os.path.expanduser("~/Documents/FMPT-Legends/creator"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "creator"))
 import sources.nft as nft
 UA = {"User-Agent": "Mozilla/5.0", "X-Requested-With": "XMLHttpRequest"}
 def get(url):
