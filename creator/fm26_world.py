@@ -8,6 +8,9 @@ client_db.dat, read with `fm_db_world.sections` (Python 3.14, zstd):
   table 11   nations, rows [index][DBID][DBID] (162 -> 788 Portugal,
              189 -> 1651 Brazil, 30 -> 35 Mozambique)
 Found 2026-10-08. `refresh()` decodes once into cache/fm26_city_nation.json.
+
+City NAMES come from 2600_fm/lang_db.dat (scripts/fill_city_of_birth.py
+`fm26_cities`), cached the same way in cache/fm26_cities.json.
 """
 import json
 import os
@@ -19,7 +22,9 @@ import fm26_install
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache", "fm26_city_nation.json")
+CITIES = os.path.join(HERE, "cache", "fm26_cities.json")
 DB_DIR = fm26_install.db_dir()
+LANG_DB = os.path.join(os.path.dirname(os.path.dirname(DB_DIR)), "2600", "2600_fm", "lang_db.dat")
 CITY_TABLE, NATION_TABLE, ROW, START = 2, 11, 43, 12
 
 
@@ -42,8 +47,23 @@ def _build():
     json.dump(out, open(CACHE, "w"))
 
 
+def _build_cities():
+    sys.path.insert(0, os.path.join(os.path.dirname(HERE), "scripts"))
+    from fill_city_of_birth import fm26_cities
+    data = fm26_cities(LANG_DB)
+    json.dump(data, open(CITIES, "w", encoding="utf-8"), ensure_ascii=False)
+
+
 def refresh():
     subprocess.run(fm26_install.zstd_python() + [os.path.abspath(__file__), "--build"], check=True)
+
+
+def cities():
+    """{city DBID (str): name} for every FM26 city."""
+    if not os.path.exists(CITIES):
+        subprocess.run(fm26_install.zstd_python() + [os.path.abspath(__file__), "--build-cities"],
+                       check=True)
+    return json.load(open(CITIES, encoding="utf-8"))
 
 
 _DATA = None
@@ -61,3 +81,5 @@ def city_nation(dbid):
 
 if __name__ == "__main__" and "--build" in sys.argv:
     _build()
+if __name__ == "__main__" and "--build-cities" in sys.argv:
+    _build_cities()

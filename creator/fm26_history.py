@@ -32,7 +32,8 @@ def _load(name):
     path = os.path.join(HERE, "cache", "fm26_%s.bin" % name)
     if not os.path.exists(path):
         raw = open(os.path.join(DB_DIR, name + ".dat"), "rb").read()[HEADER[name]:]
-        open(path, "wb").write(fm26_install.decompress(raw))
+        data = fm26_install.decompress(raw)  # before opening, or a failure leaves an empty cache
+        open(path, "wb").write(data)
     return open(path, "rb").read()
 
 

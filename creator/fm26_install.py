@@ -60,10 +60,17 @@ def has_zstd():
 
 
 def decompress(raw):
-    """A zstd stream (one or more frames) unpacked."""
+    """A zstd stream (one or more frames) unpacked. Frame by frame through a
+    memoryview: `zstd.decompress` copies the rest of the input after every
+    frame, and pl_hist_dt has 88k of them (hours instead of a second)."""
     if has_zstd():
         from compression import zstd
-        return zstd.decompress(raw)
+        mv, pos, out = memoryview(raw), 0, []
+        while pos < len(mv):
+            size = zstd.get_frame_size(mv[pos:])
+            out.append(zstd.ZstdDecompressor().decompress(mv[pos:pos + size]))
+            pos += size
+        return b"".join(out)
     if not shutil.which("zstd"):
         raise RuntimeError("unpacking FM26's database needs Python 3.14 or the zstd command")
     return subprocess.run(["zstd", "-d", "-q", "-c"], input=raw,

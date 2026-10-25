@@ -254,7 +254,8 @@ def seed_id_ledger(path):
         used_hi.add(int(u) >> 32)
         used_lo.add(int(u) & 0xFFFFFFFF)
     data["used_hi"], data["used_lo"] = sorted(used_hi), sorted(used_lo)
-    json.dump(data, open(path, "w"), indent=0, sort_keys=True)
+    # LF on Windows too: ids.json is shared through git, byte for byte
+    json.dump(data, open(path, "w", newline="\n"), indent=0, sort_keys=True)
 
 
 def people_db():
@@ -262,7 +263,8 @@ def people_db():
     not name a real person."""
     if not os.path.exists(PEOPLE_DB):
         raw = open(FM26_PEOPLE_DAT, "rb").read()[12:]
-        open(PEOPLE_DB, "wb").write(fm26_install.decompress(raw))
+        data = fm26_install.decompress(raw)  # before opening, or a failure leaves an empty cache
+        open(PEOPLE_DB, "wb").write(data)
     return open(PEOPLE_DB, "rb").read()
 
 
@@ -275,7 +277,7 @@ def save_id_ledger(path, used_hi, used_lo, data, minted):
     data["used_hi"] = sorted(used_hi)
     data["used_lo"] = sorted(used_lo)
     data.setdefault("created", []).extend(minted)
-    json.dump(data, open(path, "w"), indent=0, sort_keys=True)
+    json.dump(data, open(path, "w", newline="\n"), indent=0, sort_keys=True)
 
 
 def mint_id(ids_path, key):
@@ -1047,9 +1049,6 @@ def build_spells(rows, club_key=None, target_club=None, prime_season=None, calen
     return spells
 
 
-CITIES = os.path.join(HERE, "cache", "fm26_cities.json")
-
-
 # Ethnicity (`Peth`) from the country of BIRTH (user, 2026-10-08); any other
 # country leaves it unset. FM's values, read off the author's files: 0 Northern
 # European, 1 Mediterranean/Hispanic, 2 North African/Middle Eastern,
@@ -1119,7 +1118,7 @@ def city_id(name, country=None):
     import fm26_world
     if not name:
         return "No place of birth in any source - Pcbi left unset."
-    table = json.load(open(CITIES, encoding="utf-8"))
+    table = fm26_world.cities()
     nat_id = None
     if country:
         c = fm_nation(BIRTH_COUNTRY_ALIAS.get(country, country))
