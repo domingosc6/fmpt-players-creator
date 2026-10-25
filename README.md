@@ -226,7 +226,8 @@ The rules the creator follows are documented in `creator/PLAN.md`.
 
 ## Placements
 
-`placements/` proposes where each player on a sheet should go. Each step writes
+`placements/` proposes where each player on a sheet should go, following the
+rules in [`placements/RULES.md`](placements/RULES.md). Each step writes
 a JSON file in `placements/` that the next step reads; these outputs are not
 tracked.
 
