@@ -68,7 +68,7 @@ shims (asdf, pyenv) fail when no version is selected for the directory.
    the other scripts rely on this setting.
 4. Run the scripts with `py`, for example:
    ```
-   py creator\create_legends.py "creator\inputs\<sheet>.csv" --out-dir "creator\out\<team>"
+   py creator\create_legends.py "creator\inputs\<sheet>.csv"
    ```
 
 `scripts/batch/batch_template.sh` is a Bash script; on Windows, run it from Git
@@ -170,12 +170,12 @@ has is **fixed** (moved to the chosen club and prime season, with his career
 history rewritten).
 
 ```bash
-python3 creator/create_legends.py "creator/inputs/<sheet>.csv" --out-dir "creator/out/<team>" --import-downloads
+python3 creator/create_legends.py "creator/inputs/<sheet>.csv" --import-downloads
 ```
 
 | Option | Effect |
 |---|---|
-| `--out-dir DIR` | where the changesets and reports are written |
+| `--out-dir DIR` | where the changesets and reports are written (default `creator/out/<sheet>`, named after the CSV) |
 | `--only NAME` | rebuild only this player (repeatable); the others are merged from the files already in `--out-dir` |
 | `--import-downloads [DIR]` | first move saved bookmarklet pages from DIR (default `~/Downloads`) into the cache |
 | `--target-season YEAR` | the season the legends move to (default 2025 = 2025/26) |

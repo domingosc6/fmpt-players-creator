@@ -2,7 +2,8 @@
 """CLI: a CSV of players in, one changeset + report per player out.
 
 Usage:
-    create_legends.py inputs/probe.csv --out-dir out
+    create_legends.py inputs/probe.csv            (writes to out/probe/)
+    create_legends.py inputs/probe.csv --out-dir somewhere/else
 """
 import argparse
 import collections
@@ -238,7 +239,7 @@ def import_downloads(folder):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("csv_path")
-    ap.add_argument("--out-dir", default=os.path.join(HERE, "out"))
+    ap.add_argument("--out-dir", help="default out/<sheet>, named after the CSV (out/famalicao)")
     ap.add_argument("--ids", default=os.path.join(HERE, "ids.json"))
     ap.add_argument("--only", action="append", default=[],
                     help="rebuild only this player (repeatable); the others keep the files "
@@ -250,6 +251,8 @@ def main():
                     help="season the legends are moved to (2025 = 2025/26, FM26)")
     a = ap.parse_args()
 
+    # one folder per sheet, or every sheet's files pile up together in out/
+    a.out_dir = a.out_dir or os.path.join(HERE, "out", os.path.splitext(os.path.basename(a.csv_path))[0])
     os.makedirs(a.out_dir, exist_ok=True)
     if a.import_downloads:
         import_downloads(a.import_downloads)

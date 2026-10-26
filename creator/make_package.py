@@ -38,8 +38,8 @@ the ones it has (Exists = Y or an FM26 id).
 
 ## Run
 
-macOS:    python3 creator/create_legends.py "<sheet>.csv" --out-dir "creator/out/<team>" --import-downloads
-Windows:  py creator\\create_legends.py "<sheet>.csv" --out-dir "creator\\out\\<team>" --import-downloads
+macOS:    python3 creator/create_legends.py "<sheet>.csv" --import-downloads
+Windows:  py creator\\create_legends.py "<sheet>.csv" --import-downloads
 
 Python 3.10 or newer (python.org). Run from this folder. Internet is needed
 for national-football-teams, Wikipedia, carrierecalciatori and the FM club search.
@@ -75,7 +75,7 @@ from Downloads into creator/cache/.
   one gives the same player a new id and FM shows him twice.
 - creator/cache/ - FM26 database extracts (built on the Mac from the FM26
   Editor install) and every page already fetched.
-- Output goes to the --out-dir you give: one merged "... - all.xml" per sheet,
+- Output goes to creator/out/<sheet> (or the --out-dir you give): one merged "... - all.xml" per sheet,
   plus a .xml and .md report per player and a summary.
 
 ## Rules

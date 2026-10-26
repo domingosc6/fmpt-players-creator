@@ -190,7 +190,7 @@ divisions are already FM26 DBIDs, so nothing is resolved by name.
   counted homegrown at a team or nation, rare and harder (user, 2026-10-08).
 
 ## Batch (2026-10-08)
-`create_legends.py <csv> --out-dir out/<batch>` runs every row; a failing player is reported
+`create_legends.py <csv>` runs every row into `out/<csv name>/` (`--out-dir` overrides); a failing player is reported
 and skipped. Writes one xml + md per player, `<csv> - all.xml` (the PASSED players merged, in
 CSV order) and `<csv> - summary.md`. Mode per row: `dbid` filled = fix, empty = create.
 
