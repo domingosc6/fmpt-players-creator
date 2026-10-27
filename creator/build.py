@@ -1040,9 +1040,18 @@ def build_spells(rows, club_key=None, target_club=None, prime_season=None, calen
     def season_leave(y, club=None):
         return (31, 12, y) if cal(club) else (30, 6, y + 1)
 
+    # the club that opens each shared season: the split date is ITS calendar's,
+    # for both the leave and the join (user, 2026-10-27: Manoel's Internacional
+    # 1998 -> PSV 1998/99 split on 1/7/1998, not PSV's own 1/1/1999, which ran
+    # past Vitória Bahia's 1/1/1999 start)
+    season_opener = {}
+    for r in rows:
+        if r.yror == 1:
+            season_opener.setdefault(r.year, key(r))
+
     def mid_join(y, club):
         """The second club of a shared season starts halfway through it."""
-        return (1, 7, y) if cal(club) else (1, 1, y + 1)
+        return (1, 7, y) if cal(season_opener.get(y, club)) else (1, 1, y + 1)
 
     def mid_leave(y, club):
         return (30, 6, y) if cal(club) else (31, 12, y)
