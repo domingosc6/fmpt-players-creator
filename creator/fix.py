@@ -276,7 +276,7 @@ def build_fix(row, out_xml):
                        "left": shift(s["left"], offset), "loan": s["loan"]} for s in spells]
     ops.extend(build.emit_pnph(uid, shifted_spells, rng))
 
-    nation_of = build.nation_resolver()
+    nation_of = build.nation_resolver({r["club"]: r["divi"] for r in kept if r["club"] and r["divi"]})
     club_days, nation_days, unknown = build.days_at(shifted_spells, (1, 7, target_season), nation_of)
     for cl in unknown:
         flags.append("Club %s has no nation in the index: its days count for the club only." % cl)
@@ -287,7 +287,9 @@ def build_fix(row, out_xml):
     if dob:
         hg_rows = [{"club": r["club"], "year": r["year"]} for r in kept]
         hg_clubs, hg_nations, hg_fell_back = rtc.home_grown(
-            hg_rows, dob, build._Namer({}), (doc.get("nation") or {}).get("name"))
+            # the sheet's nation: the index's "nation" is his current club's
+            # country (Emmanuel Boateng, at Hapoel Tel-Aviv, came out Israeli)
+            hg_rows, dob, build._Namer({}), build.fm_nation(row.get("nation")))
         if hg_clubs:
             ops.extend(rtc.hg_ops(str(uid), "Phgc", rtc.HG_CLUB_COL, "Cclu", hg_clubs, build.BUILD, rng))
         nat_ids = rtc.nation_ids(hg_nations)
@@ -302,9 +304,11 @@ def build_fix(row, out_xml):
     target_join = open_spell["join"]
     if already_there:
         # FM26 already has him at the target club: his real contract stays
-        # (Viseu's current squad, prime = target season)
-        flags.append("Already at the target club in FM26: contract left as FM26 has it.")
-        written = []
+        # (Viseu's current squad, prime = target season), but the day he
+        # joined follows the rebuilt career (user, 2026-10-27)
+        flags.append("Already at the target club in FM26: contract left as FM26 has it, "
+                     "date joined moved to %d/%d/%d." % target_join)
+        written = [build.date_op(uid, "Pcjd", target_join, rng)]
     elif not is_non_player:
         # (a converted non-player was moved before his type change)
         ops.append(build.ref_op(uid, "Pcti", build.team_ref(target_id), "Ttea", rng))
@@ -316,8 +320,8 @@ def build_fix(row, out_xml):
         build.BUILD, target_season, seasons=c.Seasons(build._names()),
         club=target_id)
     ops.extend(written)
-    if not already_there:
-        ops.append(build.date_op(uid, "PCNj", target_join, rng))
+    nation_joined = build.nation_join(shifted_spells, target_id, target_join, nation_of)
+    ops.append(build.date_op(uid, "PCNj", nation_joined, rng))
 
     # achievements from the chosen season on go, like the playing history
     # (user, 2026-10-22: season 2009 with titles in 2005, 2008, 2013 keeps
@@ -341,7 +345,7 @@ def build_fix(row, out_xml):
         "verify": checked,
         "uid": uid, "doc": doc, "offset": offset, "flags": flags, "kept": kept,
         "dropped": dropped, "spells": spells, "dob": dob, "caps": caps,
-        "non_player": is_non_player, "hg_clubs": hg_clubs, "hg_nations": hg_nations,
+        "non_player": is_non_player, "hg_clubs": hg_clubs, "hg_nations": hg_nations, "nation_joined": nation_joined,
         "target_id": target_id, "target_join": target_join, "contract": contract,
         "club_days": club_days, "nation_days": nation_days,
         "row_position": (row.get("position") or "").strip().upper(), "height": height,
@@ -380,10 +384,11 @@ def write_report(path, res, row):
         L.append("- Achievements: none from %s on, left as FM26 has them" % row["prime_season"])
     L.append("- Homegrown clubs %s, nations %s" % (res["hg_clubs"] or "none", res["hg_nations"] or "none"))
     if res.get("already_there"):
-        L.append("- Contract: NOT written - FM26 already has him at club %s" % res["target_id"])
+        L.append("- Contract: kept - FM26 already has him at club %s; Pcjd %s, PCNj %s"
+                 % (res["target_id"], fmt(res["target_join"]), fmt(res["nation_joined"])))
     else:
-      L.append("- Contract: Pcti %s, Pcjd/PCNj %s, %s" % (
-        res["target_id"], fmt(res["target_join"]),
+      L.append("- Contract: Pcti %s, Pcjd %s, PCNj %s, %s" % (
+        res["target_id"], fmt(res["target_join"]), fmt(res["nation_joined"]),
         ", ".join("%s %s" % (k, "/".join(v)) for k, v in sorted(res["contract"].items())
                   if k not in ("Pcjd", "PCNj"))))
     if not res["non_player"] and res["target_id"] != int((doc.get("team") or {}).get("fm_id") or 0):

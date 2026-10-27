@@ -495,6 +495,45 @@ def days_at(spells, until, nation_of):
     return clubs, nations, unknown
 
 
+def nation_join(spells, target_club, target_join, nation_of):
+    """The day he arrived in the target club's country for his current stay
+    (PCNj): the start of the run of time he has spent there without a spell
+    abroad in between. A loan abroad interrupts his parent club's spell, and a
+    club with no known country counts as abroad (user, 2026-10-27: Manoel's
+    is his first Portuguese season, not the day he joined the target club)."""
+    import datetime as dt
+    D = lambda d: dt.date(d[2], d[1], d[0])
+    home = nation_of(target_club)
+    if home is None:
+        return target_join
+    end = D(target_join) + dt.timedelta(days=1)
+    pieces = []   # (start, end, nation)
+    for s in spells:
+        a, b = D(s["join"]), min(D(s["left"]) if s["left"] else end, end)
+        cuts = [(a, b)]
+        if not s.get("loan"):
+            for l in spells:
+                if l.get("loan") and l is not s:
+                    la, lb = D(l["join"]), min(D(l["left"]) if l["left"] else end, end)
+                    cuts = [c for (x, y) in cuts
+                            for c in ((x, min(y, la)), (max(x, lb), y)) if c[0] < c[1]]
+        pieces.extend((x, y, nation_of(s["club"])) for x, y in cuts if x < y)
+    # a club with no known country between two spells at home (Dinis Pinto's
+    # Lusitânia de Lourosa B, extinct, between Penafiel and Lusitânia) is home
+    first, pending = D(target_join), None
+    for a, b, nat in sorted(pieces, key=lambda p: p[1], reverse=True):
+        if a >= D(target_join):
+            continue
+        if nat is None:
+            pending = a if pending is None else min(pending, a)
+            continue
+        if nat != home:
+            break
+        first = min(first, a, pending or a)
+        pending = None
+    return (first.day, first.month, first.year)
+
+
 def _days_olvl(team, days):
     o = ET.Element("record", id="olvl")
     ET.SubElement(o, "unsigned", id="id", value=OLVL_ID)
@@ -560,6 +599,26 @@ def _nation_from_leagues(club):
     return None
 
 
+def _nation_any(cid, namer):
+    """A club's nation name from every place that can know it: the name
+    index, the search index's own team document (Charity Stars, Ghana, is in
+    one and not the other), the parent club for a B team the index files
+    under no nation (Lusitânia de Lourosa B), then its latest league."""
+    nat = namer.nation(cid)
+    if nat:
+        return nat
+    for h in search("fm_id:=%d && type_id:=team" % cid, by="name", q="*", n=1):
+        nat = (h["document"].get("nation") or {}).get("name")
+        if nat:
+            return nat
+    parent = fm_names.dbid(namer.parent_of(cid)) if namer.parent_of(cid) else None
+    if parent and parent != cid:
+        nat = namer.nation(parent)
+        if nat:
+            return nat
+    return _nation_from_leagues(cid)
+
+
 _NAMES = None
 _CLUB_NATION = {}
 
@@ -576,7 +635,7 @@ def club_nation(cid):
     """A club's nation name: the index's, else that of its latest league.
     Asked once per club and date, so it is remembered."""
     if cid not in _CLUB_NATION:
-        _CLUB_NATION[cid] = _names().nation(cid) or _nation_from_leagues(cid)
+        _CLUB_NATION[cid] = _nation_any(cid, _names())
     return _CLUB_NATION[cid]
 
 
@@ -584,13 +643,23 @@ def is_calendar_club(cid):
     return fm_nation(club_nation(cid)) in c.CALENDAR_YEAR_NATIONS if isinstance(cid, int) else False
 
 
-def nation_resolver():
-    """club DBID -> its nation's DBID, or None."""
+def comp_nation(comp):
+    """A competition's nation name, or None."""
+    for h in search("fm_id:=%d && type_id:=competition" % comp, by="name", q="*", n=1):
+        return (h["document"].get("nation") or {}).get("name")
+    return None
+
+
+def nation_resolver(club_divs=None):
+    """club DBID -> its nation's DBID, or None. `club_divs` ({club: competition}
+    from his own history rows) answers for a club no index places anywhere
+    (Lusitânia de Lourosa B, extinct)."""
     namer = fm_names.Names(offline=False)
     cache = {}
+    club_divs = club_divs or {}
 
     def of(club):
-        name = namer.nation(club) or _nation_from_leagues(club)
+        name = _nation_any(club, namer) or (comp_nation(club_divs[club]) if club in club_divs else None)
         if not name:
             return None
         if name not in cache:
@@ -1248,6 +1317,7 @@ def fetch_sources(urls, name):
     import sources.nft as nft
     import sources.wikipedia as wiki
     nft_html, box, notes, zz_data = None, None, [], None
+    season_sources = []  # every season-by-season source, in link order
     slug = re.sub(r"\W+", "_", name.lower()).strip("_")
     for url in urls:
         url = url.strip()
@@ -1271,25 +1341,69 @@ def fetch_sources(urls, name):
             else:
                 # same row shape as zerozero; bdfutbol lists oldest first
                 data["rows"] = list(reversed(data["rows"]))
-                zz_data = zz_data or data
+                season_sources.append(("bdfutbol", data))
         elif "foradejogo" in url:
             import sources.foradejogo as fdj
-            zz_data = zz_data or fdj.load(url)  # newest first, like zerozero
+            season_sources.append(("foradejogo", fdj.load(url)))  # newest first, like zerozero
         elif "carrierecalciatori" in url:
             import sources.carrierecalciatori as cc
-            zz_data = zz_data or cc.load(url)   # newest first, like zerozero
+            season_sources.append(("carrierecalciatori", cc.load(url)))  # newest first, like zerozero
         elif "zerozero" in url:
             import sources.zerozero as zz
             data = zz.load(url)
-            # the first season-by-season source that has data wins: an
-            # alternate link not fetched yet must not wipe the main one (Ávalos)
-            zz_data = zz_data or data
+            season_sources.append(("zerozero", data))
             if data is None:
                 notes.append("zerozero page not fetched yet - run the browser step for %s "
                              "(expects %s)" % (url, zz.cache_path(url)))
         else:
             notes.append("Unrecognised link, not read: %s" % url)
+    # the first season-by-season source that has data is the main one: an
+    # alternate link not fetched yet must not wipe it (Ávalos)
+    fetched = [(label, d) for label, d in season_sources if d and d.get("rows")]
+    if fetched:
+        zz_data = merge_season_sources(fetched[0], fetched[1:], notes)
     return nft_html, box, notes, zz_data
+
+
+def merge_season_sources(main, alternates, notes):
+    """The main source's rows stand; an alternate only adds what the main one
+    cannot say. foradejogo shows no loans, zerozero does ("Fafe(E) [Vitória
+    SC]"): a main row of the same season and club takes the alternate's loan
+    tick (Flávio Meireles). A season the main source skips inside its own span
+    takes the alternate's rows (Afonso Martins 1998/99). An alternate whose
+    birth date differs from the main one's is another player and is ignored."""
+    label, data = main
+    data = dict(data)
+    rows = [dict(r) for r in data["rows"]]
+    for alt_label, alt in alternates:
+        if data.get("dob") and alt.get("dob") and data["dob"] != alt["dob"]:
+            notes.append("%s page is another player (born %s, not %s) - not used."
+                         % (alt_label, "/".join(map(str, alt["dob"])), "/".join(map(str, data["dob"]))))
+            continue
+        for r in rows:
+            if r["youth"] or r.get("loan"):
+                continue
+            if any(a.get("loan") and not a["youth"] and a["season"] == r["season"]
+                   and same_club_name(a["club"], r["club"]) for a in alt["rows"]):
+                r["loan"] = True
+                notes.append("%s %s: loan, as %s marks it (%s has no loan marks)."
+                             % (r["season"], r["club"], alt_label, label))
+        years = [season_start_year(r["season"]) for r in rows]
+        have = set(years)
+        for a in alt["rows"]:
+            y = season_start_year(a["season"])
+            if min(years) < y < max(years) and y not in have:
+                rows.append(dict(a))
+                notes.append("%s %s: a season %s skips - taken from %s."
+                             % (a["season"], a["club"], label, alt_label))
+        for k, v in alt.items():
+            if k != "rows" and not data.get(k):
+                data[k] = v
+    # newest first, as every source lists them; within a season keep each
+    # source's own order
+    rows.sort(key=lambda r: -season_start_year(r["season"]))
+    data["rows"] = rows
+    return data
 
 
 CLUB_OVERRIDES = os.path.join(HERE, "club_overrides.json")
@@ -1585,6 +1699,8 @@ def build_changeset(row, cache_dir, ids_path, out_xml, out_report):
         pr["join"] = date_el((join[0], join[1], join[2] + offset)) if join else None
         pr["leaving"] = date_el((left[0], left[1], left[2] + offset)) if left else None
         plhs_rows.append(pr)
+    nation_of = nation_resolver({club_ids[r.club]["id"]: d for r, d in zip(p.rows, row_divs)
+                                 if club_ids.get(r.club) and d})
     ops.extend(ci.emit_rows(uid, plhs_rows, BUILD))
 
     # Pnph, shifted
@@ -1609,7 +1725,7 @@ def build_changeset(row, cache_dir, ids_path, out_xml, out_report):
     days_spells = [dict(sp, left=next_day(sp["left"]) if sp["left"] else None)
                    for sp in shifted_spells]
     club_days, nation_days, unknown = days_at(
-        [sp for sp in days_spells if sp["club"] != UNKNOWN_CLUB], season_start, nation_resolver())
+        [sp for sp in days_spells if sp["club"] != UNKNOWN_CLUB], season_start, nation_of)
     for cl in unknown:
         flags.append("Club %s has no nation in the index: its days count for the club only." % cl)
     days_entries = list(club_days.items()) + list(nation_days.items())
@@ -1637,8 +1753,9 @@ def build_changeset(row, cache_dir, ids_path, out_xml, out_report):
                                     % target_join), BUILD, target_season,
         seasons=c.Seasons(_names()), club=target_hit["id"])
     ops.extend(written)
-    # PCNj: forced to the same join date as Pcjd (PLAN rule for this probe)
-    ops.append(date_op(uid, "PCNj", target_join, rng))
+    nation_joined = nation_join([sp for sp in shifted_spells if sp["club"] != UNKNOWN_CLUB],
+                                target_hit["id"], target_join, nation_of)
+    ops.append(date_op(uid, "PCNj", nation_joined, rng))
 
     write_changeset(out_xml, ops)
 
@@ -1650,7 +1767,7 @@ def build_changeset(row, cache_dir, ids_path, out_xml, out_report):
         "club_ids": club_ids, "div_ids": div_ids, "nation_dbid": nation_dbid,
         "spells": resolved_spells, "dropped_spells": dropped_spells,
         "hg_clubs": hg_clubs, "hg_nations": hg_nations, "hg_fell_back": hg_fell_back,
-        "target_hit": target_hit, "target_join": target_join, "plhs_rows": plhs_rows,
+        "target_hit": target_hit, "target_join": target_join, "nation_joined": nation_joined, "plhs_rows": plhs_rows,
         "row_divs": row_divs,
         "shifted_spells": shifted_spells, "ops": ops, "ratings": ratings_written,
     }
@@ -1870,4 +1987,4 @@ class _Namer:
         return self._n.parent_of(cid)
 
     def nation(self, cid):
-        return self._n.nation(cid)
+        return _nation_any(cid, self._n)
