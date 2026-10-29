@@ -22,6 +22,7 @@ the FM Editor imports) and, where needed, the FM26 release database itself.
 - [Edition converter](#edition-converter)
 - [Legends Creator](#legends-creator)
 - [Placements](#placements)
+- [Comparativo club fields](#comparativo-club-fields)
 - [Repository layout](#repository-layout)
 - [Further documentation](#further-documentation)
 
@@ -244,6 +245,27 @@ tracked.
 `xlsx_read.py` is a minimal `.xlsx` reader with no dependencies.
 `santa_clara/` runs the same pipeline for one specific sheet.
 
+## Comparativo club fields
+
+`comparativo/club_fields.py` reads, for every team on the Comparativo
+sheet's Teams tab, the club fields FM's editor shows:
+- stadium and capacity
+- morale and training
+- the four youth ratings
+- balance, transfer budget and monthly wages
+
+It reads them straight from FM26's `server_db.dat`. Which FM club a row is
+comes from `comparativo/fm_ids.json` ("Team|Country" → DBID). Reputation is
+not in it: that came from the fmref index.
+
+```
+python3.14 comparativo/club_fields.py OUT.json
+```
+
+The byte layouts are written down at the top of the script. They were found
+on FM26 by comparing editor exports for a handful of clubs. A new edition
+(FM27) needs them checked again the same way before the sheet is refreshed.
+
 ## Repository layout
 
 ```
@@ -256,6 +278,7 @@ scripts/            edition converter and database readers
   checks/           build validation
   batch/            batch conversion
 placements/         squad placement research
+comparativo/        club fields for the Comparativo sheet
 CLAUDE.md           changeset format notes and converter rules
 HANDOFF-*.md        working notes
 ```
