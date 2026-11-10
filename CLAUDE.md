@@ -1076,9 +1076,11 @@ the date of birth (the author moves it on every relabelling pass), majority as
 fallback - because the CUF Barreiro managers (Manuel de Oliveira Santos, Carlos
 Francisco Santos da Silva) were created in FM15 and moved in FM16 and FM17, so the
 majority (FM15, +12) is two years too many. The report shows both readings and
-marks where they differ. OPEN (asked 2026-11-10): Pedroto - created FM24, and in
-FM26 only his DOB and contract were moved +1, his spells never - reads +1 under
-this rule against +3 under the majority one.
+marks where they differ. USER DECISION (2026-11-10): follow the date of birth
+even where it splits the record. Pedroto was created in FM24, and in FM26 only his
+DOB and contract were moved +1, never his spells: he gets +1, so the DOB and
+contract stay as set in FM26 and the spells stay a season behind them, as they
+already were in the FM26 file. Same for the other created staff edited in FM26.
 
 Validated on Portugal: 281,755 changes in and out, every date +1 (staff by their
 own offset), no `odvl` moved, all 1,487 cleared careers replay to source +1.
