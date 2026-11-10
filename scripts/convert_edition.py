@@ -128,7 +128,51 @@ MAX_OFFSET = 12                             # beyond this the anchor is not a tr
 EDITION_BY_BUILD = {2281: "FM15", 2380: "FM16", 2381: "FM16", 2382: "FM16",
                     2464: "FM17", 2468: "FM17", 2469: "FM17", 2637: "FM18",
                     2640: "FM18", 2768: "FM19", 2773: "FM19", 2961: "FM20",
-                    3032: "FM21", 3035: "FM21", 3569: "FM24"}
+                    3032: "FM21", 3035: "FM21", 3569: "FM24", 3733: "FM26",
+                    2767: "FM19"}
+
+
+def edition_number(build):
+    """The FM edition (24 for FM24) a change was authored in. A build missing
+    from EDITION_BY_BUILD takes the nearest known build below it - builds only
+    grow, and each edition's patches sit above its release."""
+    if build is None:
+        return None
+    known = [b for b in EDITION_BY_BUILD if b <= build]
+    return int(EDITION_BY_BUILD[max(known)][2:]) if known else None
+
+
+def staff_edition_offset(recs, land):
+    """A staff record - non-player to non-player, created or edited - is shifted
+    from the season its dates describe to `land`: an FM26 record (25/26) +1 to
+    26/27, FM24 +3, FM17 +10. Staff were never moved by an earlier conversion, so
+    the edition that wrote their dates IS that season.
+
+    Which edition that is: the LAST one that wrote his DATE OF BIRTH. The author
+    moves the date of birth on every pass that relabels a record, so it marks the
+    frame his dates are in. User rule (2026-11-10) was the edition MOST changes
+    were made in; on his own examples that is right for Jesualdo Ferreira (FM26)
+    and Pedroto (FM24), but the CUF Barreiro managers were created in FM15 and
+    MOVED in FM16 and again in FM17 (Manuel de Oliveira Santos: born 1983, 1984,
+    1985; spells 2014, 2015, 2016), so the majority (FM15, +12) is two years too
+    many and the last date of birth (FM17, +10) is right. Nor is it the last
+    edition to write ANY date: Rui Vitoria's FM24 spell edits write 1/7/2014,
+    an FM16-frame date. Where a record never sets a date of birth, the user's
+    majority rule decides; a tie goes to the later edition.
+
+    Returns (edition, Counter of editions, offset, majority edition)."""
+    per = Counter(e for e in (edition_number(rec_build(rec)) for rec in recs) if e)
+    if not per:
+        return None, per, None, None
+    top = max(per.values())
+    majority = max(e for e, n in per.items() if n == top)
+    dob = [edition_number(rec_build(rec)) for rec in recs if rec_prop(rec) == "Pdob"
+           and (rec.find('*[@id="new_value"]') is not None
+                and rec.find('*[@id="new_value"]').tag == "date"
+                and int(rec.find('*[@id="new_value"]').get("year")) not in SENTINELS)]
+    dob = [e for e in dob if e]
+    ed = max(dob) if dob else majority
+    return ed, per, land - (2000 + ed - 1), majority
 
 
 def fourcc(n):
@@ -575,7 +619,122 @@ def link_identities(person_recs, created):
     return uf, ambiguous
 
 
-def detect_current_year(plhs_recs):
+YROR_COL = "2037542770"                     # Plhs "order within the season" column
+YTHT_COL = "2037672052"                     # Plhs youth-team flag
+
+
+def season_in_progress(rows, seasons=None, youth_done=False):
+    """Is the LAST season of a career the one being played, rather than one
+    already finished? `rows` are that season's rows, each a dict with apps, gols,
+    yror and cid (the club's DBID, or None).
+
+    USER RULE (2026-11-10, FM27 conversion). Two shapes mean "in progress":
+    - **an empty row** - the season about to be played, with no figures yet. A
+      transfer season can hold a finished row AND an empty one: the player left
+      one club and has not played for the next (record 2826603737111642378 in the
+      FM26 Portugal file: 29 apps at a Brazilian club, order 1, then an empty row
+      at a European club, order 2, joined 1/7/2025);
+    - **a calendar-year club with figures, ordered 1 or more, as the LAST row of
+      the season** - the league has played half its year when a European game
+      starts, so the row has figures and is still current. Needs the club's
+      nation (`seasons`); without one this test is not made. Last in order only:
+      a Norwegian season ordered 1 followed by a European season ordered 2 that
+      also has figures is two FINISHED seasons.
+
+    `youth_done`: an empty YOUTH row counts as finished. Youth seasons carry no
+    figures by convention, so a prospect whose last row is a youth season with a
+    leave date at its end (Abiodun Agunbiade, FM26 Portugal) has finished it.
+    Only for an input the converter already produced: on a raw source the
+    cleaner itself ticks youth on EMPTY seasons, the base season included."""
+    if not rows:
+        return False
+    has = lambda r: ((r.get("apps") or 0) > 0 or (r.get("gols") or 0) > 0
+                     or (youth_done and r.get("ytht")))
+    if any(not has(r) for r in rows):
+        return True
+    if seasons is None:
+        return False
+    top = max(rows, key=lambda r: r.get("yror") or 0)
+    return ((top.get("yror") or 0) >= 1 and top.get("cid") is not None
+            and seasons.nation(top["cid"]) is not None and seasons.calendar_year(top["cid"]))
+
+
+def rows_view(rows):
+    """clean_import rows in the shape season_in_progress reads."""
+    import clean_import as ci
+    return [{"apps": r["apps"], "gols": r["gols"], "yror": r["yror"], "cid": ci.club_key(r),
+             "ytht": r["ytht"]}
+            for r in rows]
+
+
+def rows_at_year(plhs_recs, year):
+    """The rows a person's ops leave at `year`, as season_in_progress reads them,
+    tracked per club from the snapshots alone (no replay): a row arrives with the
+    year op that puts it there, keeps the figures its snapshot carries, takes
+    every later apps/goals/order/club op on it, and leaves when relabelled away."""
+    at = {}
+
+    def key(st):
+        return st["club"][1] if st.get("club") else None
+
+    for rec in plhs_recs:
+        lsop, col, val, st = parse_op(rec)
+        if lsop != "1" or not st:
+            continue
+        v = val.get("value") if val is not None else None
+        k = key(st)
+        if col == YEAR_COL and v:
+            if int(v) == year:
+                at.setdefault(k, {"apps": st.get("apps"), "gols": st.get("gols"), "yror": 0, "cid": k})
+            elif st.get("year") == year:
+                at.pop(k, None)
+            continue
+        if st.get("year") != year:
+            continue
+        row = at.setdefault(k, {"apps": st.get("apps"), "gols": st.get("gols"), "yror": 0, "cid": k})
+        if col in (APPS_COL, GOLS_COL):
+            row["apps" if col == APPS_COL else "gols"] = int(v) if v not in (None, "") else None
+        elif col == YROR_COL:
+            row["yror"] = int(v) if v else 0
+        elif col == YTHT_COL:
+            row["ytht"] = v == "true"
+        elif col == CLID_COLUMN:
+            new = club_of(val)
+            if new:
+                at.pop(k, None)
+                row["cid"] = new[1]
+                at[new[1]] = row
+    return list(at.values())
+
+
+def current_season(plhs_recs, seasons=None, base=None):
+    """The season a career is anchored at, read the most reliable way the ops
+    allow: where the grid was CLEARED, replay what follows the last Clear (that
+    is the whole career, rows and order exactly as written); otherwise read the
+    ops' snapshots (detect_current_year). None if no season is set.
+
+    `base`: the season the file is already placed on. An empty youth row BEFORE
+    it is a finished youth season (see season_in_progress); one AT it is the
+    base season a young player is about to play."""
+    import clean_import as ci
+    clears = [i for i, rec in enumerate(plhs_recs) if parse_op(rec)[0] == "3"]
+    if not clears:
+        cy = detect_current_year(plhs_recs, seasons)
+        if cy is not None and base is not None and cy < base:
+            at = rows_at_year(plhs_recs, cy)
+            if at and not season_in_progress(at, seasons, youth_done=True):
+                return cy + 1               # a finished youth season, see below
+        return cy
+    rows = [r for r in ci.replay(plhs_recs[clears[-1]:])
+            if r["year"] and r["year"] not in SENTINELS]
+    if not rows:
+        return None
+    mx = max(r["year"] for r in rows)
+    return mx if season_in_progress(rows_view([r for r in rows if r["year"] == mx]), seasons,
+                                    youth_done=base is not None and mx < base) else mx + 1
+
+
+def detect_current_year(plhs_recs, seasons=None):
     """Current-season year for one person's playing-history ops (file order).
     None if the person never set a playing-history year."""
     max_year, max_i, max_st = None, None, None
@@ -587,6 +746,16 @@ def detect_current_year(plhs_recs):
                 max_year, max_i, max_st = y, i, st or {}
     if max_year is None:
         return None
+    # A split last season (an empty row beside a finished one, or a calendar-year
+    # club half way through its year) is the season being played, whatever the
+    # last apps op says - see season_in_progress. Only ever moves the anchor DOWN
+    # to the max year; a career that reads finished keeps the reading below.
+    at = rows_at_year(plhs_recs, max_year)
+    if len(at) > 1 and season_in_progress(at, seasons):
+        return max_year
+    if at and seasons is not None and season_in_progress(at, seasons) and \
+            all((r.get("apps") or 0) > 0 or (r.get("gols") or 0) > 0 for r in at):
+        return max_year
     last_positive = None
     for rec in plhs_recs[max_i + 1:]:
         lsop, col, val, st = parse_op(rec)
@@ -1194,7 +1363,7 @@ def authored_youth_rows(ops, kept, first_of, rows, shift):
     return out
 
 
-def real_career(ops, target_season):
+def real_career(ops, target_season, seasons=None):
     """Read a REAL database record's career out of the changeset.
 
     The author deletes every playing-history row from the prime season onwards
@@ -1216,7 +1385,7 @@ def real_career(ops, target_season):
         rws, notes = ci.clean(rws, None)
         if rws:
             last = max(x["year"] for x in rws)
-            filled = any((x["apps"] or 0) > 0 or (x["gols"] or 0) > 0 for x in rws if x["year"] == last)
+            filled = not season_in_progress(rows_view([x for x in rws if x["year"] == last]), seasons)
             sh = (target_season - 1 if filled else target_season) - last
             for x in rws:
                 x["year"] += sh
@@ -2396,7 +2565,7 @@ def drop_retired_adaptations(changes):
 
 def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=None,
             continuations="all", rebuild_careers=False, drop_retired=False,
-            rebuild_real=False, namer=None):
+            rebuild_real=False, namer=None, from_season=None, staff_by_edition=False):
     tree = ET.parse(in_path)
     root = tree.getroot()
     file_build = int(root.find('integer[@id="version"]').get("value"))
@@ -2668,18 +2837,69 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
     # offsets
     anchors, offsets, anomalies, anchorless, skipped_staff = {}, {}, [], [], []
     spread = Counter()
+    anchor_off, dob_missing, fm26_grid_edits = [], [], []   # --from-season checks
+    if namer is not None:
+        # the calendar-year test in season_in_progress needs every club's nation,
+        # and an unfetched club silently reads as European (see is_b_team)
+        want = set()
+        for (p, prop), recs in groups.items():
+            if prop != "Plhs":
+                continue
+            for rec in recs:
+                _l, _c, val, st = parse_op(rec)
+                for ref in ((st or {}).get("club"),
+                            club_of(val) if val is not None and val.tag == "record" else None):
+                    if ref:
+                        want.add(("team", int(ref[1])))
+        namer.fetch(sorted(want))
+
+    def checks_fm26_file(p):
+        """--from-season: the input was already moved to that season once (an FM26
+        file is the converter's own output, re-saved), so every player gets the
+        same offset and the anchor is only CHECKED. Three lists for the report:
+        - a career that does not read `from_season` (it would land elsewhere);
+        - a career with no date of birth in the file: the history moves, the
+          date of birth stays the new database's own, so he ages a year;
+        - a REAL record whose playing history was edited without a Clear: those
+          ops cite rows as the OLD database holds them, and the new database's
+          rows can differ (the 2025 season is finished in FM27), so the editor
+          may drop them. Its anchor is not read - a few hand edits on old rows
+          say nothing about where the career ends."""
+        plhs = groups.get((p, "Plhs"), [])
+        is_created = any(u in created for u in members[p])
+        cleared = any(parse_op(rec)[0] == "3" for rec in plhs)
+        if plhs and not is_created and not cleared:
+            fm26_grid_edits.append((p, max((rec_build(rec) or 0) for rec in plhs)))
+        elif plhs:
+            cy = current_season(plhs, seasons if namer is not None else None, from_season)
+            anchors[p] = cy
+            if cy != from_season:
+                anchor_off.append((p, cy))
+        if (plhs or groups.get((p, "Pnph"))) and not groups.get((p, "Pdob")):
+            dob_missing.append(p)
+
     for p in members:
         if target_season is None:
+            # Uniform offset. Staff stay where they are unless --shift-staff, as in
+            # target mode: managers have no anchor and the user decides on them
+            # (before 2026-11-10 an --offset run shifted staff silently).
+            if p in staff:
+                skipped_staff.append(p)
+                continue
+            if from_season is not None:
+                checks_fm26_file(p)
             offsets[p] = off
+            spread[off] += 1
             continue
         if p in rebuilt:
             rows = rebuilt[p][0]
             mx = max(r["year"] for r in rows)
-            filled = any((r["apps"] or 0) > 0 or (r["gols"] or 0) > 0 for r in rows if r["year"] == mx)
-            cy = mx + 1 if filled else mx
+            cy = mx if season_in_progress(rows_view([r for r in rows if r["year"] == mx]),
+                                          seasons if namer is not None else None) else mx + 1
         else:
             live_plhs = [r for r in groups.get((p, "Plhs"), []) if rec_uid(r) in live]
-            cy = detect_current_year(live_plhs) if p not in staff else None
+            cy = (detect_current_year(live_plhs, seasons if namer is not None else None)
+                  if p not in staff else None)
         anchors[p] = cy
         if p in staff:
             skipped_staff.append(p)
@@ -2698,6 +2918,15 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
     if shift_staff:
         for p in skipped_staff:
             offsets[p] = majority
+    staff_edition = {}                           # staff person -> (edition, counts, offset)
+    if staff_by_edition:
+        land = target_season if target_season is not None else from_season + off
+        for p in skipped_staff:
+            recs = [rec for (q, _prop), rs in groups.items() if q == p for rec in rs]
+            ed, per, o, maj = staff_edition_offset(recs, land)
+            staff_edition[p] = (ed, per, o, maj)
+            if o is not None and 0 <= o <= MAX_OFFSET:
+                offsets[p] = o
     shifted = set(offsets)
 
     # Real DB records: rebuild the playing history with the shift model (no Clear)
@@ -2845,7 +3074,8 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
             # that legitimately rebuild from a lone invented id: the author created
             # those people in an EARLIER edition, so the id can be live in the target
             # database even though this file holds no ADDR for it. Left as it was.
-            rows, shift, note, extras = real_career(groups[(p, "Plhs")], target_season)
+            rows, shift, note, extras = real_career(groups[(p, "Plhs")], target_season,
+                                                       seasons if namer is not None else None)
             if rows is None:
                 real_skipped.append((p, note, primary, career_sketch(groups[(p, "Plhs")])))
                 continue
@@ -2966,7 +3196,11 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
     # to the end of a season two to five years away - his own day and month kept,
     # drawn from the record id so a rerun gives the same answer.
     pushed = 0
-    if target_season is not None:
+    # The season the file lands on: the target, or (uniform offset from a known
+    # season, the FM26 -> FM27 case) where that season moves to.
+    season_to = (target_season if target_season is not None
+                 else from_season + off if from_season is not None else None)
+    if season_to is not None:
         by_record = defaultdict(list)          # per RECORD: that is what the game reads
         for (p, prop), recs in groups.items():
             if prop == EXPIRY_PROP:
@@ -2974,10 +3208,10 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
                     by_record[rec_uid(rec)].append(rec)
         for uid, recs in by_record.items():
             last = recs[-1].find('*[@id="new_value"]')
-            if last is None or last.tag != "date" or int(last.get("year")) > target_season:
+            if last is None or last.tag != "date" or int(last.get("year")) > season_to:
                 continue
             rng = random.Random(int(uid) + 1)
-            last.set("year", str(target_season + rng.randint(2, 5)))
+            last.set("year", str(season_to + rng.randint(2, 5)))
             pushed += 1
 
     # A date of birth that does not fit the career it sits on. The author moves
@@ -3210,7 +3444,11 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
     # brings Serafim's spell relabel (1/7/2018 -> 1/7/2019) back. A rebuilt career
     # has no leftovers to move: the rebuild already replaced every id's rows.
     moved_to_primary = 0
-    for p, us in members.items():
+    # Not on a --from-season run: that input is the converter's own output, already
+    # consolidated once, and the run is a pure re-shift. Moving ops now would
+    # retarget them on identity links nobody has checked against the new edits
+    # (11,210 ops on the FM26 Portugal file, 2026-11-10).
+    for p, us in (members.items() if from_season is None else ()):
         if len(us) < 2:
             continue
         primary = us[0]
@@ -3338,6 +3576,9 @@ def convert(in_path, out_path, off, shift_staff, flag_year_only, target_season=N
         "year_only": flagged, "other_tables": other_tables, "names": names,
         "n_changes": len(changes), "n_person_recs": len(person_recs),
         "target_season": target_season, "uniform": off, "created": created,
+        "from_season": from_season, "season_to": season_to, "anchor_off": anchor_off,
+        "staff_edition": staff_edition,
+        "dob_missing": dob_missing, "fm26_grid_edits": fm26_grid_edits,
         "live": live, "dead": dead, "file_build": file_build, "continuations": continuations,
         "rebuilt": rebuilt, "rebuild_stats": rebuild_stats, "dropped": dropped,
         "spell_dates": spell_dates,
@@ -3398,7 +3639,9 @@ def write_report(r, path, in_path, out_path):
         t = r["target_season"]
         lines.append(f"- Mode: target season {t} ({t % 100:02d}/{(t + 1) % 100:02d}), per-person offset")
     else:
-        lines.append(f"- Mode: uniform offset +{r['uniform']}")
+        lines.append(f"- Mode: uniform offset +{r['uniform']}"
+                     + (f", from season {r['from_season']} to {r['season_to']}"
+                        if r.get("from_season") is not None else ""))
     multi = [p for p, us in r["members"].items() if len(us) > 1]
     lines += [f"- File saved by editor build {r['file_build']} ({EDITION_BY_BUILD.get(r['file_build'], 'unknown edition')})",
               f"- Changes in file: {r['n_changes']} ({r['n_person_recs']} on people)",
@@ -3640,8 +3883,26 @@ def write_report(r, path, in_path, out_path):
     lines.append("")
 
     lines.append(f"## Staff ({len(r['staff'])})\n")
-    for p in sorted(r["staff"], key=L):
-        lines.append(f"- {L(p)} - ids {', '.join(r['members'][p])} - editions {editions(r['builds'][p])}")
+    se = r.get("staff_edition") or {}
+    if se:
+        lines.append("Shifted from the season their dates describe to the season the file lands on "
+                     "(FM26 +1, FM24 +3, ...). That season is the edition that LAST wrote the date of "
+                     "birth - the author moves it on every pass that relabels a record - or, where the "
+                     "record never sets one, the edition most of its changes were made in. **Differs** "
+                     "marks a record where the two readings disagree: worth a look. Created = made from "
+                     "scratch in this file; otherwise a real database person.\n")
+        lines.append("| Staff | Created | Changes per edition | Most changes | Dated in | Offset |\n"
+                     "|---|---|---|---|---|---|")
+        for p in sorted(r["staff"], key=L):
+            ed, per, o, maj = se.get(p, (None, Counter(), None, None))
+            made = "yes" if any(u in r["created"] for u in r["members"][p]) else "no"
+            counts = ", ".join(f"FM{e} {n}" for e, n in sorted(per.items()))
+            lines.append(f"| {L(p)} | {made} | {counts or '-'} | {('FM%d' % maj) if maj else '-'} | "
+                         f"{('FM%d' % ed) if ed else '-'}{' **differs**' if ed != maj else ''} | "
+                         f"{('+%d' % o) if o is not None and p in r['offsets'] else 'not shifted'} |")
+    else:
+        for p in sorted(r["staff"], key=L):
+            lines.append(f"- {L(p)} - ids {', '.join(r['members'][p])} - editions {editions(r['builds'][p])}")
     lines.append("")
 
     sro = r.get("spell_row_odd") or []
@@ -3817,6 +4078,14 @@ def write_report(r, path, in_path, out_path):
 
     for p, cy, _o in r["anomalies"]:
         flag(p, f"anchor reads {cy}, left unshifted")
+    for p, cy in (r.get("anchor_off") or []):
+        flag(p, f"career reads season {cy if cy is not None else 'none'}, "
+                f"not {r['from_season']}: shifted +{r['uniform']} anyway")
+    for p in (r.get("dob_missing") or []):
+        flag(p, f"date of birth not in the file: add {r['uniform']} year(s) to the database's own by hand")
+    for p, b in (r.get("fm26_grid_edits") or []):
+        flag(p, f"playing history edited in place ({EDITION_BY_BUILD.get(b, b)}), no Clear: "
+                "check it took in the new database")
     for p in r["anchorless"]:
         flag(p, "no anchor, dates left unshifted")
     for p, _primary, nations, _odd in (r.get("era_flagged") or []):
@@ -3846,6 +4115,41 @@ def write_report(r, path, in_path, out_path):
     for uid, prop in (r.get("year_only") or []):
         flag(r["root_of"].get(uid, uid),
              f"{prop} rows keyed on a season-only date, they revert on import")
+
+    if r.get("from_season") is not None:
+        fs, st = r["from_season"], r["season_to"]
+        ao = r.get("anchor_off") or []
+        lines.append(f"## Careers that do not read season {fs} ({len(ao)})\n")
+        lines.append(f"Every player is moved +{r['uniform']}, because this file was already placed on "
+                     f"{fs}/{(fs + 1) % 100:02d} by an earlier conversion. These careers END somewhere "
+                     f"else, so they will not land on {st}. The season is read from the last Clear "
+                     "onwards where the grid was cleared, and a split last season (an empty row beside "
+                     "a finished one, or a calendar-year club half way through its year) counts as "
+                     "the season being played.\n")
+        lines.append("| Player | Reads | Lands on |\n|---|---|---|")
+        for p, cy in sorted(ao, key=lambda x: L(x[0]).lower()):
+            lines.append(f"| {L(p)} | {cy if cy is not None else '-'} | "
+                         f"{cy + r['uniform'] if cy is not None else '-'} |")
+        lines.append("")
+        dm = r.get("dob_missing") or []
+        lines.append(f"## Careers moved with no date of birth in the file ({len(dm)})\n")
+        lines.append(f"The history moves +{r['uniform']} but nothing in the file sets the date of birth, "
+                     "so the new database's own value stands and the player comes out "
+                     f"{r['uniform']} year(s) older at his prime. Add {r['uniform']} year(s) to the "
+                     "date the editor shows.\n")
+        for p in sorted(dm, key=lambda x: L(x).lower()):
+            lines.append(f"- {L(p)} ({(r['members'].get(p) or [p])[0]})")
+        lines.append("")
+        ge = r.get("fm26_grid_edits") or []
+        lines.append(f"## Real records whose playing history was edited in place ({len(ge)})\n")
+        lines.append("No Clear on these grids, so every edit finds its row by an exact image of it as "
+                     "the OLD database held it. Where the new database holds that row differently "
+                     "(a season that has since finished, a corrected figure) the editor drops the "
+                     "edit silently. Shifted like the rest; open them in the editor to check.\n")
+        lines.append("| Player | Record id | Last edited in |\n|---|---|---|")
+        for p, b in sorted(ge, key=lambda x: L(x[0]).lower()):
+            lines.append(f"| {L(p)} | {(r['members'].get(p) or [p])[0]} | {EDITION_BY_BUILD.get(b, b)} |")
+        lines.append("")
 
     ar = r.get("addr_restyled") or []
     if ar:
@@ -3889,6 +4193,15 @@ def main(argv=None):
     ap.add_argument("--target-season", type=int, metavar="YEAR",
                     help="make every player current for this season (label year, "
                          "e.g. 2025 for 25/26); per-person offset is auto-computed")
+    ap.add_argument("--from-season", type=int, metavar="YEAR",
+                    help="with --offset: the season the input is ALREADY placed on (2025 for an FM26 "
+                         "file the converter produced). Checks every career reads it, lists records "
+                         "the new edition needs a hand on, and pushes contracts that would expire "
+                         "before YEAR+offset")
+    ap.add_argument("--shift-staff-by-edition", action="store_true",
+                    help="shift managers/staff by the edition most of their changes were made in "
+                         "(FM26 +1, FM24 +3, ... to the landing season); needs --target-season or "
+                         "--offset with --from-season")
     ap.add_argument("--shift-staff", action="store_true",
                     help="shift managers/staff (by the majority player offset)")
     ap.add_argument("--flag-year-only", action="store_true",
@@ -3916,12 +4229,19 @@ def main(argv=None):
     args = ap.parse_args(argv)
     if (args.offset is None) == (args.target_season is None):
         ap.error("give exactly one of --offset or --target-season")
+    if args.from_season is not None and args.offset is None:
+        ap.error("--from-season goes with --offset")
+    if args.shift_staff_by_edition and args.shift_staff:
+        ap.error("give one of --shift-staff or --shift-staff-by-edition")
+    if args.shift_staff_by_edition and args.target_season is None and args.from_season is None:
+        ap.error("--shift-staff-by-edition needs --target-season, or --offset with --from-season")
 
     namer = fm_names.Names() if args.names else None
     r = convert(args.input, args.output, args.offset, args.shift_staff,
                 args.flag_year_only, args.target_season, args.continuations, args.rebuild_careers,
                 args.drop_retired_adaptations, args.rebuild_real_history,
-                fm_names.Names() if args.names else None)
+                fm_names.Names() if args.names else None, args.from_season,
+                args.shift_staff_by_edition)
     if r["dropped"]:
         print(f"dead-weight records removed: {len(r['dropped'])} ({sum(x[2] for x in r['dropped'])} changes): "
               + ", ".join(f"{t} x{n}" for t, n in Counter(t for _, t, _ in r["dropped"]).items()))
@@ -3962,7 +4282,13 @@ def main(argv=None):
     print(f"file saved by build {r['file_build']} ({EDITION_BY_BUILD.get(r['file_build'], '?')}); "
           f"continuation ids: {len(r['live']) - len(r['members'])} live, {len(r['dead'])} dead (policy {r['continuations']})")
     print(f"people: {len(r['members'])} ({len(multi)} span several record ids)  "
-          f"staff: {len(r['staff'])} ({'shifted at majority +%d' % r['majority'] if r['staff_shifted'] else 'left intact'})")
+          f"staff: {len(r['staff'])} ("
+          + ("shifted by majority edition: " + ", ".join(
+              f"+{o}: {n}" for o, n in sorted(Counter(
+                  v[2] for p, v in r['staff_edition'].items() if p in r['offsets']).items()))
+             if r.get('staff_edition') else
+             'shifted at majority +%d' % r['majority'] if r['staff_shifted'] else 'left intact')
+          + ")")
     if args.target_season is not None:
         print("per-person offset spread: " +
               (", ".join(f"+{o}: {n}" for o, n in sorted(r["spread"].items())) or "(none)"))
@@ -3973,6 +4299,11 @@ def main(argv=None):
                 print(f"  {L(p)}: reads current season {cy} (offset would be {o:+d})")
     else:
         print(f"offset +{args.offset}")
+        if args.from_season is not None:
+            print(f"season {args.from_season} -> {r['season_to']}: careers not reading "
+                  f"{args.from_season}: {len(r['anchor_off'])}; no date of birth in the file: "
+                  f"{len(r['dob_missing'])}; real records edited in place: {len(r['fm26_grid_edits'])}; "
+                  f"contract expiries pushed: {r['expiry_pushed']}")
     if r["ambiguous"]:
         print(f"ambiguous identity links not made: {len(r['ambiguous'])}")
     if args.flag_year_only:

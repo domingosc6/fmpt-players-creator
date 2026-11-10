@@ -1033,6 +1033,56 @@ leaves** (a calendar-year season ends on 31/12 of its OWN year, a European one o
 year, not the date" coercions (skipped where 1 January really is the season
 opening), and the contract start/expiry in `sync_contract_dates`.
 
+## 5g. FM26 -> FM27 - `--offset 1 --from-season 2025` (2026-11-10)
+
+The FM26 files (`C:\DBC\FMPT\fm_26_xml_files\` on the Windows machine) are NOT
+the old cumulative sources: they are the converter's own `- clean` output,
+re-saved by the FM26 editor (header build 3733), plus the user's FM26 work
+(Portugal: 89k FM26 changes). Every career was already placed on 2025/26 once,
+and the relabel images the rebuilds read were removed by that conversion. So
+FM27 is a **uniform +1**, never a re-anchoring and never a rebuild:
+
+```
+py scripts/convert_edition.py IN.xml OUT.xml --offset 1 --from-season 2025 \
+   --shift-staff-by-edition --flag-year-only --names --report OUT.md
+```
+Output goes to `C:\DBC\FMPT\FM 27 converted files\`, named
+`FMPT Legends - <Country> - target2026.*`. No `--rebuild-*` /
+`--drop-retired-adaptations` flags.
+
+- **Target mode would be wrong here**: FM26 hand edits on real records often touch
+  one old row only, so they "anchor" at 2008-2023 and would get +3 to +18. The
+  anchor is only CHECKED (report: "Careers that do not read season 2025").
+- **No moving ops onto a primary id** in this mode: the input is already
+  consolidated, and the first run retargeted 11,210 changes on unchecked links.
+- **Staff are no longer shifted by plain `--offset`** (they were, silently).
+- **The free-agent expiry push** runs against `from_season + offset`.
+- **Split last season** (`season_in_progress`, both modes): an empty row beside a
+  finished one, or a calendar-year club with figures ordered >= 1 as the LAST row
+  of the season, is the season being played (record 2826603737111642378: Brazilian
+  club 29 apps order 1, European club empty order 2, joined 1/7/2025). In the
+  `--from-season` check only, an empty YOUTH row before 2025 is a finished youth
+  season (Abiodun Agunbiade); at 2025 it is the base season.
+- **Report lists** for a hand in FM27: careers with no `Pdob` op (history moves,
+  the FM27 database's own DOB stands - add the year by hand; Portugal 66), and
+  REAL records whose grid was edited without a Clear (they cite FM26 database
+  rows, which FM27 may hold differently - the editor drops the edit; Portugal 297).
+
+**Staff, `--shift-staff-by-edition`.** Staff were never shifted by any earlier
+conversion, so each record is still in the frame of the edition that wrote its
+dates, and goes to the landing season: FM26 +1, FM24 +3, FM17 +10. User rule:
+the edition MOST changes were made in. Implemented as the edition that LAST wrote
+the date of birth (the author moves it on every relabelling pass), majority as
+fallback - because the CUF Barreiro managers (Manuel de Oliveira Santos, Carlos
+Francisco Santos da Silva) were created in FM15 and moved in FM16 and FM17, so the
+majority (FM15, +12) is two years too many. The report shows both readings and
+marks where they differ. OPEN (asked 2026-11-10): Pedroto - created FM24, and in
+FM26 only his DOB and contract were moved +1, his spells never - reads +1 under
+this rule against +3 under the majority one.
+
+Validated on Portugal: 281,755 changes in and out, every date +1 (staff by their
+own offset), no `odvl` moved, all 1,487 cleared careers replay to source +1.
+
 ## 6. Known limitations (not converter bugs)
 
 - **Year-only dates don't round-trip.** A row whose match key holds a year-only

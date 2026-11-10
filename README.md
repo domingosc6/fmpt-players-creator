@@ -118,6 +118,8 @@ python3 scripts/convert_edition.py \
 |---|---|
 | `--target-season YEAR` | make every player current for season YEAR/YEAR+1 (2025 = 2025/26), with a per-player offset |
 | `--offset N` | add N years to everyone instead |
+| `--from-season YEAR` | with `--offset`: the season the input is already on (2025 for an FM26 file); checks every career reads it, lists what the new edition needs a hand on, pushes expiring contracts |
+| `--shift-staff-by-edition` | shift staff from the edition that last wrote their date of birth to the landing season (FM26 +1, FM24 +3, ...) |
 | `--rebuild-careers` | created players: replay, clean and rewrite the playing history |
 | `--rebuild-real-history` | existing database players: rebuild the playing history with the shift model |
 | `--drop-retired-adaptations` | remove changes to FM retired-player entries that the legends were recreated from |
