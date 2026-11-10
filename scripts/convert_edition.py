@@ -4283,7 +4283,7 @@ def main(argv=None):
           f"continuation ids: {len(r['live']) - len(r['members'])} live, {len(r['dead'])} dead (policy {r['continuations']})")
     print(f"people: {len(r['members'])} ({len(multi)} span several record ids)  "
           f"staff: {len(r['staff'])} ("
-          + ("shifted by majority edition: " + ", ".join(
+          + ("shifted by edition: " + ", ".join(
               f"+{o}: {n}" for o, n in sorted(Counter(
                   v[2] for p, v in r['staff_edition'].items() if p in r['offsets']).items()))
              if r.get('staff_edition') else
