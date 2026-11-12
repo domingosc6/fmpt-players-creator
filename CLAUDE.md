@@ -16,6 +16,7 @@ script; this section is what Claude needs to work in it.
 | `scripts/` | the edition converter and its helpers (§3); `checks/` is the promotion gate, `batch/` the batch runner |
 | `creator/` | Legends Creator: creates and fixes FM26 legends from a sheet. Rules in `creator/PLAN.md` |
 | `placements/` | club/slot proposals per sheet player; `santa_clara/` is the same pipeline for one sheet |
+| `comparativo/` | club fields (stadium, morale, training, youth, finances) for the Comparativo sheet, read from FM26's database; layouts in the script header |
 
 **In git:** code, docs, `creator/` configs and input sheets, and
 `creator/ids.json` (the ledger of every created id - one copy only, never
