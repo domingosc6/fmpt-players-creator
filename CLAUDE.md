@@ -6,8 +6,9 @@ resuming.
 
 ## 0. Repository layout
 
-This folder is the git repo **`domingosc6/fmpt-players-creator`** (private,
-the user's personal GitHub account, branch `main`). `README.md` describes every
+This folder is the git repo **`domingosc6/fmpt-players-creator`** (PUBLIC since
+2026-11-12 and pinned on the user's GitHub profile as a portfolio piece - never
+commit secrets or private data; the user's personal GitHub account, branch `main`). `README.md` describes every
 script; this section is what Claude needs to work in it.
 
 | folder | what it is |
