@@ -788,6 +788,44 @@ def career_ops(uid, rows, namer):
     return ops
 
 
+def future_spell_fix(uid, ops, rs=()):
+    """A rebuilt career whose open club spell starts AFTER FM27's season opens
+    (56 in Portugal, Alexandre Penetra: his 2026 base row reads 0 appearances, so
+    the rebuild takes it as played and the club he moves to - the author cleared
+    his leave date - opens on 1/7/2027). The move is put on 1 July of the base
+    season and the spell before it ends that day. Returns (new ops, old join) or
+    (None, None) when nothing starts in the future."""
+    import xml.etree.ElementTree as ET
+    pnph = [o for o in ops if c.rec_prop(o) == "Pnph"]
+    spells = c.replay_spells(pnph)
+    if not spells:
+        return None, None
+    last = spells[-1]
+    j = last["join"]
+    if last["left"] is not None or j is None or int(j.get("year")) <= SEASON:
+        return None, None
+    old = (int(j.get("day")), int(j.get("month")), int(j.get("year")))
+    # his own Date Joined where it falls in the base season (Amadou Dante joined
+    # Sturm Graz on 1/9/2026), else 1 July
+    own = last_date(rs, "Pcjd")
+    when = own if own and (SEASON, 7, 1) <= (own[2], own[1], own[0]) <= (SEASON + 1, 6, 30) else (1, 7, SEASON)
+    new = ET.Element("date", id="value", day=str(when[0]), month=str(when[1]), year=str(when[2]), time="0")
+    out = []
+    for sp in spells:
+        # the key only: emit_spells copies the reference into its snapshots, and a
+        # DBID inside a snapshot makes every later op on the row miss (Grobbelaar)
+        import clean_import as ci
+        d = {"ref": ci.club_el_from(("large", str(int(sp["team"][1]) * S))),
+             "join": sp["join"], "left": sp["left"]}
+        for f in ("join", "left"):
+            v = d[f]
+            if v is not None and (int(v.get("day")), int(v.get("month")), int(v.get("year"))) == old:
+                d[f] = copy.deepcopy(new)          # a cell VALUE: id="value"
+        out.append(d)
+    rest = [o for o in ops if c.rec_prop(o) != "Pnph"]
+    return rest + c.emit_spells(str(uid), out, build.BUILD), old
+
+
 def behind(rows):
     """Seasons a written career falls short of FM27's base season: its last row
     is the base season when it records no figures, else the season before it.
@@ -871,6 +909,8 @@ def main(argv=None):
                     "C:/DBC/FMPT/fm_26_xml_files/FMPT Legends - <country> - Squads.xml)")
     ap.add_argument("--dry-run", action="store_true", help="classify and report, write nothing")
     ap.add_argument("--status-out", help="also write this run's statuses to this CSV (any mode)")
+    ap.add_argument("--future-spells", type=lambda v: {norm_name(x) for x in v.split(",")},
+                    help="only move these players' future club spells (comma-separated names); default all")
     a = ap.parse_args(argv)
     path = a.file
     country = re.sub(r"^FMPT Legends - (.*) - target\d+.*$", r"\1", os.path.basename(path)[:-4])
@@ -1000,6 +1040,13 @@ def main(argv=None):
                 if fix:
                     replace[uid] = fix[0]
                     count["history rebuilt"] += 1
+                    if a.future_spells is None or norm_name(name) in a.future_spells:
+                        fixed, was = future_spell_fix(uid, fix[0], rs)
+                        if fixed:
+                            replace[uid] = fixed
+                            obs.append("his move opened on %d/%d/%d, after the season starts: moved into %d/%d"
+                                       % (was + (SEASON, SEASON + 1)))
+                            count["future spell moved"] += 1
                 elif plhs and t26 is None and behind(replay_on([], plhs)) and born:
                     # lost since FM26, and the FM24 -> FM26 conversion left the whole
                     # record in FM24's frame (Secretario: born 2006, base season
