@@ -212,7 +212,7 @@ class Edition:
 
     def birth_block(self, d):
         """What follows the date of birth (FM26 only - it is found through
-        fm26_people.dob): skin tone at +8, then the nationality (row index, DBID)
+        fm26_people.dob): ethnicity at +5, skin tone at +8, then the nationality (row index, DBID)
         at +13, the 8 personality values at +21, the birth city (row index, DBID)
         at +29. Checked on Baba (Senegal), Adrien Silva (Portugal), Heldon (Cape
         Verde) and Cicero; the personality and skin offsets against first-touch
@@ -229,7 +229,7 @@ class Edition:
         i = r.find(struct.pack("<HH", dd.timetuple().tm_yday, dd.year))
         if i < 0 or i + 37 > len(r):
             return None
-        return {"Pskt": r[i + 8], "nation": struct.unpack_from("<I", r, i + 17)[0],
+        return {"Peth": r[i + 5], "Pskt": r[i + 8], "nation": struct.unpack_from("<I", r, i + 17)[0],
                 "personality": dict(zip(PERSONALITY, r[i + 21:i + 29])),
                 "city": struct.unpack_from("<I", r, i + 33)[0]}
 
@@ -294,6 +294,14 @@ class Edition:
                 if v and p not in props:
                     ops.append(build.int_op(uid, p, v, rng, odvl=0))
             done.append("personality")
+            # ethnicity and skin tone are stored as the editor's own codes (user's
+            # probe and FM26 labels, 2026-11-13: Pepe 1 Mediterranean/Hispanic, Baba,
+            # Cicero and Heldon 3 African/Caribbean; skin code 10 shows as "Skin
+            # Tone 11"). Hair colour and length are NOT in this block - five
+            # labelled players fit no byte - so they stay a hand fix.
+            if 1 <= blk["Peth"] <= 10 and "Peth" not in props:
+                ops.append(build.int_op(uid, "Peth", blk["Peth"], rng, odvl=0))
+                done.append("ethnicity")
             if blk["Pskt"] and "Pskt" not in props:
                 ops.append(build.int_op(uid, "Pskt", blk["Pskt"], rng, odvl=-1))
                 done.append("skin tone")
@@ -665,7 +673,7 @@ def main(argv=None):
                 obs.insert(0, "recreated as new player %s%s" % (new, "" if t26 else " (already missing in FM26)"))
                 if done:
                     obs.append("from FM26: " + ", ".join(done))
-                obs.append("hair, ethnicity "
+                obs.append("hair colour, hair length "
                            "and preferred moves not copied yet")
                 st = BLUE if st == GREEN else st
                 count["recreated"] += 1

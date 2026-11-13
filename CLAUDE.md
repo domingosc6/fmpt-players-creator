@@ -288,7 +288,7 @@ on the **XML** export. An export is one `<record>` with header fields (`version`
 | `PCAB`/`PPAB` CA/PA (0–200) | `Pcbi`/`Pnti` city/nation | `Ncrr`/`Nwrr`/`Nhmr` reputations | `join`(`1785686382`)/`leave`(`1818583414`)/`left`(`1818584692`) |
 | `PCRP`/`PHRP`/`PWRP` reputations | `Phes` height | `ND**` staff attributes | `apps`(`1634758771`)/`gols`(`1735355507`) |
 | `Pcti` contract club | `Pcjd`/`Pcex`/`Pcsd`/`PCNj` contract dates | | `tjob` (5=manager, 11=player, 12=player-coach) |
-| `PLsd`/`PLed` loan start/end | `Pskt`/`Psnu` shirt number | | |
+| `PLsd`/`PLed` loan start/end | `Psnu` shirt number; `Pskt` skin tone (code, editor shows +1) | | |
 | `PD**` player attributes (1–20) | `PM**` preferred moves | | |
 | `Plhs` playing history | `Pnph` club spells / non-playing history | | |
 | `PPsT` previous clubs | `Pacl` honours/achievements | | |
@@ -1112,6 +1112,17 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
   layout + 6). CA/PA/reputations are 16-bit near 5-13, order unsettled: never read.
 - The FM name index (fmref) now serves FM27 for live people (40/40 type checks) and
   keeps stale FM26 entries for dropped ones - "missing" comes from the database.
+- More of the record (user's examples and two probe files, 2026-11-13): height
+  byte 132, body type 134 (`Pbdt` 1-5); after the date of birth: ethnicity +5
+  (`Peth`), skin tone +8 (`Pskt`), nationality (index, DBID) +13, personality +21
+  (Pada Pamb Ploy Ppre Ppro Pspo Ptem Pcvy), birth city (index, DBID) +29;
+  home-grown = 16-byte entries (row, DBID, 00 00, 01/48 club or 08/46 nation,
+  01 ff 00 ff); languages = a count then (row, language DBID, fluency) - the
+  native language is not stored (the game derives it). NOT locatable: hair colour
+  and length (`Phcl`/`Phln`, five labelled players fit no byte) and preferred
+  moves (`PM**` booleans; the files only ever switch moves on, for staff).
+- The editor's language grid is `PElg` (columns `lang`, `prof`, `csln`, `proe`),
+  the native language `dfln`.
 - 242 Portugal real legends were ALREADY missing in FM26; 157 had been rebuilt as
   created records (`rebuild_lost_records`), the rest silently never loaded.
 
