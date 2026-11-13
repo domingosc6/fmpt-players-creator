@@ -790,12 +790,20 @@ def career_ops(uid, rows, namer):
 
 def future_spell_fix(uid, ops, rs=(), namer=None):
     """A rebuilt career whose open club spell starts AFTER FM27's season opens
-    (56 in Portugal, Alexandre Penetra: his 2026 base row reads 0 appearances, so
-    the rebuild takes it as played and the club he moves to - the author cleared
-    his leave date - opens on 1/7/2027). The move is put on 1 July of the base
-    season and the spell before it ends that day. Returns (new ops, old join) or
-    (None, None) when nothing starts in the future."""
+    (56 in Portugal). The base row of the club he leaves records 0 appearances,
+    so the rebuild read it as a played season and placed the WHOLE career one
+    year late - Luis Esteves' real 2012/13 is his 2022/23, not 2023/24 (user,
+    2026-11-14, from his real career) - and the club he moves to opened on
+    1/7/2027. Every row and spell date is moved back a year; the move itself
+    lands on his own Date Joined where that falls in the base season (Amadou
+    Dante, 1/9/2026), else 1/7/2026.
+
+    In a calendar-year league the base year IS a season he plays before moving
+    (Galeno: 10 games for Trindade, then Gremio Anapolis, then Porto in July), so
+    there nothing moves but the last spell, and his rows at the club he leaves
+    end on the day he goes. Returns (new ops, old join) or (None, None)."""
     import xml.etree.ElementTree as ET
+    import clean_import as ci
     pnph = [o for o in ops if c.rec_prop(o) == "Pnph"]
     spells = c.replay_spells(pnph)
     if not spells:
@@ -804,56 +812,48 @@ def future_spell_fix(uid, ops, rs=(), namer=None):
     j = last["join"]
     if last["left"] is not None or j is None or int(j.get("year")) <= SEASON:
         return None, None
-    old = (int(j.get("day")), int(j.get("month")), int(j.get("year")))
-    # his own Date Joined where it falls in the base season (Amadou Dante joined
-    # Sturm Graz on 1/9/2026), else 1 July
+    tup = lambda v: (int(v.get("day")), int(v.get("month")), int(v.get("year")))
+    old = tup(j)
     own = last_date(rs, "Pcjd")
     when = own if own and (SEASON, 7, 1) <= (own[2], own[1], own[0]) <= (SEASON + 1, 6, 30) else (1, 7, SEASON)
     new = ET.Element("date", id="value", day=str(when[0]), month=str(when[1]), year=str(when[2]), time="0")
+    # the club he leaves: the spell that ended on the old date, not merely the
+    # one listed before it - that can be a loan (Luis Esteves' Feirense)
+    ended = [sp for sp in spells[:-1] if sp["left"] is not None and tup(sp["left"]) == old]
+    prev = str(ended[-1]["team"][1]) if ended else None
+    nat = c.Seasons(namer).nation(int(prev)) if prev and namer else None
+    back = 0 if nat in c.CALENDAR_YEAR_NATIONS else 1
+
+    def moved(v):
+        if v is None:
+            return None
+        if tup(v) == old:
+            return copy.deepcopy(new)              # a cell VALUE: id="value"
+        v = copy.deepcopy(v)
+        if back:
+            c.shift_date_year(v, -back)
+        return v
+
     out = []
     for sp in spells:
         # the key only: emit_spells copies the reference into its snapshots, and a
         # DBID inside a snapshot makes every later op on the row miss (Grobbelaar)
-        import clean_import as ci
         d = {"ref": ci.club_el_from(("large", str(int(sp["team"][1]) * S))),
-             "join": sp["join"], "left": sp["left"]}
-        for f in ("join", "left"):
-            v = d[f]
-            if v is not None and (int(v.get("day")), int(v.get("month")), int(v.get("year"))) == old:
-                d[f] = copy.deepcopy(new)          # a cell VALUE: id="value"
+             "join": moved(sp["join"]), "left": moved(sp["left"])}
         if d["join"] is not None and d["left"] is not None and c.dtup(d["join"]) == c.dtup(d["left"]):
-            continue                    # a spell the move squeezed to nothing (Ivan Zlobin at Leiria)
+            continue                    # a spell squeezed to nothing
         out.append(d)
-    # The club he leaves keeps no base-season row (user, 2026-11-14: Penetra's
-    # 2026 Benfica row, Dante's Centre Yeelen one) - except in a calendar-year
-    # league, where 2026 is a season he plays before moving, and the row then
-    # ends on the day he leaves (Galeno at Gremio Anapolis, to 1/7/2026).
-    import clean_import as ci
-    plhs = [o for o in ops if c.rec_prop(o) == "Plhs"]
-    rows = replay_on([], plhs)
-    # the club he leaves is the spell that ended on the old date, not merely the
-    # one listed before - that can be a loan (Luis Esteves' Feirense)
-    ended = [sp for sp in spells[:-1] if sp["left"] is not None
-             and (int(sp["left"].get("day")), int(sp["left"].get("month")), int(sp["left"].get("year"))) == old]
-    prev = str(ended[-1]["team"][1]) if ended else None
-    nat = c.Seasons(namer).nation(int(prev)) if prev and namer else None
+    rows = replay_on([], [o for o in ops if c.rec_prop(o) == "Plhs"])
     keep = []
     for r in rows:
-        if r["year"] == SEASON and prev and ci.club_key(r) == prev:
-            if nat in c.CALENDAR_YEAR_NATIONS:
-                r = dict(r)
-                r["leaving"] = copy.deepcopy(new)
-            else:
-                continue
+        r = dict(r)
+        for f in ("join", "leaving"):
+            if r[f] is not None:
+                r[f] = moved(r[f])
+        r["year"] -= back
+        if not back and r["year"] == SEASON and prev and ci.club_key(r) == prev:
+            r["leaving"] = copy.deepcopy(new)
         keep.append(r)
-    # the club's last remaining row then carries the leave date, as the spell does
-    at = [r for r in keep if prev and ci.club_key(r) == prev and not r["onln"]]
-    if at and len(at) < len([r for r in rows if prev and ci.club_key(r) == prev and not r["onln"]]):
-        last_row = max(at, key=lambda r: (r["year"], r["yror"]))
-        if last_row["leaving"] is None:
-            i = keep.index(last_row)
-            keep[i] = dict(last_row)
-            keep[i]["leaving"] = copy.deepcopy(new)
     rest = [o for o in ops if c.rec_prop(o) not in ("Pnph", "Plhs")]
     return (rest + ci.emit_rows(str(uid), keep, build.BUILD)
             + c.emit_spells(str(uid), out, build.BUILD)), old
@@ -1077,7 +1077,7 @@ def main(argv=None):
                         fixed, was = future_spell_fix(uid, fix[0], rs, namer)
                         if fixed:
                             replace[uid] = fixed
-                            obs.append("his move opened on %d/%d/%d, after the season starts: moved into %d/%d"
+                            obs.append("his move opened on %d/%d/%d: career read a year late, moved into %d/%d"
                                        % (was + (SEASON, SEASON + 1)))
                             count["future spell moved"] += 1
                 elif plhs and t26 is None and behind(replay_on([], plhs)) and born:
