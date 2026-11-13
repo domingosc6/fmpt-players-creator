@@ -139,6 +139,54 @@ class Edition:
         out.update({p: rec[s + 50 + i] for i, p in enumerate(ATTRIBUTES)})
         return {p: v for p, v in out.items() if v}
 
+    def height(self, d):
+        """Height in cm, byte 132 (user's examples 2026-11-13: Cicero 189, Adrien
+        Silva 175, Baba 182 - all three exact). Byte 134 is the body type, 1
+        ectomorph to 5 endomorph, but its property is not known yet."""
+        if d not in self.db.prows:
+            return None
+        h = self.db.people[self.db.prows[d][0] + 132]
+        return h if 120 <= h <= 230 else None
+
+    def home_grown(self, d):
+        """(club DBIDs, nation DBIDs) of his home-grown status. Each is a 16-byte
+        reference entry - row index, DBID, then 00 00, a kind (01 club, 08 nation),
+        48 / 46, and 01 ff 00 ff. Verified on Cicero (Braga + Portugal), Adrien
+        Silva (Sporting + Portugal), Heldon (Cape Verde + Portugal) and Gyokeres
+        (Brommapojkarna + Sweden). A club entry can also come in a short form that
+        is not read (Baba's Jeanne d'Arc), so a club list may come up short."""
+        if d not in self.db.prows:
+            return [], []
+        s, e = self.db.prows[d]
+        r = self.db.people[s:e]
+        clubs, nations = [], []
+        for i in range(8, len(r) - 8):
+            if r[i:i + 2] == b"\x00\x00" and r[i + 4:i + 8] == b"\x01\xff\x00\xff":
+                dbid = struct.unpack_from("<I", r, i - 4)[0]
+                if (r[i + 2], r[i + 3]) == (1, 0x48):
+                    clubs.append(dbid)
+                elif (r[i + 2], r[i + 3]) == (8, 0x46):
+                    nations.append(dbid)
+        return clubs, nations
+
+    def profile_ops(self, uid, d, props, rng):
+        """Height and home-grown status from this database, where the file says
+        nothing. Written after the type change, which clears home-grown status."""
+        import repair_type_change as rtc
+        ops, done = [], []
+        h = self.height(d)
+        if h and "Phes" not in props:
+            ops.append(build.int_op(uid, "Phes", h, rng, odvl=0))
+            done.append("height %d" % h)
+        clubs, nations = self.home_grown(d)
+        if clubs and "Phgc" not in props:
+            ops += rtc.hg_ops(str(uid), "Phgc", rtc.HG_CLUB_COL, "Cclu", clubs, build.BUILD, rng)
+        if nations and "Phgn" not in props:
+            ops += rtc.hg_ops(str(uid), "Phgn", rtc.HG_NATION_COL, "Nnat", nations, build.BUILD, rng)
+        if clubs or nations:
+            done.append("home-grown %d club(s), %d nation(s)" % (len(clubs), len(nations)))
+        return ops, done
+
 
 class Ids:
     """Created ids from creator/ids.json, kept clear of FM26's AND FM27's people:
@@ -492,25 +540,32 @@ def main(argv=None):
                     obs.append("no name anywhere - name him by hand")
                 block = fm26.player_block(d) if t26 in (2, 3) else {}
                 h += player_block_ops(new, block, props, rng)
+                prof, done = fm26.profile_ops(new, d, props, rng) if t26 else ([], [])
+                h += prof
                 head[uid] = h
                 if not (props & set(ATTRIBUTES)) and not block:
                     st = RED
                     obs.append("neither the file nor FM26 has his attributes")
                 obs.insert(0, "recreated as new player %s%s" % (new, "" if t26 else " (already missing in FM26)"))
-                obs.append("birth city, personality, height, nationality, languages, looks, "
-                           "preferred moves and home-grown status not copied yet")
+                if done:
+                    obs.append("from FM26: " + ", ".join(done))
+                obs.append("birth city, personality, nationality, languages, body type, looks "
+                           "and preferred moves not copied yet")
                 st = BLUE if st == GREEN else st
                 count["recreated"] += 1
             elif role == "player" and t27 == 1 and not makes_player(rs):
                 block = fm26.player_block(d) if t26 in (2, 3) else {}
+                prof, done = fm26.profile_ops(int(uid), d, props, rng)
                 head[uid] = [rlr.type_change(int(uid), rng)] + build.retirement_ops(int(uid), rng) \
-                    + player_block_ops(uid, block, props, rng)
+                    + player_block_ops(uid, block, props, rng) + prof
                 obs.append("staff in FM27: made a player first, retirements cleared"
                            + (", positions and attributes from FM26" if block else ""))
                 if not block and not (props & set(ATTRIBUTES)):
                     st = PURPLE
                     obs.append("no attributes in the file or in FM26")
-                obs.append("height and home-grown status not copied yet")
+                if done:
+                    obs.append("from FM26: " + ", ".join(done))
+                obs.append("body type not copied yet")
                 count["staff -> player"] += 1
             if role == "player":
                 # every real legend: past transfers cleared (user, 2026-11-13)
