@@ -788,7 +788,7 @@ def career_ops(uid, rows, namer):
     return ops
 
 
-def future_spell_fix(uid, ops, rs=()):
+def future_spell_fix(uid, ops, rs=(), namer=None):
     """A rebuilt career whose open club spell starts AFTER FM27's season opens
     (56 in Portugal, Alexandre Penetra: his 2026 base row reads 0 appearances, so
     the rebuild takes it as played and the club he moves to - the author cleared
@@ -822,8 +822,35 @@ def future_spell_fix(uid, ops, rs=()):
             if v is not None and (int(v.get("day")), int(v.get("month")), int(v.get("year"))) == old:
                 d[f] = copy.deepcopy(new)          # a cell VALUE: id="value"
         out.append(d)
-    rest = [o for o in ops if c.rec_prop(o) != "Pnph"]
-    return rest + c.emit_spells(str(uid), out, build.BUILD), old
+    # The club he leaves keeps no base-season row (user, 2026-11-14: Penetra's
+    # 2026 Benfica row, Dante's Centre Yeelen one) - except in a calendar-year
+    # league, where 2026 is a season he plays before moving, and the row then
+    # ends on the day he leaves (Galeno at Gremio Anapolis, to 1/7/2026).
+    import clean_import as ci
+    plhs = [o for o in ops if c.rec_prop(o) == "Plhs"]
+    rows = replay_on([], plhs)
+    prev = str(spells[-2]["team"][1]) if len(spells) > 1 else None
+    nat = c.Seasons(namer).nation(int(prev)) if prev and namer else None
+    keep = []
+    for r in rows:
+        if r["year"] == SEASON and prev and ci.club_key(r) == prev:
+            if nat in c.CALENDAR_YEAR_NATIONS:
+                r = dict(r)
+                r["leaving"] = copy.deepcopy(new)
+            else:
+                continue
+        keep.append(r)
+    # the club's last remaining row then carries the leave date, as the spell does
+    at = [r for r in keep if prev and ci.club_key(r) == prev and not r["onln"]]
+    if at and len(at) < len([r for r in rows if prev and ci.club_key(r) == prev and not r["onln"]]):
+        last_row = max(at, key=lambda r: (r["year"], r["yror"]))
+        if last_row["leaving"] is None:
+            i = keep.index(last_row)
+            keep[i] = dict(last_row)
+            keep[i]["leaving"] = copy.deepcopy(new)
+    rest = [o for o in ops if c.rec_prop(o) not in ("Pnph", "Plhs")]
+    return (rest + ci.emit_rows(str(uid), keep, build.BUILD)
+            + c.emit_spells(str(uid), out, build.BUILD)), old
 
 
 def behind(rows):
@@ -1041,7 +1068,7 @@ def main(argv=None):
                     replace[uid] = fix[0]
                     count["history rebuilt"] += 1
                     if a.future_spells is None or norm_name(name) in a.future_spells:
-                        fixed, was = future_spell_fix(uid, fix[0], rs)
+                        fixed, was = future_spell_fix(uid, fix[0], rs, namer)
                         if fixed:
                             replace[uid] = fixed
                             obs.append("his move opened on %d/%d/%d, after the season starts: moved into %d/%d"
