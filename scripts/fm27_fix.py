@@ -109,6 +109,47 @@ ATTRIBUTES = ["PDcr", "PDdr", "PDfn", "PDhd", "PDls", "PDmr", "PDmv", "PDps", "P
               "PDld", "PDdt", "PDbl", "PDbr", "PDcy", "PDag", "PDal", "PDim", "PDij", "PDvt",
               "PDnf", "PDde", "PDcp", "PDcc"]                             # offsets 50..103
 
+# the 8 personality values in the order a people_db record keeps them
+PERSONALITY = ["Pada", "Pamb", "Ploy", "Ppre", "Ppro", "Pspo", "Ptem", "Pcvy"]
+LANG_COL, PROF_COL = "1818324583", "1886547814"      # "lang", "prof" columns of PElg
+
+
+def language_ops(uid, langs, rng):
+    """The languages grid (PElg) in the shape the FM27 editor writes it (user's
+    probe, 2026-11-13): insert a row, set its language, then its fluency - each
+    cell op citing the row as it then stands (a new row reads prof 10, proe 2)."""
+    ops = []
+    for lang, prof in langs:
+        nv = ET.Element("record", id="new_value")
+        ET.SubElement(nv, "integer", id="lsop", value="0")
+        ops.append(build.grid_wrap(uid, "PElg", nv, rng))
+        nv = ET.Element("record", id="new_value")
+        ET.SubElement(nv, "unsigned", id="id", value=LANG_COL)
+        v = ET.SubElement(nv, "record", id="value")
+        ET.SubElement(v, "large", id="lang", value=str(lang * S))
+        ET.SubElement(v, "integer", id="DBID", value=str(lang))
+        ET.SubElement(nv, "integer", id="lsop", value="1")
+        o = ET.SubElement(nv, "record", id="olvl")
+        ET.SubElement(o, "null", id="lang")
+        ET.SubElement(o, "integer", id="prof", value="10")
+        ET.SubElement(o, "boolean", id="csln", value="false")
+        ET.SubElement(o, "integer", id="proe", value="2")
+        ops.append(build.grid_wrap(uid, "PElg", nv, rng))
+        if prof != 10:
+            nv = ET.Element("record", id="new_value")
+            ET.SubElement(nv, "unsigned", id="id", value=PROF_COL)
+            ET.SubElement(nv, "integer", id="value", value=str(prof))
+            ET.SubElement(nv, "integer", id="lsop", value="1")
+            o = ET.SubElement(nv, "record", id="olvl")
+            lr = ET.SubElement(o, "record", id="lang")
+            ET.SubElement(lr, "large", id="lang", value=str(lang * S))
+            ET.SubElement(o, "integer", id="prof", value="10")
+            ET.SubElement(o, "boolean", id="csln", value="false")
+            ET.SubElement(o, "integer", id="proe", value="2")
+            ops.append(build.grid_wrap(uid, "PElg", nv, rng))
+    return ops
+
+
 # the Comparativo legend, in the order the sheet lists it (user, 2026-11-13)
 GREEN, ORANGE, YELLOW, RED, BLUE, PURPLE, PINK = (
     "green", "orange", "yellow", "red", "blue", "purple", "pink")
@@ -169,7 +210,54 @@ class Edition:
                     nations.append(dbid)
         return clubs, nations
 
-    def profile_ops(self, uid, d, props, rng):
+    def birth_block(self, d):
+        """What follows the date of birth (FM26 only - it is found through
+        fm26_people.dob): skin tone at +8, then the nationality (row index, DBID)
+        at +13, the 8 personality values at +21, the birth city (row index, DBID)
+        at +29. Checked on Baba (Senegal), Adrien Silva (Portugal), Heldon (Cape
+        Verde) and Cicero; the personality and skin offsets against first-touch
+        odvl in five files (user's probe, 2026-11-13)."""
+        b = fm26_people.dob(d)
+        if not b or d not in self.db.prows:
+            return None
+        try:
+            dd = datetime.date(b[2], b[1], b[0])
+        except ValueError:
+            return None
+        s, e = self.db.prows[d]
+        r = self.db.people[s:e]
+        i = r.find(struct.pack("<HH", dd.timetuple().tm_yday, dd.year))
+        if i < 0 or i + 37 > len(r):
+            return None
+        return {"Pskt": r[i + 8], "nation": struct.unpack_from("<I", r, i + 17)[0],
+                "personality": dict(zip(PERSONALITY, r[i + 21:i + 29])),
+                "city": struct.unpack_from("<I", r, i + 33)[0]}
+
+    def languages(self, d):
+        """[(language DBID, fluency)]: a count, then 9-byte entries of row index,
+        language DBID and fluency (Baba 19/5 and 88/10, Cicero 21/2, Adrien Silva
+        8/5 19/10 15/2 10/5, the user's probe player 24/4 66/5). The NATIVE
+        language is not in it - the game works that out itself."""
+        if d not in self.db.prows:
+            return []
+        s, e = self.db.prows[d]
+        r = self.db.people[s:e]
+        for p in range(104, len(r) - 10):
+            n = r[p]
+            if not 1 <= n <= 8 or p + 1 + 9 * n > len(r):
+                continue
+            ents = []
+            for k in range(n):
+                q = p + 1 + 9 * k
+                idx, lang = struct.unpack_from("<II", r, q)
+                if not (0 < lang < 400 and idx < lang <= idx + 4 and 1 <= r[q + 8] <= 20):
+                    break
+                ents.append((lang, r[q + 8]))
+            if len(ents) == n:
+                return ents
+        return []
+
+    def profile_ops(self, uid, d, props, rng, full=False):
         """Height and home-grown status from this database, where the file says
         nothing. Written after the type change, which clears home-grown status."""
         import repair_type_change as rtc
@@ -185,6 +273,34 @@ class Edition:
             ops += rtc.hg_ops(str(uid), "Phgn", rtc.HG_NATION_COL, "Nnat", nations, build.BUILD, rng)
         if clubs or nations:
             done.append("home-grown %d club(s), %d nation(s)" % (len(clubs), len(nations)))
+        if not full:
+            return ops, done
+        # a recreated person starts empty: everything a database record carries
+        # by itself has to be written (user, 2026-11-13: Hugo Seco, Cicero, Baba)
+        s, e = self.db.prows[d]
+        bt = self.db.people[s + 134]
+        if 1 <= bt <= 5 and "Pbdt" not in props:
+            ops.append(build.int_op(uid, "Pbdt", bt, rng, odvl=0))
+            done.append("body type")
+        blk = self.birth_block(d)
+        if blk:
+            if blk["nation"] and "Pnti" not in props:
+                ops.append(nrr.nation_op(uid, blk["nation"], rng))
+                done.append("nationality")
+            if blk["city"] and "Pcbi" not in props:
+                ops.append(build.city_op(uid, blk["city"], rng))
+                done.append("birth city")
+            for p, v in blk["personality"].items():
+                if v and p not in props:
+                    ops.append(build.int_op(uid, p, v, rng, odvl=0))
+            done.append("personality")
+            if blk["Pskt"] and "Pskt" not in props:
+                ops.append(build.int_op(uid, "Pskt", blk["Pskt"], rng, odvl=-1))
+                done.append("skin tone")
+        langs = self.languages(d)
+        if langs and "PElg" not in props:
+            ops += language_ops(uid, langs, rng)
+            done.append("%d language(s)" % len(langs))
         return ops, done
 
 
@@ -540,7 +656,7 @@ def main(argv=None):
                     obs.append("no name anywhere - name him by hand")
                 block = fm26.player_block(d) if t26 in (2, 3) else {}
                 h += player_block_ops(new, block, props, rng)
-                prof, done = fm26.profile_ops(new, d, props, rng) if t26 else ([], [])
+                prof, done = fm26.profile_ops(new, d, props, rng, full=True) if t26 else ([], [])
                 h += prof
                 head[uid] = h
                 if not (props & set(ATTRIBUTES)) and not block:
@@ -549,7 +665,7 @@ def main(argv=None):
                 obs.insert(0, "recreated as new player %s%s" % (new, "" if t26 else " (already missing in FM26)"))
                 if done:
                     obs.append("from FM26: " + ", ".join(done))
-                obs.append("birth city, personality, nationality, languages, body type, looks "
+                obs.append("hair, ethnicity "
                            "and preferred moves not copied yet")
                 st = BLUE if st == GREEN else st
                 count["recreated"] += 1
