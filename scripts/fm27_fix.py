@@ -821,6 +821,8 @@ def future_spell_fix(uid, ops, rs=(), namer=None):
             v = d[f]
             if v is not None and (int(v.get("day")), int(v.get("month")), int(v.get("year"))) == old:
                 d[f] = copy.deepcopy(new)          # a cell VALUE: id="value"
+        if d["join"] is not None and d["left"] is not None and c.dtup(d["join"]) == c.dtup(d["left"]):
+            continue                    # a spell the move squeezed to nothing (Ivan Zlobin at Leiria)
         out.append(d)
     # The club he leaves keeps no base-season row (user, 2026-11-14: Penetra's
     # 2026 Benfica row, Dante's Centre Yeelen one) - except in a calendar-year
@@ -829,7 +831,11 @@ def future_spell_fix(uid, ops, rs=(), namer=None):
     import clean_import as ci
     plhs = [o for o in ops if c.rec_prop(o) == "Plhs"]
     rows = replay_on([], plhs)
-    prev = str(spells[-2]["team"][1]) if len(spells) > 1 else None
+    # the club he leaves is the spell that ended on the old date, not merely the
+    # one listed before - that can be a loan (Luis Esteves' Feirense)
+    ended = [sp for sp in spells[:-1] if sp["left"] is not None
+             and (int(sp["left"].get("day")), int(sp["left"].get("month")), int(sp["left"].get("year"))) == old]
+    prev = str(ended[-1]["team"][1]) if ended else None
     nat = c.Seasons(namer).nation(int(prev)) if prev and namer else None
     keep = []
     for r in rows:
