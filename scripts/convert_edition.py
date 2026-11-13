@@ -780,6 +780,25 @@ def convert_grid(recs, off):
         nv = rec.find('*[@id="new_value"]')
         if nv is None:
             continue
+        if nv.tag == "list":
+            # The FM26 editor writes a whole grid in one change - a list of every
+            # row, no snapshot - when rows are added or pasted in bulk (Gelson
+            # Martins' youth row, the FM26 staff spells: Portugal has 175 playing
+            # histories and 150 club-spell grids written this way). Every year
+            # and date in it moves, and counts as produced for later chain refs.
+            for row in nv:
+                y = row.find('integer[@id="year"]')
+                if y is not None:
+                    yi = int(y.get("value"))
+                    if yi >= 1000 and yi not in SENTINELS:
+                        prod_years.add(yi)
+                        y.set("value", str(yi + off))
+                for de in row.findall("date"):
+                    if de.get("id") in ("join", "leaving", "left") and \
+                            1000 <= int(de.get("year")) and int(de.get("year")) not in SENTINELS:
+                        prod_dates.add(dtup(de))
+                        shift_date_year(de, off)
+            continue
         idel = nv.find('unsigned[@id="id"]')
         col = idel.get("value") if idel is not None else None
         lsop_el = nv.find('integer[@id="lsop"]')

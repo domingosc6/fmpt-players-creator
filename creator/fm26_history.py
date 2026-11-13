@@ -32,8 +32,15 @@ def _load(name, edition=26):
     path = os.path.join(HERE, "cache", "fm%d_%s.bin" % (edition, name))
     if not os.path.exists(path):
         src = DB_DIR if edition == 26 else fm26_install.db_dir(edition)
-        raw = open(os.path.join(src, name + ".dat"), "rb").read()[HEADER[name]:]
-        data = fm26_install.decompress(raw)  # before opening, or a failure leaves an empty cache
+        raw = open(os.path.join(src, name + ".dat"), "rb").read()
+        # the zstd stream starts after a short `tad` header whose length varies by
+        # edition (FM24's index has 8 bytes, FM26's 12); FM24 stores pl_hist_id
+        # uncompressed after an 8-byte header
+        m = raw.find(bytes([0x28, 0xB5, 0x2F, 0xFD]), 0, 32)
+        if m < 0 and edition < 26:
+            data = raw[8:]
+        else:
+            data = fm26_install.decompress(raw[m if m >= 0 else HEADER[name]:])
         open(path, "wb").write(data)
     return open(path, "rb").read()
 

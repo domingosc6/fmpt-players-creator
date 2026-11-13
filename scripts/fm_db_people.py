@@ -93,8 +93,9 @@ def load(path):
     if 0 <= z <= 16:
         import zlib
         return zlib.decompressobj().decompress(raw[z:])
-    from compression import zstd           # FM26
-    return zstd.decompress(raw[12:])
+    from compression import zstd           # FM24 (8-byte header), FM26/27 (12)
+    m = raw.find(b"\x28\xb5\x2f\xfd", 0, 32)
+    return zstd.decompress(raw[m if m >= 0 else 12:])
 
 
 def to_date(doy, year):

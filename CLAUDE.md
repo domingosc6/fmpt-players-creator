@@ -1121,6 +1121,26 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
   native language is not stored (the game derives it). NOT locatable: hair colour
   and length (`Phcl`/`Phln`, five labelled players fit no byte) and preferred
   moves (`PM**` booleans; the files only ever switch moves on, for staff).
+- FM24 (`db_dir(24)`: the GAME folder `Football Manager 2024/data/database/db/2430`,
+  8-byte headers, `pl_hist_id` uncompressed) has every fixed field one byte earlier
+  than FM26 (positions 35, attributes 49, height 133, no body type) and 4 bytes fewer
+  between skin tone and nationality (nation +13, personality +17, city +29). Verified
+  3372/3372 against FM24-built odvl. Its playing history reads with `History(24)`.
+- The date of birth is the one right after the full-name string (`dob_pos`); searching
+  the record for the date's bytes hit an earlier field for some people.
+- FM26 other nationalities: count at dob+37, then 16-byte entries with the nation DBID
+  at +43 (Danilo Pereira, Gelson, Nani, Deco, Pepe). FM27's birth block is laid out
+  differently and is not decoded.
+- **Whole-grid writes** (`<list id="new_value">`, the FM26 editor's bulk add: Portugal
+  175 playing histories, 150 spell grids) were NOT shifted by the converter until
+  2026-11-13; `convert_grid` now moves every year and date in them. Rerun the
+  conversion before `fm27_fix` on any file converted earlier.
+- `fm27_fix` handles a refused real-record rebuild three ways: a career the file writes
+  itself (Clear or whole-grid write) is kept; FM26 edits on FM26 rows are replayed on
+  FM26's own rows, +1, Cleared and rewritten; a lost legend left in FM24's frame
+  (Secretario, Eurico Gomes, Mikel Agu) gets career and birth date moved the years
+  still missing (FM24 +3 in all). Staff->player with no FM26 attributes takes them
+  from FM24 (Edgar Costa); a complete pre-FM24 profile stays a hand fix.
 - The editor's language grid is `PElg` (columns `lang`, `prof`, `csln`, `proe`),
   the native language `dfln`.
 - 242 Portugal real legends were ALREADY missing in FM26; 157 had been rebuilt as

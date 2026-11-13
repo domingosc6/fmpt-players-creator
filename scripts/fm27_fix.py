@@ -157,10 +157,44 @@ GREEN, ORANGE, YELLOW, RED, BLUE, PURPLE, PINK = (
 
 # ------------------------------------------------------------- databases ----
 
+def dob_pos(rec):
+    """Offset of the date of birth (u16 day of year, u16 year) in a people_db
+    record: it follows the full-name string (u32 length + UTF-8), itself after
+    four u32 name ids. -1 when no such block is found."""
+    for i in range(len(rec) - 24):
+        if rec[i] or rec[i + 5] or rec[i + 10] or rec[i + 15]:
+            continue
+        n = struct.unpack_from("<I", rec, i + 16)[0]
+        if n > 120 or i + 20 + n + 4 > len(rec):
+            continue
+        name = rec[i + 20:i + 20 + n]
+        if n and min(name) < 32:
+            continue
+        try:
+            name.decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        doy, year = struct.unpack_from("<HH", rec, i + 20 + n)
+        if 1850 <= year <= 2015 and year != 1900 and 1 <= doy <= 366:
+            return i + 20 + n
+    return -1
+
+
 class Edition:
     """One release database: person types and the player block, by DBID."""
 
+    # Where each field sits. FM26 and FM27 share a layout; FM24 (2430) has every
+    # fixed field one byte earlier, no body type (it still had weight), and 4 bytes
+    # fewer between the skin tone and the nationality. FM24 checked against the
+    # first-touch odvl of every FM24-built change on an FM24 player in three files
+    # (3372 of 3372 positions and attributes) and against FM26's record of the
+    # same 1434 players for the birth block (2026-11-13).
+    LAYOUT = {26: dict(pos=36, attr=50, height=132, body=134, eth=5, skin=8, nation=17, pers=21, city=33),
+              24: dict(pos=35, attr=49, height=133, body=None, eth=5, skin=8, nation=13, pers=17, city=29)}
+
     def __init__(self, ed):
+        self.ed = ed
+        self.lay = self.LAYOUT[24 if ed < 26 else 26]
         self.db = fm_db_people.PeopleDB(fm26_install.db_dir(ed),
                                         cache=os.path.join(ROOT, "work", "fm%d_people.pkl" % ed))
 
@@ -176,8 +210,8 @@ class Edition:
             return {}
         s = self.db.prows[d][0]
         rec = self.db.people
-        out = {p: rec[s + 36 + i] for i, p in enumerate(POSITIONS)}
-        out.update({p: rec[s + 50 + i] for i, p in enumerate(ATTRIBUTES)})
+        out = {p: rec[s + self.lay["pos"] + i] for i, p in enumerate(POSITIONS)}
+        out.update({p: rec[s + self.lay["attr"] + i] for i, p in enumerate(ATTRIBUTES)})
         return {p: v for p, v in out.items() if v}
 
     def height(self, d):
@@ -186,7 +220,7 @@ class Edition:
         ectomorph to 5 endomorph, but its property is not known yet."""
         if d not in self.db.prows:
             return None
-        h = self.db.people[self.db.prows[d][0] + 132]
+        h = self.db.people[self.db.prows[d][0] + self.lay["height"]]
         return h if 120 <= h <= 230 else None
 
     def home_grown(self, d):
@@ -211,27 +245,38 @@ class Edition:
         return clubs, nations
 
     def birth_block(self, d):
-        """What follows the date of birth (FM26 only - it is found through
-        fm26_people.dob): ethnicity at +5, skin tone at +8, then the nationality (row index, DBID)
-        at +13, the 8 personality values at +21, the birth city (row index, DBID)
-        at +29. Checked on Baba (Senegal), Adrien Silva (Portugal), Heldon (Cape
-        Verde) and Cicero; the personality and skin offsets against first-touch
-        odvl in five files (user's probe, 2026-11-13)."""
-        b = fm26_people.dob(d)
-        if not b or d not in self.db.prows:
-            return None
-        try:
-            dd = datetime.date(b[2], b[1], b[0])
-        except ValueError:
+        """What follows the date of birth: ethnicity, skin tone, nationality DBID,
+        the 8 personality values and the birth city DBID (offsets in LAYOUT).
+        Checked on Baba (Senegal), Adrien Silva (Portugal), Heldon (Cape Verde) and
+        Cicero; personality and skin against first-touch odvl in five files (user's
+        probe, 2026-11-13). The date is the one right after the full-name string:
+        searching the record for the date's bytes finds an earlier field holding
+        the same value for some people and read garbage there."""
+        if d not in self.db.prows:
             return None
         s, e = self.db.prows[d]
         r = self.db.people[s:e]
-        i = r.find(struct.pack("<HH", dd.timetuple().tm_yday, dd.year))
-        if i < 0 or i + 37 > len(r):
+        i = dob_pos(r)
+        L = self.lay
+        if i < 0 or i + L["city"] + 4 > len(r):
             return None
-        return {"Peth": r[i + 5], "Pskt": r[i + 8], "nation": struct.unpack_from("<I", r, i + 17)[0],
-                "personality": dict(zip(PERSONALITY, r[i + 21:i + 29])),
-                "city": struct.unpack_from("<I", r, i + 33)[0]}
+        return {"Peth": r[i + L["eth"]], "Pskt": r[i + L["skin"]],
+                "nation": struct.unpack_from("<I", r, i + L["nation"])[0],
+                "personality": dict(zip(PERSONALITY, r[i + L["pers"]:i + L["pers"] + 8])),
+                "city": struct.unpack_from("<I", r, i + L["city"])[0]}
+
+    def dob(self, d):
+        """(day, month, year) of birth in this database, or None."""
+        if d not in self.db.prows:
+            return None
+        s, e = self.db.prows[d]
+        r = self.db.people[s:e]
+        i = dob_pos(r)
+        if i < 0:
+            return None
+        doy, y = struct.unpack_from("<HH", r, i)
+        t = datetime.date(y, 1, 1) + datetime.timedelta(days=doy - 1)
+        return (t.day, t.month, t.year)
 
     def languages(self, d):
         """[(language DBID, fluency)]: a count, then 9-byte entries of row index,
@@ -278,7 +323,7 @@ class Edition:
         # a recreated person starts empty: everything a database record carries
         # by itself has to be written (user, 2026-11-13: Hugo Seco, Cicero, Baba)
         s, e = self.db.prows[d]
-        bt = self.db.people[s + 134]
+        bt = self.db.people[s + self.lay["body"]] if self.lay["body"] else 0
         if 1 <= bt <= 5 and "Pbdt" not in props:
             ops.append(build.int_op(uid, "Pbdt", bt, rng, odvl=0))
             done.append("body type")
@@ -531,6 +576,181 @@ def player_block_ops(uid, block, props, rng):
     return ops
 
 
+# ------------------------------------------------- careers off the database ---
+# A real legend the converter's rebuild refuses is one of three things, told
+# apart by his own playing-history ops (2026-11-13, Portugal's 65):
+#   authored    a Clear, or a whole-grid write (a list of rows, the FM26 editor's
+#               bulk add), and nothing after it cites the database: the career is
+#               the file's own and is right once shifted (Gelson Martins' youth
+#               row; Hugo Seco's lone Clear is a 16-year-old with no seasons yet)
+#   db edits    FM26 edits on FM26's own rows, no Clear (Alejandro Marques'
+#               deletes): replayed on FM26's rows - what the user saw in FM26 -
+#               moved +1, Cleared and rewritten, so FM27's rows cannot miss them
+#   lost        gone from FM26 too, so the edits fail everywhere (Carlos
+#               Secretario): FM24's rows moved by the years his date of birth
+#               sits after FM24's own, the rule every career follows (CLAUDE.md 3),
+#               seasons after the base season dropped.
+
+def ref_el(key, dbid, tag="value"):
+    """A club (Ttea) or division (competition) reference on a database id."""
+    import xml.etree.ElementTree as ET
+    el = ET.Element("record", id=tag)
+    ET.SubElement(el, "large", id=key, value=str(int(dbid) * S))
+    ET.SubElement(el, "integer", id="DBID", value=str(dbid))
+    return el
+
+
+def _date_el(t, fid):
+    import xml.etree.ElementTree as ET
+    return ET.Element("date", id=fid, day=str(t[0]), month=str(t[1]), year=str(t[2]), time="0")
+
+
+def db_rows(hrows):
+    """A release database's playing history as rebuild rows."""
+    import clean_import as ci
+    import xml.etree.ElementTree as ET
+    out = []
+    for h in hrows:
+        r = ci.blank_row()
+        r.update(year=h["year"], yror=h["yror"] or 0, apps=h["apps"], gols=h["gols"],
+                 ytht=bool(h["ytht"]), onln=bool(h["onln"]))
+        if h["cash"] is not None and h["cash"] > 0:
+            r["cash"] = ET.Element("integer", id="value", value=str(h["cash"]))
+        if h["club"]:
+            r["club"] = ref_el("Ttea", h["club"])
+        if h["divi"]:
+            r["divi"] = ref_el("competition", h["divi"])
+        for f in ("join", "leaving"):
+            if h[f]:
+                r[f] = _date_el(h[f], f)
+        out.append(r)
+    return out
+
+
+def _list_rows(nv):
+    """The rows of a whole-grid write."""
+    import clean_import as ci
+    out = []
+    for row in nv:
+        r = ci.blank_row()
+        y = row.find('integer[@id="year"]')
+        r["year"] = int(y.get("value")) if y is not None else 1900
+        yr = row.find('integer[@id="yror"]')
+        r["yror"] = int(yr.get("value")) if yr is not None else 0
+        for f in ("apps", "gols"):
+            e = row.find('*[@id="%s"]' % f)
+            r[f] = None if e is None or e.tag == "null" else int(e.get("value"))
+        for f in ("ytht", "onln"):
+            e = row.find('boolean[@id="%s"]' % f)
+            r[f] = e is not None and e.get("value") == "true"
+        e = row.find('*[@id="cash"]')
+        r["cash"] = copy.deepcopy(e) if e is not None and e.tag != "null" else None
+        for src, dst in (("column_id", "club"), ("team", "club"), ("divi", "divi")):
+            e = row.find('record[@id="%s"]' % src)
+            if e is not None:
+                v = copy.deepcopy(e)
+                v.set("id", "value")
+                r[dst] = v
+        for f in ("join", "leaving"):
+            e = row.find('date[@id="%s"]' % f)
+            if e is not None and int(e.get("year")) not in (0, 1900):
+                r[f] = copy.deepcopy(e)
+        out.append(r)
+    return out
+
+
+def is_authored(plhs):
+    """Does a Clear or a whole-grid write start what the file says about him?"""
+    for r in plhs:
+        nv = r.find('*[@id="new_value"]')
+        if nv is not None and (nv.tag == "list" or c.parse_op(r)[0] == "3"):
+            return True
+    return False
+
+
+def replay_on(rows, ops):
+    """Replay playing-history ops the way the editor does - each op on the FIRST
+    row its snapshot fits, a miss dropped - starting from the given rows."""
+    import clean_import as ci
+    inv = {v: k for k, v in ci.COL.items()}
+    rows = [dict(r) for r in rows]
+    for rec in ops:
+        nv = rec.find('*[@id="new_value"]')
+        if nv is None:
+            continue
+        if nv.tag == "list":
+            rows = _list_rows(nv)
+            continue
+        lsop, col, val, st = c.parse_op(rec)
+        if lsop == "3":
+            rows = []
+            continue
+        if lsop == "0":
+            rows.append(ci.new_row())
+            continue
+        hit = next((r for r in rows if st is not None and ci.snap_matches(r, st)), None)
+        if hit is None:
+            continue
+        if lsop == "2":
+            rows.remove(hit)
+        elif lsop == "4":
+            rows.insert(rows.index(hit) + 1, dict(hit))
+        elif lsop == "1" and col in inv:
+            k = inv[col]
+            if k in ("year", "yror"):
+                hit[k] = int(val.get("value")) if val is not None and val.get("value") else (1900 if k == "year" else 0)
+            elif k in ("apps", "gols"):
+                hit[k] = None if val is None or val.tag == "null" or not val.get("value") else int(val.get("value"))
+            elif k in ("ytht", "onln"):
+                hit[k] = val is not None and val.get("value") == "true"
+            elif k in ("join", "leaving"):
+                hit[k] = None if val is None or val.tag != "date" or int(val.get("year")) in (0, 1900) \
+                    else copy.deepcopy(val)
+            else:                       # club, division, fee
+                hit[k] = None if val is None or val.tag == "null" else copy.deepcopy(val)
+    return [r for r in rows if r["year"] not in (0, 1900)]
+
+
+def career_ops(uid, rows, namer):
+    """Clear and write a career, then the club spells derived from it."""
+    import clean_import as ci
+    rows = sorted(rows, key=lambda r: (r["year"], r["yror"]))
+    ops = ci.emit_rows(str(uid), rows, build.BUILD)
+    sp = c.spells_from_career(rows, [], 0, 0, namer, seasons=c.Seasons(namer))
+    if sp:
+        ops += c.emit_spells(str(uid), sp, build.BUILD)
+    return ops
+
+
+def behind(rows):
+    """Seasons a written career falls short of FM27's base season: its last row
+    is the base season when it records no figures, else the season before it.
+    0 when it reaches 2026 or there is nothing to read."""
+    if not rows:
+        return 0
+    top = max(r["year"] for r in rows)
+    last = [r for r in rows if r["year"] == top]
+    base = top if all(r["apps"] is None and r["gols"] is None for r in last) else top + 1
+    return max(0, SEASON - base)
+
+
+def shifted(rows, n, last=None):
+    """Rows moved n years, dates with them; seasons after `last` dropped."""
+    out = []
+    for r in rows:
+        if last is not None and r["year"] + n > last:
+            continue
+        r2 = dict(r)
+        r2["year"] = r["year"] + n
+        for f in ("join", "leaving"):
+            if r[f] is not None:
+                d = copy.deepcopy(r[f])
+                c.shift_date_year(d, n)
+                r2[f] = d
+        out.append(r2)
+    return out
+
+
 def rebuild_real(fm26_file, out_dir, country):
     """The converter's real-record rebuild (CLAUDE.md 5e) run on the FM26 file,
     straight to FM27's season: the author's deletes and relabels read against the
@@ -597,10 +817,11 @@ def main(argv=None):
                                        "FMPT Legends - %s - Squads.xml" % country)
 
     tree, changes, created, recs, staff, names = scan(src)
-    fm26, fm27 = Edition(26), Edition(27)
+    fm26, fm27, fm24 = Edition(26), Edition(27), Edition(24)
     namer = fm_names.Names()
     by_sheet = sheet_clubs(country)
-    hist26 = fm26_history.History(26)
+    hist26, hist24 = fm26_history.History(26), fm26_history.History(24)
+    recs26 = scan(fm26_file)[3]            # the FM26 file's own ops, unshifted
     rebuilt = rebuild_real(fm26_file, os.path.join(ROOT, "work"), country)
 
     dob_of = {u: last_dob(rs) for u, rs in recs.items() if last_dob(rs)}
@@ -618,6 +839,7 @@ def main(argv=None):
     status = []
     ids = Ids(fm26, fm27)
     count = Counter()
+    filled24 = set()               # staff -> player whose empty attributes came from FM24
 
     for uid, rs in legends.items():
         d = dbid_of(uid)
@@ -662,28 +884,37 @@ def main(argv=None):
                 elif not ({"Pfna", "Psna", "Pcna", "Pfln"} & props):
                     st = RED
                     obs.append("no name anywhere - name him by hand")
-                block = fm26.player_block(d) if t26 in (2, 3) else {}
+                # FM26's record, else FM24's (user, 2026-11-13: Secretario)
+                src_ed, src_name = (fm26, "FM26") if t26 else (fm24, "FM24")
+                block = src_ed.player_block(d) if src_ed.type(d) in (2, 3) else {}
                 h += player_block_ops(new, block, props, rng)
-                prof, done = fm26.profile_ops(new, d, props, rng, full=True) if t26 else ([], [])
+                prof, done = src_ed.profile_ops(new, d, props, rng, full=True) if src_ed.has(d) else ([], [])
                 h += prof
                 head[uid] = h
                 if not (props & set(ATTRIBUTES)) and not block:
                     st = RED
-                    obs.append("neither the file nor FM26 has his attributes")
+                    obs.append("neither the file nor FM26/FM24 has his attributes")
                 obs.insert(0, "recreated as new player %s%s" % (new, "" if t26 else " (already missing in FM26)"))
                 if done:
-                    obs.append("from FM26: " + ", ".join(done))
+                    obs.append("from %s: " % src_name + ", ".join(done))
                 obs.append("hair colour, hair length "
                            "and preferred moves not copied yet")
                 st = BLUE if st == GREEN else st
                 count["recreated"] += 1
             elif role == "player" and t27 == 1 and not makes_player(rs):
-                block = fm26.player_block(d) if t26 in (2, 3) else {}
+                block, src_name = (fm26.player_block(d) if t26 in (2, 3) else {}), "FM26"
+                if not block and fm24.type(d) in (2, 3):
+                    # FM26 had him as staff too: what the file leaves empty comes
+                    # from FM24 (user, 2026-11-13: Edgar Costa, not a complete profile)
+                    block, src_name = fm24.player_block(d), "FM24"
                 prof, done = fm26.profile_ops(int(uid), d, props, rng)
+                missing = [p for p in block if p in ATTRIBUTES and p not in props]
                 head[uid] = [rlr.type_change(int(uid), rng)] + build.retirement_ops(int(uid), rng) \
                     + player_block_ops(uid, block, props, rng) + prof
                 obs.append("staff in FM27: made a player first, retirements cleared"
-                           + (", positions and attributes from FM26" if block else ""))
+                           + (", %d attribute(s) and positions from %s" % (len(missing), src_name) if block else ""))
+                if src_name == "FM24" and missing:
+                    filled24.add(uid)
                 if not block and not (props & set(ATTRIBUTES)):
                     st = PURPLE
                     obs.append("no attributes in the file or in FM26")
@@ -694,9 +925,44 @@ def main(argv=None):
             if role == "player":
                 # every real legend: past transfers cleared (user, 2026-11-13)
                 head[uid] = head.get(uid, []) + [build.past_transfers_clear(int(new_uid), rng)]
+                own26 = [r for r in recs26.get(uid, []) if c.rec_prop(r) == "Plhs"]
+                b24 = fm24.dob(d) if fm24.has(d) else None
+                born = dob_of.get(uid)
                 if fix:
                     replace[uid] = fix[0]
                     count["history rebuilt"] += 1
+                elif plhs and t26 is None and behind(replay_on([], plhs)) and born:
+                    # lost since FM26, and the FM24 -> FM26 conversion left the whole
+                    # record in FM24's frame (Secretario: born 2006, base season
+                    # 2023 in the FM26 file, then +1): career and birth date both
+                    # take the years still missing, FM24 +3 in all (user, 2026-11-13)
+                    own = replay_on([], plhs)
+                    n = behind(own)
+                    rows = shifted(own, n)
+                    replace[uid] = career_ops(uid, rows, namer)
+                    fix = (replace[uid], n, True)
+                    dob_of[uid] = plus_years(born, n)
+                    tail.append(build.date_op(int(new_uid), "Pdob", dob_of[uid], rng))
+                    obs.append("career and birth date still in FM24's frame: both moved %+d more "
+                               "(born %d/%d/%d)" % ((n,) + dob_of[uid]))
+                    count["career caught up from FM24's frame"] += 1
+                elif plhs and t26 is None and not replay_on([], plhs) and hist24.rows(d) and b24 and born:
+                    # lost since FM26: FM24's career, moved as his birth date is
+                    n = born[2] - b24[2]
+                    rows = shifted(db_rows(hist24.rows(d)), n, last=SEASON - 1)
+                    replace[uid] = career_ops(uid, rows, namer)
+                    fix = (replace[uid], n, True)
+                    obs.append("history from FM24's database, %+d (as his date of birth): %d season(s)"
+                               % (n, len(rows)))
+                    count["history from FM24"] += 1
+                elif plhs and is_authored(plhs):
+                    count["history written in the file"] += 1     # right once shifted
+                elif plhs and t26 and own26 and hist26.rows(d):
+                    rows = shifted(replay_on(db_rows(hist26.rows(d)), own26), 1)
+                    replace[uid] = career_ops(uid, rows, namer)
+                    fix = (replace[uid], 1, False)
+                    obs.append("history: FM26's rows with the file's FM26 edits, +1 (%d seasons)" % len(rows))
+                    count["history replayed on FM26"] += 1
                 elif plhs:
                     st = ORANGE if st == GREEN else st
                     obs.append("playing history could not be rebuilt - check it")
@@ -715,7 +981,12 @@ def main(argv=None):
                         st = PURPLE if st == GREEN else st
                         obs.append("no date of birth to move - set his age by hand")
                 last_attr = max((c.rec_build(r) or 0 for r in rs if c.rec_prop(r) in ATTRIBUTES), default=None)
-                if last_attr and last_attr < OLD_PROFILE_BEFORE:
+                if last_attr and last_attr < OLD_PROFILE_BEFORE and uid in filled24:
+                    st = BLUE if st == GREEN else st
+                    obs.append("profile from %s, its empty attributes filled from FM24 - check it"
+                               % c.EDITION_BY_BUILD.get(last_attr, last_attr))
+                    count["old profile, filled from FM24"] += 1
+                elif last_attr and last_attr < OLD_PROFILE_BEFORE:
                     st = PURPLE if st in (GREEN, BLUE) else st
                     obs.append("profile from %s - redo by hand" % c.EDITION_BY_BUILD.get(last_attr, last_attr))
                     count["old profile"] += 1
