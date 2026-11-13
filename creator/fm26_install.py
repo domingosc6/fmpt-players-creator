@@ -19,6 +19,10 @@ import sys
 
 EDITOR = "Football Manager 26 Editor"
 DB = os.path.join("shared", "data", "database", "db", "2620", "2620_fm")
+# Every edition's release database sits in the same place under its own editor
+# and folder; FM27's files have the same names and framing as FM26's.
+EDITIONS = {26: ("Football Manager 26 Editor", "2620"),
+            27: ("Football Manager 27 Editor", "2700")}
 
 
 def _steam_roots():
@@ -42,12 +46,16 @@ def _libraries():
     return list(dict.fromkeys(libs))
 
 
-def db_dir():
-    """The 2620_fm folder. When no install has it, the default path, so a
-    missing file names where it was looked for."""
-    if os.environ.get("FM26_EDITOR_DIR"):
-        return os.path.join(os.environ["FM26_EDITOR_DIR"], DB)
-    found = [os.path.join(lib, "steamapps", "common", EDITOR, DB) for lib in _libraries()]
+def db_dir(edition=26):
+    """The edition's database folder (2620_fm for FM26, 2700_fm for FM27).
+    When no install has it, the default path, so a missing file names where it
+    was looked for. FM26_EDITOR_DIR / FM27_EDITOR_DIR override the search."""
+    editor, ver = EDITIONS[edition]
+    db = os.path.join("shared", "data", "database", "db", ver, ver + "_fm")
+    env = "FM%d_EDITOR_DIR" % edition
+    if os.environ.get(env):
+        return os.path.join(os.environ[env], db)
+    found = [os.path.join(lib, "steamapps", "common", editor, db) for lib in _libraries()]
     return next((d for d in found if os.path.isdir(d)), found[0])
 
 

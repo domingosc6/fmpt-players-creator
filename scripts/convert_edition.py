@@ -2385,7 +2385,9 @@ def spells_from_career(rows, pnph_ops, shift, offset, namer=None, authored_left=
             # 1/1/2015 on a row labelled 2014.
             join = copy.deepcopy(run["join"]) \
                 if authored_date_ok(run["join"], run["club"], seasons,
-                                    first_run=(n == 0)) \
+                                    # a career of loans only has no main run, so
+                                    # `n` was never bound: the loan IS the first run
+                                    first_run=(not runs or n == 0)) \
                 else seasons.join(run["club"], run["start"])
             join.set("id", "value")
         out.append({"ref": run["ref"], "join": join,

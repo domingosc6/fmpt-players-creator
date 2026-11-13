@@ -137,7 +137,30 @@ def walk_basic(buf):
         out[a] = (pos, kind)
         pos += BASIC_ROW[kind]
         idx += 1
+    if len(out) < 1000:
+        return _walk_basic_framed(buf)
     return out
+
+
+def _walk_basic_framed(buf):
+    """The same table for FM26 and FM27, whose rows are no longer the FM18
+    sizes in BASIC_ROW. The framing is unchanged - idx:u32 dbid:u32 dbid:u32
+    0x11 type:u8 - so each row is found by its frame, and its index must be the
+    previous row's plus one, which rules out a frame-shaped run of payload.
+    Checked 2026-11-13 on FM27: Adrien Silva type 1, Gyokeres type 2."""
+    out, q, last = {}, 0, None
+    unpack = struct.unpack_from
+    while True:
+        q = buf.find(b"\x11", q + 1)
+        if q < 0:
+            return out
+        if q < 12 or q + 1 >= len(buf) or not 1 <= buf[q + 1] <= 5:
+            continue
+        i, a, b = unpack("<III", buf, q - 12)
+        if a != b or a == 0 or (last is not None and i != last + 1):
+            continue
+        out[a] = (q - 12, buf[q + 1])
+        last = i
 
 
 def _people_trailer(buf, pos, window=4000):

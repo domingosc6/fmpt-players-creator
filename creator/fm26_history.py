@@ -28,10 +28,11 @@ NONE = 0xFFFFFFFF          # an empty club or division cell
 HEADER = {"pl_hist_dt": 8, "pl_hist_id": 8, "pl_hist_index": 12}
 
 
-def _load(name):
-    path = os.path.join(HERE, "cache", "fm26_%s.bin" % name)
+def _load(name, edition=26):
+    path = os.path.join(HERE, "cache", "fm%d_%s.bin" % (edition, name))
     if not os.path.exists(path):
-        raw = open(os.path.join(DB_DIR, name + ".dat"), "rb").read()[HEADER[name]:]
+        src = DB_DIR if edition == 26 else fm26_install.db_dir(edition)
+        raw = open(os.path.join(src, name + ".dat"), "rb").read()[HEADER[name]:]
         data = fm26_install.decompress(raw)  # before opening, or a failure leaves an empty cache
         open(path, "wb").write(data)
     return open(path, "rb").read()
@@ -45,14 +46,14 @@ def _date(doy, year):
 
 
 class History:
-    def __init__(self):
-        idx = _load("pl_hist_index")
+    def __init__(self, edition=26):
+        idx = _load("pl_hist_index", edition)
         n = struct.unpack_from("<I", idx, 0)[0]
         pairs = struct.unpack_from("<%dI" % (2 * n), idx, 4)
         self.slot = dict(zip(pairs[0::2], pairs[1::2]))
-        ids = _load("pl_hist_id")
+        ids = _load("pl_hist_id", edition)
         self.offs = struct.unpack("<%dI" % (len(ids) // 4), ids)
-        self.dt = _load("pl_hist_dt")
+        self.dt = _load("pl_hist_dt", edition)
 
     def rows(self, dbid):
         """The person's rows in database order, or [] when FM26 has none."""

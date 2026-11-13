@@ -1087,6 +1087,34 @@ already were in the FM26 file. Same for the other created staff edited in FM26.
 Validated on Portugal: 281,755 changes in and out, every date +1 (staff by their
 own offset), no `odvl` moved, all 1,487 cleared careers replay to source +1.
 
+## 5h. FM27 database fix - `scripts/fm27_fix.py` (2026-11-13)
+
+The converter only moves dates; FM27's DATABASE also dropped people, turned players
+into staff and moved current players. `fm27_fix.py FILE` fixes a converted file IN
+PLACE against FM27 (always starting from `old/<name> - unfixed.xml`) and writes a
+status per legend to `legends/fm27_status.csv` (Comparativo colours: green, orange,
+yellow, red, blue, purple, pink). The rules are in its docstring. In short:
+real legends' histories are rebuilt by running the converter's real-record rebuild
+on the FM26 file straight to 2026 (never patched); age = FM26 date of birth + the
+career shift matched season by season; club from the Drive squad sheet
+(`work/<country>_sheet_clubs.json`, read through the signed-in browser pane - the
+pane cannot download, and the sheet API through the chat is too heavy); type change
+first for staff, positions 20s first; dropped people recreated on ids from
+`creator/ids.json`; negative PA for players born 2005+; pre-FM24 profiles and
+never-rebuilt created careers flagged for a hand fix. `scripts/legends_index.py`
+writes `legends/players_index.csv`: every record in every FM27 file.
+
+Database facts learned on the way (verified against first-touch FM26 `odvl`):
+- `fm26_install.db_dir(edition)`: FM26 `2620`, FM27 `2700`, same file layout.
+- `basic_people_db` rows are no longer the FM18 sizes; `fm_db_people` now walks them
+  by frame (FM26 723,009 people, FM27 701,094 - the same set as `people_db`).
+- people_db record: byte 4 type, 36-49 positions, 50-103 the 54 attributes (FM18
+  layout + 6). CA/PA/reputations are 16-bit near 5-13, order unsettled: never read.
+- The FM name index (fmref) now serves FM27 for live people (40/40 type checks) and
+  keeps stale FM26 entries for dropped ones - "missing" comes from the database.
+- 242 Portugal real legends were ALREADY missing in FM26; 157 had been rebuilt as
+  created records (`rebuild_lost_records`), the rest silently never loaded.
+
 ## 6. Known limitations (not converter bugs)
 
 - **Year-only dates don't round-trip.** A row whose match key holds a year-only
