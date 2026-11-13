@@ -19,7 +19,6 @@ Portugal,2695278299610899445,,Ademar Moreira Marques,created,player,green,
 Portugal,81932630108607819,19076427,Aderllan Santos,real,player,green,
 Portugal,873048272919356803,,Adolfo Albino Mourão,created,player,green,
 Portugal,2216780589385957770,,Adriano Facchini,created,player,purple,created career never rebuilt by the converter - edit by hand
-Portugal,3865471474640199666,19014043,Adriano Facchini,recreated,player,purple,"recreated as new player 3865471474640199666 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,1306980458195608559,,Adriano Fernandes Tato,created,player,green,
 Portugal,3865471762403008565,150533,Adriano Louzada,recreated,player,blue,"recreated as new player 3865471762403008565; from FM26: body type, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet"
 Portugal,236231683895411575,55001975,Adrien Silva,real,player,green,"staff in FM27: made a player first, retirements cleared, 24 attribute(s) and positions from FM26; from FM26: height 175, home-grown 1 club(s), 1 nation(s); body type not copied yet"
@@ -49,7 +48,7 @@ Portugal,3865471723748302892,5290498,Alberto Rodríguez,recreated,player,blue,"r
 Portugal,2478318013768557738,,Alberto Vivas,created,player,green,
 Portugal,3269635501486794240,,Albino Aguiar de Sousa,created,player,green,
 Portugal,236417776238455991,55045303,Aldair,real,player,purple,profile from FM16 - redo by hand
-Portugal,288872679988152364,67258412,Alejandro Marqués,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons)"
+Portugal,288872679988152364,67258412,Alejandro Marqués,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons); contract joined date set to 1/7/2025, the career's open spell"
 Portugal,3185679504234937857,,Alex Bunbury,created,player,green,
 Portugal,3865471513294905339,729376,Alex Garcia,recreated,player,purple,"recreated as new player 3865471513294905339 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,56304916729694470,13109510,Alex Kakuba,real,player,purple,profile from FM15 - redo by hand; PA 114 -> -6
@@ -187,7 +186,7 @@ Portugal,1296287115517410696,,António Pinho,created,player,green,
 Portugal,1394796768278897848,,António Porcel,created,player,green,
 Portugal,3865471551949611012,727083,António Semedo,recreated,player,purple,"recreated as new player 3865471551949611012 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,4201652046192993895,,António Semedo,created,player,green,PA 115 -> -65
-Portugal,357857255006625095,83320135,António Silva,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (5 seasons); club set to Sport Lisboa e Benfica (squad sheet)"
+Portugal,357857255006625095,83320135,António Silva,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (5 seasons); contract joined date set to 1/7/2022, the career's open spell; club set to Sport Lisboa e Benfica (squad sheet)"
 Portugal,4081397704156299664,,António Silva Campos,created,staff,green,
 Portugal,1581459719767506413,,António Simões da Costa,created,player,green,
 Portugal,3127949616240442744,,António Vítor da Silva Lopes,created,player,green,
@@ -228,7 +227,7 @@ Portugal,3865471642143924249,902005,Avelino,recreated,player,purple,"recreated a
 Portugal,236420185715109608,55045864,Avto,real,player,green,
 Portugal,2791632983203800238,,Aziz Doufikar,created,player,green,
 Portugal,357303818405635566,83191278,Aílson Tavares,real,player,green,
-Portugal,3865471710863401001,55013851,Babá,recreated,player,blue,"recreated as new player 3865471710863401001; from FM26: height 182, home-grown 0 club(s), 1 nation(s), body type, nationality, birth city, personality, ethnicity, skin tone, 2 language(s); hair colour, hair length and preferred moves not copied yet; PA 134 -> -7"
+Portugal,3865471710863401001,55013851,Babá,recreated,player,blue,"recreated as new player 3865471710863401001; from FM26: height 182, home-grown 0 club(s), 1 nation(s), body type, nationality, birth city, personality, ethnicity, skin tone, 2 language(s); hair colour, hair length and preferred moves not copied yet; reputations from CA 124; PA 134 -> -7"
 Portugal,3873424846734044,901852,Bakero,real,player,purple,profile from FM17 - redo by hand; PA 122 -> -65
 Portugal,412822193479263129,96117657,Bartłomiej Wdowik,real,player,green,
 Portugal,3865471221237129143,,Basaúla Lemba,created,player,green,
@@ -242,7 +241,6 @@ Portugal,309464952233226428,72052924,Benji Michel,real,player,green,
 Portugal,3039377623233881273,,Bento Couceiro,created,player,green,
 Portugal,965265739070072322,,Bernardo Francisco da Silva Gordo,created,player,green,
 Portugal,357463286246405879,83228407,Bernardo Vital,real,player,green,
-Portugal,3865471719453335595,13345,Beto,recreated,player,purple,"recreated as new player 3865471719453335595 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand; PA 145 -> -75"
 Portugal,62328565414064,14512,Bilro,real,player,purple,profile from FM16 - redo by hand
 Portugal,18472654344397,4301,Bino,real,player,purple,profile from FM17 - redo by hand; PA 128 -> -7
 Portugal,120377006938106432,28027456,Bobó,real,player,green,
@@ -271,9 +269,8 @@ Portugal,3865471539064709121,734628,Bruno Magalhães,recreated,player,purple,"re
 Portugal,683479803039629661,,Bruno Miguel Fernandes Ribeiro,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,236243847242796679,55004807,Bruno Monteiro,real,player,green,"staff in FM27: made a player first, retirements cleared, 43 attribute(s) and positions from FM24; body type not copied yet"
 Portugal,17610607163248833,4100289,Bruno Patacas,real,player,purple,profile from FM16 - redo by hand
-Portugal,3865471624964055061,2014176,Bruno Ribeiro,recreated,player,purple,"recreated as new player 3865471624964055061 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone, 2 language(s); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand; PA 122 -> -65"
 Portugal,3865471753813073971,743822,Bruno Severino,recreated,player,purple,"recreated as new player 3865471753813073971 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
-Portugal,236343421764610327,55027991,Bruno Varela,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (4 seasons)"
+Portugal,236343421764610327,55027991,Bruno Varela,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (4 seasons); contract joined date set to 1/7/2023, the career's open spell"
 Portugal,3124180686674285,727405,Bruno Veríssimo,real,player,purple,profile from FM16 - redo by hand
 Portugal,373796475646246378,87031274,Bryan Róchez,real,player,green,
 Portugal,1491783881511166958,,Bráulio António da Costa Garcia,created,player,green,
@@ -329,9 +326,9 @@ Portugal,3865471689388564516,13310,Carlos Pedro,recreated,player,purple,"recreat
 Portugal,17611874178601448,4100584,Carlos Pinto,real,player,purple,profile from FM16 - redo by hand
 Portugal,1020023574206899365,,Carlos Ribeiro,created,player,green,
 Portugal,3865471706568433704,744540,Carlos Saleiro,recreated,player,purple,"recreated as new player 3865471706568433704 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM15 - redo by hand; PA 125 -> -65"
-Portugal,3865471367266017241,4100095,Carlos Secretário,recreated,player,blue,"recreated as new player 3865471367266017241 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +2 more (born 12/5/2009)"
+Portugal,3865471367266017241,4100095,Carlos Secretário,recreated,player,blue,"recreated as new player 3865471367266017241 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +2 more (born 12/5/2009); contract joined date set to 1/7/2025, the career's open spell"
 Portugal,786776845913325060,,Carlos Xavier,created,player,green,
-Portugal,3865471728043270189,55021414,Carlão,recreated,player,purple,"recreated as new player 3865471728043270189 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
+Portugal,3865471728043270189,55021414,Carlão,recreated,player,purple,"recreated as new player 3865471728043270189 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; reputations from CA 117; profile from FM16 - redo by hand"
 Portugal,1210278328928330735,,Casimiro António Cerqueira da Rocha,created,player,green,
 Portugal,4231766424137262706,,Casimiro Luís da Natividade Tavares,created,player,green,
 Portugal,116518781980636471,27129143,Casper Tengstedt,real,player,green,
@@ -354,7 +351,7 @@ Portugal,65386582129528,15224,Chiquinho Conde,real,player,green,
 Portugal,236424665366000379,55046907,Christian Irobiso,real,player,purple,profile from FM15 - redo by hand
 Portugal,322373145731878059,75058347,Chuchu Ramírez,real,player,green,
 Portugal,395528400283710204,92091132,Cihan Kahraman,real,player,green,
-Portugal,289028922308482630,67294790,Clau Mendes,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons)"
+Portugal,289028922308482630,67294790,Clau Mendes,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons); contract joined date set to 1/7/2025, the career's open spell"
 Portugal,83367282329792026,19410458,Clayton,real,player,green,
 Portugal,679614620149382636,,Clayton Cruz,created,player,green,
 Portugal,2575642951948461229,,Cleibe Peixoto,created,player,green,
@@ -374,14 +371,14 @@ Portugal,3209841937454490794,,Cristiano Moraes de Oliveira,created,player,green,
 Portugal,3151273340383761,733713,Custódio,real,player,purple,profile from FM17 - redo by hand; PA 133 -> -7
 Portugal,4116640273051992410,,Custódio João Pinto,created,player,purple,"created career never rebuilt by the converter - edit by hand; career reads season 2025, not 2026"
 Portugal,14175178786495552,3300416,Cássio,real,player,green,
-Portugal,3865471599194251279,311931,Cássio,recreated,player,purple,"recreated as new player 3865471599194251279 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
+Portugal,3865471599194251279,311931,Cássio,recreated,player,purple,"recreated as new player 3865471599194251279 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; reputations from CA 117; profile from FM16 - redo by hand"
 Portugal,65335042521964,15212,Cândido,real,player,purple,profile from FM17 - redo by hand
 Portugal,3604563099150237028,,Cândido Fernandes Plácido de Oliveira,created,staff,green,
 Portugal,3354897693303400098,,César Machado Leite,created,player,green,
 Portugal,30067678771860069,7000677,César Peixoto,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3865471354381115350,8875654,Cícero,recreated,player,blue,"recreated as new player 3865471354381115350; from FM26: height 189, home-grown 1 club(s), 1 nation(s), body type, nationality, birth city, personality, ethnicity, skin tone, 1 language(s); hair colour, hair length and preferred moves not copied yet"
 Portugal,1661835080528199156,,Cícero Lopes da Silva,created,player,green,
-Portugal,3122372505442248,726984,Cílio Souza,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; profile from FM16 - redo by hand"
+Portugal,3122372505442248,726984,Cílio Souza,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; reputations from CA 106; profile from FM16 - redo by hand"
 Portugal,236533774715213367,55072311,Dalbert,real,player,green,
 Portugal,3865471289956605895,,Dane Kuprešanin,created,player,orange,"career reads season 2025, not 2026"
 Portugal,357302392476492962,83190946,Dani Figueira,real,player,green,
@@ -452,7 +449,7 @@ Portugal,210650059810562333,49045789,Duplexe Tchamba,real,player,green,
 Portugal,82291002179869499,19159867,Duílio,real,player,green,
 Portugal,102104971887010818,,Décio Soares Correia Mendonça,created,player,green,
 Portugal,356958009113717611,83110763,Dénis Martins,real,player,green,
-Portugal,236283996597089035,55014155,Edgar Costa,real,player,blue,"staff in FM27: made a player first, retirements cleared, 14 attribute(s) and positions from FM24; body type not copied yet; profile from FM15, its empty attributes filled from FM24 - check it; PA 115 -> -65"
+Portugal,236283996597089035,55014155,Edgar Costa,real,player,blue,"staff in FM27: made a player first, retirements cleared, 14 attribute(s) and positions from FM24; body type not copied yet; reputations from CA 92; profile from FM15, its empty attributes filled from FM24 - check it; PA 115 -> -65"
 Portugal,236483081216206876,55060508,Edgar Ié,real,player,green,
 Portugal,41515073673389040,,Edmilson Dias Lucena,created,player,green,
 Portugal,409300673782375417,,Edmur Pinto Ribeiro,created,player,orange,"career reads season 2025, not 2026"
@@ -488,12 +485,11 @@ Portugal,392123007916598270,,Emídio Simões Úria,created,player,green,
 Portugal,57281978840089,13337,Emílio Peixe,real,player,green,PA 138 -> -75
 Portugal,236361778454837705,55032265,Eric Dier,real,player,green,club set to Sporting Clube de Portugal (squad sheet)
 Portugal,3865471225532096440,,Eric Freire Gomes,created,player,green,
-Portugal,3865471560539545606,4100523,Eric Gaúcho,recreated,player,purple,"recreated as new player 3865471560539545606 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,3865471650733858843,7004488,Ernesto,recreated,player,purple,"recreated as new player 3865471650733858843 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,868173575232710308,,Ernesto Barrigana Baptista Petinga,created,player,green,
 Portugal,3519255621198462311,,Ernesto Nogueira de Oliveira,created,player,green,
 Portugal,6786048329260,1580,Erwin Sánchez,real,player,green,
-Portugal,3865471375855951835,120101,Eurico Gomes,recreated,player,blue,"recreated as new player 3865471375855951835 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone, 3 language(s); hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +1 more (born 29/9/2005)"
+Portugal,3865471375855951835,120101,Eurico Gomes,recreated,player,blue,"recreated as new player 3865471375855951835 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone, 3 language(s); hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +1 more (born 29/9/2005); contract joined date set to 1/7/2022, the career's open spell"
 Portugal,838885437327041526,,Eurico Mendonça de Caires,created,player,green,
 Portugal,3865471590604316685,902275,Eusébio,recreated,player,purple,"recreated as new player 3865471590604316685 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,701014127284633052,,Eusébio da Silva Ferreira,created,player,green,
@@ -514,7 +510,6 @@ Portugal,30076230051748396,7002668,Fanã,real,staff,green,
 Portugal,17613772554146722,4101026,Fary Faye,real,player,green,
 Portugal,3197998289607824,744592,Fausto Lourenço,real,player,green,"staff in FM27: made a player first, retirements cleared, 40 attribute(s) and positions from FM24; body type not copied yet"
 Portugal,3865471169697521579,,Felipe Aliste Lopes,created,player,green,
-Portugal,3865471715158368298,316709,Felipe Lopes,recreated,player,purple,"recreated as new player 3865471715158368298 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,83070981125906590,19341470,Felippe Cardoso,real,player,green,
 Portugal,69387812318118873,16155609,Felix Bacher,real,player,green,
 Portugal,1569484964399201688,,Feliz Gomes Nogueira Soares,created,player,green,
@@ -617,7 +612,7 @@ Portugal,236329969927036123,55024859,Fábio Cardoso,real,player,green,
 Portugal,30080722587541058,7003714,Fábio Felício,real,player,green,PA 127 -> -7
 Portugal,236260812363619829,55008757,Fábio Pacheco,real,player,green,
 Portugal,357464982758488194,83228802,Fábio Silva,real,player,green,
-Portugal,357232869840856423,83174759,Fábio Vieira,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (4 seasons)"
+Portugal,357232869840856423,83174759,Fábio Vieira,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (4 seasons); contract joined date set to 1/7/2023, the career's open spell"
 Portugal,357464712175548483,83228739,Félix Correia,real,player,green,
 Portugal,8590646398930131810,2000165730,Gabri Martínez,real,player,green,
 Portugal,289029334625343142,67294886,Gabri Veiga,real,player,green,
@@ -707,7 +702,7 @@ Portugal,1570807895323337718,,Hélcio Conegundes Ferreira,created,player,green,
 Portugal,14053132995784,3272,Hélder,real,player,green,PA 144 -> -75
 Portugal,30086576627966869,7005077,Hélder Cabral,real,player,green,
 Portugal,236329995696839905,55024865,Hélder Costa,real,player,green,
-Portugal,236241051219086332,55004156,Hélder Guedes,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; profile from FM16 - redo by hand"
+Portugal,236241051219086332,55004156,Hélder Guedes,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; reputations from CA 116; profile from FM16 - redo by hand"
 Portugal,3865470869049810789,,Hélder Joaquim Máximo Catalão,created,player,green,
 Portugal,236322028532503970,55023010,Hélder Lopes,real,player,green,
 Portugal,3205711433653599704,,Hélder Manuel Marques Postiga,created,player,purple,created career never rebuilt by the converter - edit by hand
@@ -912,7 +907,7 @@ Portugal,769554220416548252,,José Santana Mano Nunes,created,staff,green,
 Portugal,3242121777779860646,,José Santos,created,player,orange,"career reads season 2025, not 2026"
 Portugal,3197710526798925,744525,José Semedo,real,player,green,
 Portugal,17610139011813460,4100180,José Sousa,real,player,green,
-Portugal,236389223295865535,55038655,José Sá,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (2 seasons)"
+Portugal,236389223295865535,55038655,José Sá,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (2 seasons); contract joined date set to 1/7/2025, the career's open spell"
 Portugal,18043574226524809,4201097,José Taira,real,player,green,
 Portugal,2059897670338248201,,José Tavares,created,player,green,
 Portugal,3142984281796666976,,José Valle Román,created,player,green,
@@ -937,7 +932,6 @@ Portugal,3116571663150375927,,João Carlos da Conceição,created,player,green,
 Portugal,236525116061142615,55070295,João Carvalho,real,player,green,
 Portugal,236247983296303690,55005770,João Diogo,real,player,green,PA 118 -> -65
 Portugal,2721389072858005766,,João Domingos da Silva Pinto,created,player,purple,created career never rebuilt by the converter - edit by hand
-Portugal,3865471496115036151,55069886,João Duarte,recreated,player,purple,"recreated as new player 3865471496115036151 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,3865471311431442380,,João Duarte Pinto Sequeira Silva,created,player,green,
 Portugal,2095301137385439584,,João Eduardo Pinto de Loureiro,created,staff,green,
 Portugal,2948280087592878511,,João Eleutério Luisa Atraca,created,player,purple,created career never rebuilt by the converter - edit by hand
@@ -966,7 +960,7 @@ Portugal,873425164889515379,,João Mendonça Azevedo,created,player,green,
 Portugal,2798423103160476657,,João Montóia Cardoso,created,player,green,
 Portugal,236319369947747127,55022391,João Mário,real,player,green,
 Portugal,357232938560333175,83174775,João Mário,real,player,green,
-Portugal,8590064001364658610,2000030130,João Neves,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (7 seasons); club set to Sport Lisboa e Benfica (squad sheet)"
+Portugal,8590064001364658610,2000030130,João Neves,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (7 seasons); contract joined date set to 1/7/2026, the career's open spell; club set to Sport Lisboa e Benfica (squad sheet)"
 Portugal,236485679671421561,55061113,João Novais,real,player,green,
 Portugal,236389330670047960,55038680,João Nunes,real,player,green,
 Portugal,236525073111469645,55070285,João Palhinha,real,player,green,PA 145 -> -75
@@ -1051,7 +1045,7 @@ Portugal,27059316173316686,6300238,Lucho González,real,player,green,
 Portugal,3470660389214118903,,Lucian Cristian Marinescu,created,player,green,
 Portugal,2943464041372214453,,Luciano Silva,created,player,green,
 Portugal,82903507466094669,19302477,Lucão,real,player,green,
-Portugal,236317059255341341,55021853,Ludovic,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; profile from FM16 - redo by hand; PA 114 -> -6"
+Portugal,236317059255341341,55021853,Ludovic,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; reputations from CA 91; profile from FM16 - redo by hand; PA 114 -> -6"
 Portugal,8591109430764486786,2000273538,Luis Fernando,real,player,green,
 Portugal,1306314303382550,304150,Luisão,real,player,green,
 Portugal,3865471285661638598,,Luiz Bonfim Marcos,created,player,green,
@@ -1095,7 +1089,7 @@ Portugal,1111247687957249515,,Maciel Cunha,created,player,green,
 Portugal,1810718970879458705,,Magdi Abdelghani Sayed Ahmed,created,player,green,
 Portugal,3565212406920823182,,Makpoloka Mangonga,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,356915192584733818,83100794,Mamadou Loum,real,player,green,
-Portugal,3865471586309349388,107426,Manduca,recreated,player,purple,"recreated as new player 3865471586309349388 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
+Portugal,3865471586309349388,107426,Manduca,recreated,player,purple,"recreated as new player 3865471586309349388 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; reputations from CA 120; profile from FM16 - redo by hand"
 Portugal,3865471332906278865,,Manoel Lourenço da Silva Filho,created,player,green,
 Portugal,82323098470479980,19167340,Mansur,real,player,green,
 Portugal,357830261137163450,83313850,Manu Silva,real,player,green,
@@ -1143,7 +1137,6 @@ Portugal,82427607909717881,19191673,Maracás,real,player,green,
 Portugal,81950870834718178,19080674,Marcelo,real,player,green,
 Portugal,1031990383885706444,,Marcelo Cipriano,created,player,green,
 Portugal,2963156380525028957,,Marciano António da Costa,created,player,green,
-Portugal,3865471663618760734,316533,Marcinho,recreated,player,purple,"recreated as new player 3865471663618760734 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,17612273610560069,4100677,Marco Almeida,real,player,green,
 Portugal,3323745553083579809,,Marco Aurélio Siqueira,created,player,green,
 Portugal,236317544586645902,55021966,Marco Baixinho,real,player,purple,born 11/7/2004: FM26's date moved by the career's +15; profile from FM16 - redo by hand
@@ -1210,7 +1203,7 @@ Portugal,236579653555879921,55082993,Miguel Silva,real,player,green,PA 140 -> -7
 Portugal,357394167337695258,83212314,Miguel Tavares,real,player,purple,no date of birth to move - set his age by hand
 Portugal,3197757771439192,744536,Miguel Veloso,real,player,green,
 Portugal,236328509638155143,55024519,Mika,real,player,green,
-Portugal,3865471371560984538,55042042,Mikel Agu,recreated,player,blue,"recreated as new player 3865471371560984538 (already missing in FM26); from FM24: height 186, home-grown 1 club(s), 1 nation(s), nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +2 more (born 27/5/2007)"
+Portugal,3865471371560984538,55042042,Mikel Agu,recreated,player,blue,"recreated as new player 3865471371560984538 (already missing in FM26); from FM24: height 186, home-grown 1 club(s), 1 nation(s), nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +2 more (born 27/5/2007); contract joined date set to 1/7/2023, the career's open spell"
 Portugal,369503904940998104,86031832,Mikel Villanueva,real,player,green,
 Portugal,1299459545258550263,,Miklos Fehér,created,player,green,PA 134 -> -7
 Portugal,77686999100948458,18087914,Mile Svilar,real,player,green,
@@ -1247,7 +1240,7 @@ Portugal,6859062773309,1597,Mário Silva,real,player,green,
 Portugal,2734633051191819601,,Mário Torres,created,player,green,
 Portugal,1889252911743286627,,Mário Wilson,created,staff,green,
 Portugal,493018236445549554,,N'Dinga Mbote Amily,created,player,green,
-Portugal,3946185887712521,918793,N'Doye,real,player,blue,"staff in FM27: made a player first, retirements cleared, 33 attribute(s) and positions from FM24; body type not copied yet; profile from FM16, its empty attributes filled from FM24 - check it"
+Portugal,3946185887712521,918793,N'Doye,real,player,blue,"staff in FM27: made a player first, retirements cleared, 33 attribute(s) and positions from FM24; body type not copied yet; reputations from CA 114; profile from FM16, its empty attributes filled from FM24 - check it"
 Portugal,365290099641009513,85050729,Nabil Ghilas,real,player,green,
 Portugal,427618219673543668,,Nail Besirovic,created,player,green,
 Portugal,82211665543959315,19141395,Naldo,real,player,green,
@@ -1346,7 +1339,7 @@ Portugal,30066914267681203,7000499,Paulo Jorge,real,player,green,PA 120 -> -65
 Portugal,1612280585472229769,,Paulo Jorge Carreira Nunes,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3865470615646740266,,Paulo Jorge Ferreira de Sousa,created,player,green,
 Portugal,3865470731610857285,,Paulo Jose Lopes de Figueiredo,created,player,green,
-Portugal,497894083904725,115925,Paulo Lopes,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; profile from FM16 - redo by hand"
+Portugal,497894083904725,115925,Paulo Lopes,real,player,purple,"staff in FM27: made a player first, retirements cleared; body type not copied yet; reputations from CA 116; profile from FM16 - redo by hand"
 Portugal,357232990099940739,83174787,Paulo Moreira,real,player,green,
 Portugal,1764576646257468585,,Paulo Neves,created,player,green,
 Portugal,236329823898148025,55024825,Paulo Oliveira,real,player,purple,profile from FM15 - redo by hand; PA 146 -> -8
@@ -1466,7 +1459,7 @@ Portugal,236319301228270375,55022375,Ricardo Esgaio,real,player,green,
 Portugal,30080980285578878,7003774,Ricardo Fernandes,real,player,green,
 Portugal,30085258073006690,7004770,Ricardo Formosinho,real,player,green,
 Portugal,236522972872461412,55069796,Ricardo Horta,real,player,green,not in the squad sheet - club left as FM27 has it
-Portugal,38116168313563764,8874612,Ricardo Janota,real,player,purple,"staff in FM27: made a player first, retirements cleared; no attributes in the file or in FM26; body type not copied yet"
+Portugal,38116168313563764,8874612,Ricardo Janota,real,player,purple,"staff in FM27: made a player first, retirements cleared; no attributes in the file or in FM26; body type not copied yet; reputations from CA 104"
 Portugal,3865471229827063737,,Ricardo Jorge Freitas Lopes,created,player,green,
 Portugal,3886475483920252368,,Ricardo José Araújo Ferreira,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,30084506453729715,7004595,Ricardo Malafaia,real,player,purple,profile from FM17 - redo by hand
@@ -1573,7 +1566,7 @@ Portugal,3192023990097697,743201,Samuel Magalhães,real,player,purple,"staff in 
 Portugal,82607163312536263,19233479,Samuel Portugal,real,player,green,
 Portugal,2573058129567989141,,Sandro Araújo da Silva,created,player,green,
 Portugal,18068081309921491,4206803,Sandro Mendes,real,player,green,
-Portugal,8590202471110313890,2000062370,Santi García,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons)"
+Portugal,8590202471110313890,2000062370,Santi García,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (1 seasons); contract joined date set to 1/7/2025, the career's open spell"
 Portugal,56530247893964278,13161974,Saviour Godwin,real,player,green,
 Portugal,335077637521567574,78016342,Sebastián Coates,real,player,green,
 Portugal,326512167061291286,76022038,Sebastián Pérez,real,player,green,
@@ -1686,7 +1679,7 @@ Portugal,82607206262209233,19233489,Vitor Carvalho,real,player,green,
 Portugal,38134082622159551,8878783,Vitor Pereira,real,staff,green,
 Portugal,2820446870820644527,,Vitorino Oliveira Belinha,created,player,green,
 Portugal,90323346939503771,21030043,Vladan Danilović,real,player,green,
-Portugal,73165115796746057,17035081,Vladislav Morozov,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (6 seasons)"
+Portugal,73165115796746057,17035081,Vladislav Morozov,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (6 seasons); contract joined date set to 1/7/2026, the career's open spell"
 Portugal,58178322716189896,,Vlamecir Oliveira,created,player,green,
 Portugal,37926008636489089,8830337,Vágner,real,player,green,
 Portugal,288870695713261150,67257950,Víctor Gómez,real,player,green,
@@ -1714,7 +1707,6 @@ Portugal,949674037730393600,,Vítor Marcolino da Silva,created,player,green,
 Portugal,3155413688858069,734677,Vítor Murta,real,player,purple,"staff in FM27: made a player first, retirements cleared; no attributes in the file or in FM26; body type not copied yet"
 Portugal,65244848208727,15191,Vítor Paneira,real,player,green,
 Portugal,3149846329570649263,,Vítor Rodrigues,created,player,green,
-Portugal,3875336107181209,902297,Vítor Urbano,real,staff,red,gone from FM27 and FM26; staff are not recreated
 Portugal,3865471423100592102,9548,Vítor Vieira,recreated,player,purple,"recreated as new player 3865471423100592102 (already missing in FM26); hair colour, hair length and preferred moves not copied yet; profile from FM17 - redo by hand"
 Portugal,3400613612964832245,,Wagner Canotilho,created,player,green,PA 139 -> -75
 Portugal,236388922648154745,55038585,Wakaso,real,player,green,

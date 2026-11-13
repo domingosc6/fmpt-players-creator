@@ -522,10 +522,22 @@ def twin_of(uid, rs, created, recs, names, dob_of):
                 nm = names.get(cu)
                 if not nm or (norm_words(nm) & norm_words(_NAME.get(uid, ""))):
                     return cu, "already recreated in FM26 as %s (%s)" % (nm or "unnamed", cu)
+        # the same BIRTHDAY (the year is relabelled edition after edition) and
+        # the created record's full name among the index's names for him: Beto
+        # (13345, born 3/5/2010) is the created "Roberto Luis Gaspar Deus Severo"
+        # (3/5/2009), and the short name "Beto" alone shares no word with it
+        terms = [norm_words(t) for t in _TERMS.get(uid, [])]
+        for cu in created:
+            cd = dob_of.get(cu)
+            nm = names.get(cu)
+            if cd and nm and cd[:2] == d[:2] and abs(cd[2] - d[2]) <= 3:
+                w = norm_words(nm)
+                if any(len(w & t) >= 2 for t in terms):
+                    return cu, "already recreated in FM26 as %s (%s)" % (nm, cu)
     return None, None
 
 
-_FP, _NAME = {}, {}
+_FP, _NAME, _TERMS = {}, {}, {}
 
 
 # Negative PA codes and the middle of the range each stands for (user, 2026-11-13:
@@ -550,6 +562,60 @@ def last_int(rs, prop):
             if nv is not None and (nv.get("value") or "").lstrip("-").isdigit():
                 v = int(nv.get("value"))
     return v
+
+
+def last_date(rs, prop):
+    d = None
+    for r in rs:
+        if c.rec_prop(r) == prop:
+            nv = r.find('*[@id="new_value"]')
+            if nv is not None and nv.tag == "date":
+                d = date_of(r)
+            elif nv is not None and nv.tag == "null":
+                d = None
+    return d
+
+
+REPS = ("PCRP", "PHRP", "PWRP")
+
+
+def reputation_ops(uid, rs, props, rng, obs):
+    """A recreated or ex-staff player has no reputation of his own: the empty
+    ones are filled from his CA - current and home reputation = CA, world = CA - 45
+    (user, 2026-11-13: Edgar Costa)."""
+    ca = last_int(rs, "PCAB")
+    if not ca or ca <= 0:
+        return []
+    want = {"PCRP": ca, "PHRP": ca, "PWRP": max(0, ca - 45)}
+    ops = [build.int_op(uid, p, v, rng, odvl=0) for p, v in want.items() if p not in props]
+    if ops:
+        obs.append("reputations from CA %d" % ca)
+    return ops
+
+
+def contract_sync_ops(uid, career, rs, rng, obs, count):
+    """Date Joined (`Pcjd` and `PCNj`, both forced - CLAUDE.md 5e) put on the join
+    of the club spell the rewritten career leaves open, where the file says
+    otherwise; a contract signed before that day is moved to it."""
+    spells = c.replay_spells([o for o in career if c.rec_prop(o) == "Pnph"])
+    open_ = [sp for sp in spells if sp["left"] is None and sp["join"] is not None]
+    if not open_:
+        return []
+    j = open_[-1]["join"]
+    join = (int(j.get("day")), int(j.get("month")), int(j.get("year")))
+    if join[2] in (0, 1900):
+        return []
+    ops = []
+    for p in ("Pcjd", "PCNj"):
+        if last_date(rs, p) != join:
+            ops.append(build.date_op(uid, p, join, rng))
+    signed = last_date(rs, "Pcsd")
+    if signed and (signed[2], signed[1], signed[0]) < (join[2], join[1], join[0]):
+        ops.append(build.date_op(uid, "Pcsd", join, rng))
+    if ops:
+        obs.append("contract joined date set to %d/%d/%d, the career's open spell" % join)
+        count["contract dates synced"] += 1
+    return ops
 
 
 def last_dob(rs):
@@ -831,6 +897,7 @@ def main(argv=None):
     for u in real:
         doc = docs.get(dbid_of(u)) or {}
         _NAME[u] = names.get(u) or doc.get("name") or namer.person(u) or ""
+        _TERMS[u] = [t for t in doc.get("search_terms", []) if " " in t]
 
     head = defaultdict(list)       # uid -> ops put right before his first change
     tail = []                      # ops appended at the end of the file
@@ -901,6 +968,7 @@ def main(argv=None):
                            "and preferred moves not copied yet")
                 st = BLUE if st == GREEN else st
                 count["recreated"] += 1
+                head[uid] += reputation_ops(new, rs, props, rng, obs)
             elif role == "player" and t27 == 1 and not makes_player(rs):
                 block, src_name = (fm26.player_block(d) if t26 in (2, 3) else {}), "FM26"
                 if not block and fm24.type(d) in (2, 3):
@@ -922,6 +990,7 @@ def main(argv=None):
                     obs.append("from FM26: " + ", ".join(done))
                 obs.append("body type not copied yet")
                 count["staff -> player"] += 1
+                head[uid] += reputation_ops(int(uid), rs, props, rng, obs)
             if role == "player":
                 # every real legend: past transfers cleared (user, 2026-11-13)
                 head[uid] = head.get(uid, []) + [build.past_transfers_clear(int(new_uid), rng)]
@@ -966,6 +1035,12 @@ def main(argv=None):
                 elif plhs:
                     st = ORANGE if st == GREEN else st
                     obs.append("playing history could not be rebuilt - check it")
+                # the contract follows a rewritten career (user, 2026-11-13:
+                # Secretario's and Mikel Agu's joined dates stayed on the old one)
+                # only careers written here: a rebuilt one keeps the file's own
+                # dates, which carry real transfer days (31 August, not 1 July)
+                if uid in replace and fix and not (uid in rebuilt and fix[0] is rebuilt[uid][0]):
+                    tail.extend(contract_sync_ops(int(new_uid), replace[uid], rs, rng, obs, count))
                 # age: FM26's date of birth moved by the same shift as the career
                 if not dob_of.get(uid):
                     b = fm26_people.dob(d) if t26 else None
