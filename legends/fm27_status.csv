@@ -23,7 +23,7 @@ Portugal,1306980458195608559,,Adriano Fernandes Tato,created,player,green,
 Portugal,3865471762403008565,150533,Adriano Louzada,recreated,player,blue,"recreated as new player 3865471762403008565; from FM26: body type, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet"
 Portugal,236231683895411575,55001975,Adrien Silva,real,player,green,"staff in FM27: made a player first, retirements cleared, 24 attribute(s) and positions from FM26; from FM26: height 175, home-grown 1 club(s), 1 nation(s); body type not copied yet"
 Portugal,2073520167914071035,,Adílson Alves Moreira,created,player,orange,"check age: seasons typed in FM17 after the birth date (FM15); career reads season 2025, not 2026"
-Portugal,8591815682301903575,2000437975,Afonso Assis,real,player,green,
+Portugal,8591815682301903575,2000437975,Afonso Assis,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3737914850074214766,,Afonso Mendes Ribeiro de Figueiredo,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3865471324316344271,,Afonso Paulo Martins de Agra,created,player,orange,"career reads season 2025, not 2026"
 Portugal,236319236803760920,55022360,Afonso Taira,real,player,green,
@@ -85,7 +85,7 @@ Portugal,4059396068462607864,,Amândio José Malta da Silva,created,player,green
 Portugal,298217559489012724,,Américo da Costa Martins,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
 Portugal,2058479729921801662,,Américo Ferreira Lopes,created,player,green,
 Portugal,4195111193253274813,,Amílcar Cavém,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell; PA 126 -> -7"
-Portugal,2081049464627291122,,Amílcar Lopes da Fonseca,created,player,green,PA 130 -> -7
+Portugal,2081049464627291122,,Amílcar Lopes da Fonseca,created,player,green,"club set to Clube Oriental de Lisboa (squad sheet, by surname and career); PA 130 -> -7"
 Portugal,305377904303074198,71101334,Anatolii Trubin,real,player,green,
 Portugal,236514155304600671,55067743,Anderson Esiti,real,player,green,
 Portugal,3865470619941707563,,Anderson Luiz Ribeiro Pereira,created,player,green,
@@ -96,7 +96,7 @@ Portugal,83318543040905670,19399110,Andrey,real,player,green,
 Portugal,357139106409795616,83152928,André Almeida,real,player,green,
 Portugal,236266086583460545,55009985,André André,real,player,green,
 Portugal,236241205837909024,55004192,André Carvalhas,real,player,green,"staff in FM27: made a player first, retirements cleared, 43 attribute(s) and positions from FM24; body type not copied yet"
-Portugal,236241150003334163,55004179,André Castro,real,player,green,
+Portugal,236241150003334163,55004179,André Castro,real,player,green,"club set to Futebol Clube do Porto (squad sheet, by surname and career)"
 Portugal,236562684140089474,55079042,André Ceitil,real,player,green,
 Portugal,82861528455733791,19292703,André Clovis,real,player,green,
 Portugal,712644752606658051,,André Cruz,created,staff,green,
@@ -167,7 +167,7 @@ Portugal,2958207044896712276,,António Joaquim Caraça,created,player,green,chec
 Portugal,1627542588549807454,,António Joselino Vala,created,player,green,
 Portugal,2125718250394533350,,António José Bastos Lopes,created,player,green,
 Portugal,1612153789447716328,,António José da Conceição Oliveira,created,player,green,
-Portugal,3865470607056805672,,António José Nogueira Santos,created,player,green,
+Portugal,3865470607056805672,,António José Nogueira Santos,created,player,green,club set to Académico de Viseu Futebol Clube (squad sheet)
 Portugal,3865470705841053503,,António Leonel Vilar Nogueira de Sousa,created,player,green,
 Portugal,3865470873344778086,,António Lopes Vaz,created,player,green,
 Portugal,226628585558539805,,António Luís Alves Ribeiro Oliveira,created,player,green,
@@ -185,7 +185,7 @@ Portugal,3865471216942161846,,António Paulo Sanches Semedo,created,player,green
 Portugal,1296287115517410696,,António Pinho,created,player,green,
 Portugal,1394796768278897848,,António Porcel,created,player,green,
 Portugal,4201652046192993895,,António Semedo,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); PA 115 -> -65
-Portugal,357857255006625095,83320135,António Silva,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (5 seasons); contract joined date set to 1/7/2022, the career's open spell; club set to Sport Lisboa e Benfica (squad sheet)"
+Portugal,357857255006625095,83320135,António Silva,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (5 seasons); contract joined date set to 1/7/2022, the career's open spell; not in the squad sheet - club left as FM27 has it"
 Portugal,4081397704156299664,,António Silva Campos,created,staff,green,
 Portugal,1581459719767506413,,António Simões da Costa,created,player,green,
 Portugal,3127949616240442744,,António Vítor da Silva Lopes,created,player,green,
@@ -217,7 +217,7 @@ Portugal,1729286313637887432,,Artur Soares de Sousa,created,player,green,
 Portugal,3885531342126999129,,Augusto dos Santos Batalha,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,1604229986496046066,,Augusto Esteves Durand,created,player,green,
 Portugal,2571652283692793171,,Augusto Francisco Rocha,created,player,green,PA 144 -> -75
-Portugal,17612080337031704,4100632,Augusto Gama,real,player,green,not in the squad sheet - club left as FM27 has it
+Portugal,17612080337031704,4100632,Augusto Gama,real,player,green,
 Portugal,1618141472074546679,,Augusto Marques Rodrigues Amaro,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,2118501725477299186,,Augusto Pinto Duarte Maia,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,347060692690714031,,Augusto Silva,created,staff,green,
@@ -249,7 +249,7 @@ Portugal,3865471612079153170,140952,Bozinoski,recreated,player,purple,"recreated
 Portugal,3865471745223139377,500190,Boško Boškovič,recreated,player,purple,"recreated as new player 3865471745223139377; from FM26: nationality, birth city, personality, skin tone, 4 language(s); hair colour, hair length and preferred moves not copied yet; profile from FM17 - redo by hand"
 Portugal,3185495639806257,741681,Braga,real,player,green,
 Portugal,343746814262197224,80034792,Brandon Aguilera,real,player,green,
-Portugal,1499048973311173797,,Braíma Injai,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,1499048973311173797,,Braíma Injai,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); club set to Clube Desportivo das Aves 1930 (squad sheet)
 Portugal,8590991671351137640,2000246120,Brenner,real,player,green,
 Portugal,391722715661184444,91205052,Bright Arrey-Mbi,real,player,green,
 Portugal,30074245776857182,7002206,Briguel,real,player,green,PA 118 -> -65
@@ -295,7 +295,7 @@ Portugal,2948256237032072359,,Carlos Cunha,created,player,green,check age: seaso
 Portugal,1272157349298355591,,Carlos da Luz Frazão,created,player,green,PA 124 -> -65
 Portugal,583882873797371586,,Carlos do Sacramento Ferreira,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,259844462553121116,,Carlos Domingos Duarte,created,player,purple,"created career never rebuilt by the converter - edit by hand; career reads season 2025, not 2026"
-Portugal,17610353760178310,4100230,Carlos Fangueiro,real,player,green,
+Portugal,17610353760178310,4100230,Carlos Fangueiro,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,17612247840756287,4100671,Carlos Fernandes,real,player,green,PA 127 -> -7
 Portugal,3865471264186802113,,Carlos Fonseca Silva,created,player,green,
 Portugal,3731975201754211922,,Carlos Francisco de Carvalho Falé,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
@@ -365,7 +365,7 @@ Portugal,357530876146758768,83244144,Costinha,real,player,green,
 Portugal,17613755374277534,4101022,Cristiano,real,player,green,
 Portugal,3209841937454490794,,Cristiano Moraes de Oliveira,created,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell; PA 124 -> -65"
 Portugal,3151273340383761,733713,Custódio,real,player,purple,profile from FM17 - redo by hand; PA 133 -> -7
-Portugal,4116640273051992410,,Custódio João Pinto,created,player,purple,"created career never rebuilt by the converter - edit by hand; career reads season 2025, not 2026"
+Portugal,4116640273051992410,,Custódio João Pinto,created,player,purple,"created career never rebuilt by the converter - edit by hand; club set to Clube Olímpico do Montijo (squad sheet); career reads season 2025, not 2026"
 Portugal,14175178786495552,3300416,Cássio,real,player,green,
 Portugal,3865471599194251279,311931,Cássio,recreated,player,purple,"recreated as new player 3865471599194251279 (already missing in FM26); from FM17: height 185, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; reputations from CA 117; profile from FM16 - redo by hand"
 Portugal,65335042521964,15212,Cândido,real,player,purple,profile from FM17 - redo by hand
@@ -380,7 +380,7 @@ Portugal,3865471289956605895,,Dane Kuprešanin,created,player,orange,"career rea
 Portugal,357302392476492962,83190946,Dani Figueira,real,player,green,
 Portugal,236324137361446797,55023501,Daniel Almeida,real,player,green,
 Portugal,8590324641455077055,2000090815,Daniel Borges,real,player,green,
-Portugal,356961256108994143,83111519,Daniel Bragança,real,player,green,club set to Sporting Clube de Portugal (squad sheet)
+Portugal,356961256108994143,83111519,Daniel Bragança,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,2791291009317758568,,Daniel Calleja Gomendio,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,4090576873294161294,,Daniel da Cruz Carvalho,created,player,green,
 Portugal,4241980685903249763,,Daniel Filipe Faria Coelho,created,player,purple,created career never rebuilt by the converter - edit by hand
@@ -408,7 +408,7 @@ Portugal,2939124217437774838,,Diamantino Mendonça,created,player,green,
 Portugal,82414267741293399,19188567,Diego Carlos,real,player,green,
 Portugal,3865471345791180756,55023835,Diego Galo,recreated,player,blue,"recreated as new player 3865471345791180756 (already missing in FM26); from FM24: height 185, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet"
 Portugal,236319601875981165,55022445,Diego Lopes,real,player,green,PA 135 -> -75
-Portugal,8590387841898852410,2000105530,Diego Rodrigues,real,player,green,
+Portugal,8590387841898852410,2000105530,Diego Rodrigues,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,1082177760246676891,,Diego Vicente Sacco,created,player,green,PA 126 -> -7
 Portugal,34767760269215,8095,Dimas,real,player,green,PA 143 -> -75
 Portugal,1349901918122851731,,Dinis da Silva Gomes Resende,created,player,green,
@@ -416,12 +416,12 @@ Portugal,3566386633192269392,,Dinis Martins Vital,created,player,green,
 Portugal,357856052415781935,83319855,Dinis Pinto,real,player,green,
 Portugal,236264755143598475,55009675,Diogo Amado,real,player,green,
 Portugal,356960641928670672,83111376,Diogo Calila,real,player,green,
-Portugal,357209105786802122,83169226,Diogo Costa,real,player,green,
+Portugal,357209105786802122,83169226,Diogo Costa,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3865470714430988097,,Diogo José Teixeira da Silva,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,1564996517416452471,,Diogo Maria Sousa Franco de Matos,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,8590139034443337200,2000047600,Diogo Pinto,real,player,green,
 Portugal,236256895353444965,55007845,Diogo Ramos,real,player,green,PA 106 -> -6
-Portugal,8590721066936590155,2000183115,Diogo Sousa,real,player,green,club set to Vitória Sport Clube (squad sheet)
+Portugal,8590721066936590155,2000183115,Diogo Sousa,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,236260520305843633,55008689,Djalma,real,player,green,
 Portugal,3865471478935166963,728523,Djalmir,recreated,player,purple,"recreated as new player 3865471478935166963 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,77668517856669467,18083611,Dodi Lukébakio,real,player,green,
@@ -455,7 +455,7 @@ Portugal,4090086921125658122,,Ednilson Mendes,created,player,green,
 Portugal,2409840283561780392,,Edson Barros,created,player,green,
 Portugal,81830658995042445,19052685,Edson Farias,real,player,green,
 Portugal,236317892478996959,55022047,Edu Machado,real,player,green,
-Portugal,3119177049773280,726240,Eduardo,real,player,green,
+Portugal,3119177049773280,726240,Eduardo,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,369622261354801533,86059389,Eduardo Fereira,real,player,green,
 Portugal,3865471165402554282,,Eduardo Gottardi,created,player,green,
 Portugal,3865470783150464849,,Eduardo José Gomes Cameselle Mendez,created,player,green,PA 141 -> -75
@@ -464,10 +464,10 @@ Portugal,525332625487848437,,Eduardo Lopes dos Reis,created,player,green,
 Portugal,3890043253036842494,,Eduardo Luís,created,player,green,PA 142 -> -75
 Portugal,2293501877957214568,,Eduardo Manuel Martinho Vingada,created,staff,green,
 Portugal,3865470770265562958,,Eduardo Pedro Reis Silva,created,player,green,
-Portugal,357607210600528349,83261917,Eduardo Quaresma,real,player,green,
+Portugal,357607210600528349,83261917,Eduardo Quaresma,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3012920796489212928,,Eduardo Rodrigues Ribeiro,created,player,green,
 Portugal,659336464723918173,,Eldon Armond Bravo,created,player,green,
-Portugal,2407322749826524845,,Eliseu António Teixeira Pinto,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,2407322749826524845,,Eliseu António Teixeira Pinto,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); club set to Leixões Sport Clube - SAD (squad sheet)
 Portugal,1825704807473249776,,Eliseu Erhart,created,player,green,
 Portugal,2001029976180155384,,Eliseu Martins Ramalho,created,player,green,
 Portugal,3865471178287456173,,Elisérgio da Silva,created,player,green,
@@ -478,14 +478,14 @@ Portugal,4223713167183734324,,Emmanuel Duah,created,player,green,
 Portugal,3985820336022119976,,Emídio da Silva Graça,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,392123007916598270,,Emídio Simões Úria,created,player,green,
 Portugal,57281978840089,13337,Emílio Peixe,real,player,green,PA 138 -> -75
-Portugal,236361778454837705,55032265,Eric Dier,real,player,green,club set to Sporting Clube de Portugal (squad sheet)
+Portugal,236361778454837705,55032265,Eric Dier,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3865471225532096440,,Eric Freire Gomes,created,player,green,
 Portugal,3865471650733858843,7004488,Ernesto,recreated,player,purple,"recreated as new player 3865471650733858843 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,868173575232710308,,Ernesto Barrigana Baptista Petinga,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell"
 Portugal,3519255621198462311,,Ernesto Nogueira de Oliveira,created,player,green,
 Portugal,6786048329260,1580,Erwin Sánchez,real,player,green,
 Portugal,3865471375855951835,120101,Eurico Gomes,recreated,player,blue,"recreated as new player 3865471375855951835 (already missing in FM26); from FM24: nationality, birth city, personality, ethnicity, skin tone, 3 language(s); hair colour, hair length and preferred moves not copied yet; career and birth date still in FM24's frame: both moved +1 more (born 29/9/2005); contract joined date set to 1/7/2022, the career's open spell"
-Portugal,838885437327041526,,Eurico Mendonça de Caires,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,838885437327041526,,Eurico Mendonça de Caires,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); club set to Clube Olímpico do Montijo (squad sheet)
 Portugal,3865471590604316685,902275,Eusébio,recreated,player,purple,"recreated as new player 3865471590604316685 (already missing in FM26); from FM17: nationality, birth city, personality; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,701014127284633052,,Eusébio da Silva Ferreira,created,player,green,
 Portugal,3865470787445432146,,Evaldodos Santos Fabiano,created,player,green,
@@ -567,7 +567,7 @@ Portugal,907628356601953771,,Francisco Alves Albino,created,player,green,
 Portugal,2061910111103772251,,Francisco António Percheiro,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,1055860476989455728,,Francisco Assumpção Correia,created,player,green,
 Portugal,3188154224563100,742300,Francisco Barão,real,player,purple,profile from FM16 - redo by hand
-Portugal,8590405172091895805,2000109565,Francisco Chissumba,real,player,green,club set to Sporting Clube de Braga (squad sheet)
+Portugal,8590405172091895805,2000109565,Francisco Chissumba,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,357603873410938580,83261140,Francisco Conceição,real,player,green,
 Portugal,2280878470250652669,,Francisco de Assunção Germino Correia,created,player,green,
 Portugal,280519924014955868,,Francisco de Sousa André Júnior,created,player,green,
@@ -625,7 +625,7 @@ Portugal,8591113042831983563,2000274379,Geovany Quenda,real,player,green,
 Portugal,197589641134629872,,Geraldo de Melo Medeiros,created,player,green,check age: seasons typed in FM17 after the birth date (FM15); PA 121 -> -65
 Portugal,1247158779914796509,,Germano Luís de Figueiredo,created,player,green,
 Portugal,357074742029882774,83137942,Ghislain Konan,real,player,green,
-Portugal,8590382013628230381,2000104173,Gianluca Prestianni,real,player,green,
+Portugal,8590382013628230381,2000104173,Gianluca Prestianni,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,236579340023267240,55082920,Gil Dias,real,player,purple,no date of birth to move - set his age by hand
 Portugal,357857169107279155,83320115,Gilberto Batista,real,player,green,
 Portugal,2826961850877371559,,Gilberto Galdino dos Santos,created,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell"
@@ -639,8 +639,8 @@ Portugal,159166261051619551,37058783,Godfried Frimpong,real,player,green,
 Portugal,357464991348422788,83228804,Gonçalo Borges,real,player,green,club set to Futebol Clube do Porto (his open club spell)
 Portugal,357697490813111289,83282937,Gonçalo Franco,real,player,green,
 Portugal,236402344420957870,55041710,Gonçalo Guedes,real,player,green,
-Portugal,357464677815810107,83228731,Gonçalo Inácio,real,player,green,
-Portugal,8589989612531074570,2000012810,Gonçalo Nogueira,real,player,green,
+Portugal,357464677815810107,83228731,Gonçalo Inácio,real,player,green,not in the squad sheet - club left as FM27 has it
+Portugal,8589989612531074570,2000012810,Gonçalo Nogueira,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,236343773951928681,55028073,Gonçalo Paciência,real,player,green,
 Portugal,236511561144353283,55067139,Gonçalo Pedro,real,player,purple,"staff in FM27: made a player first, retirements cleared; no attributes in the file or in FM26; body type not copied yet; his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,357381943860767996,83209468,Gonçalo Ramos,real,player,green,
@@ -659,7 +659,7 @@ Portugal,3865470637121576751,,Hassan Nader,created,player,green,check age: seaso
 Portugal,726389828549108718,,Heitor Camarin Júnior,created,player,green,
 Portugal,1979336724040696067,,Helton da Silva Arruda,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,2231764694587171840,,Henri Arnaud Antchouet Rebienot,created,player,green,
-Portugal,357607154765953488,83261904,Henrique Araújo,real,player,green,club set to Sport Lisboa e Benfica (squad sheet)
+Portugal,357607154765953488,83261904,Henrique Araújo,real,player,green,club set to Sport Lisboa e Benfica (his open club spell)
 Portugal,3763983312991075688,,Henrique de Sena Ben David,created,player,green,
 Portugal,3113461471172912714,,Henrique Evaristo Efigénia,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,236243830062927491,55004803,Henrique Nogueira,real,player,green,"staff in FM27: made a player first, retirements cleared, 43 attribute(s) and positions from FM17; body type not copied yet"
@@ -728,7 +728,7 @@ Portugal,236575942704135313,55082129,Ivanildo Fernandes,real,player,green,
 Portugal,236489794250092087,55062071,Ivo Rodrigues,real,player,green,
 Portugal,30074645208815803,7002299,Ivo Vieira,real,staff,green,
 Portugal,3064929766657255011,,Ivson de Freitas,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
-Portugal,8590646068217649941,2000165653,Iván Fresneda,real,player,green,
+Portugal,8590646068217649941,2000165653,Iván Fresneda,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3539087412466376,824008,Iván Guerrero,real,player,green,
 Portugal,288889065288390419,67262227,Iván Jaime,real,player,green,
 Portugal,287804551686159543,67009719,Iván Marcano,real,player,green,"staff in FM27: made a player first, retirements cleared, 13 attribute(s) and positions from FM24; body type not copied yet"
@@ -750,13 +750,13 @@ Portugal,940735276996504,219032,Jandro Orellana,real,player,green,
 Portugal,288554208163079814,67184262,Jason,real,player,green,
 Portugal,32033257670430228,7458324,Javi García,real,player,green,
 Portugal,4120449517594109495,,Jaílton dos Santos,created,player,green,
-Portugal,210684587052662916,49053828,Jean-Baptiste Gorby,real,player,green,
+Portugal,210684587052662916,49053828,Jean-Baptiste Gorby,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3865471435985493993,2111975,Jefferson,recreated,player,blue,"recreated as new player 3865471435985493993; from FM26: height 176, home-grown 0 club(s), 1 nation(s), body type, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet"
 Portugal,357212331307242169,83169977,Jefferson Encada,real,player,green,
 Portugal,369485934797827456,86027648,Jhonder Cádiz,real,player,green,
 Portugal,3597319795111913057,,Joabel Alves Gieira,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,725006587086792229,,Joaquim Adriano José Conceição,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
-Portugal,3276607706581984833,,Joaquim Alberto Castanheira de Melo,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,3276607706581984833,,Joaquim Alberto Castanheira de Melo,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); club set to Associação Académica de Coimbra (squad sheet, by surname and career)"
 Portugal,3865470924884385650,,Joaquim Alexandre Lopes Santos,created,player,green,
 Portugal,2864660840418665459,,Joaquim António Jorge,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
 Portugal,1206755016931566759,,Joaquim Carvalho,created,player,green,
@@ -869,7 +869,7 @@ Portugal,2747240944869097869,,José Luís Machado Coutinho,created,player,purple
 Portugal,3865470890524647274,,José Manuel Araújo Teixeira,created,player,green,
 Portugal,2918892219939185832,,José Manuel da Silva Fernandes,created,player,green,
 Portugal,3120668487032553840,,José Manuel Guedes Soeiro da Silva,created,player,purple,created career never rebuilt by the converter - edit by hand
-Portugal,3909326392954741754,,José Manuel Jesus de Carvalho Abrantes,created,player,green,
+Portugal,3909326392954741754,,José Manuel Jesus de Carvalho Abrantes,created,player,green,club set to Sport União Sintrense (squad sheet)
 Portugal,2402981702433816947,,José Manuel Monteiro da Veiga,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3829723292997019054,,José Manuel Mourinho Félix,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3217262601559892994,,José Manuel Queirós Dias da Fonseca,created,staff,green,
@@ -914,7 +914,7 @@ Portugal,3112971308030256691,,João Alberto Amado Bartolomeu,created,staff,green
 Portugal,236327367176854141,55024253,João Amorim,real,player,green,
 Portugal,2865163145433867442,,João António Corujas,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,1648680776295802248,,João António dos Anjos Rocha,created,staff,green,
-Portugal,3865470723020922691,,João Armando Rosa Salas,created,player,green,
+Portugal,3865470723020922691,,João Armando Rosa Salas,created,player,green,club set to Lusitano Futebol Clube (VRSA) (squad sheet)
 Portugal,3865470671481315127,,João Arnaldo Correia de Carvalho,created,player,green,
 Portugal,979964139359200421,,João Artur Rosa Alves,created,player,green,
 Portugal,236272438840092808,55011464,João Aurélio,real,player,green,"staff in FM27: made a player first, retirements cleared, 19 attribute(s) and positions from FM26; from FM26: height 182, home-grown 0 club(s), 1 nation(s); body type not copied yet"
@@ -936,7 +936,7 @@ Portugal,3865471453165363181,743873,João Fonseca,recreated,player,purple,"recre
 Portugal,97968553829498339,,João Fonseca,created,player,green,PA 138 -> -75
 Portugal,357211665587311134,83169822,João Félix,real,player,green,
 Portugal,236402632183766769,55041777,João Gamboa,real,player,green,
-Portugal,357464664930908216,83228728,João Goulart,real,player,green,not in the squad sheet - club left as FM27 has it
+Portugal,357464664930908216,83228728,João Goulart,real,player,green,
 Portugal,2432836835544688201,,João Januário Nunes,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3327109946388014079,,João Júlio de Almeida e Silva,created,player,green,PA 129 -> -7
 Portugal,1238906579989462545,,João Luiz Pinto de Almeida,created,player,green,
@@ -955,7 +955,7 @@ Portugal,873425164889515379,,João Mendonça Azevedo,created,player,green,
 Portugal,2798423103160476657,,João Montóia Cardoso,created,player,green,
 Portugal,236319369947747127,55022391,João Mário,real,player,green,
 Portugal,357232938560333175,83174775,João Mário,real,player,green,
-Portugal,8590064001364658610,2000030130,João Neves,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (7 seasons); contract joined date set to 1/7/2026, the career's open spell; club set to Sport Lisboa e Benfica (squad sheet)"
+Portugal,8590064001364658610,2000030130,João Neves,real,player,green,"history: FM26's rows with the file's FM26 edits, +1 (7 seasons); contract joined date set to 1/7/2026, the career's open spell; not in the squad sheet - club left as FM27 has it"
 Portugal,236485679671421561,55061113,João Novais,real,player,green,
 Portugal,236389330670047960,55038680,João Nunes,real,player,green,
 Portugal,236525073111469645,55070285,João Palhinha,real,player,green,PA 145 -> -75
@@ -969,14 +969,14 @@ Portugal,3865470826100137819,,João Ribeiro da Silva,created,player,green,check 
 Portugal,3865471298546540489,,João Ricardo,created,player,green,
 Portugal,2783539907608471110,,João Rodrigues,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3185547807131985062,,João Santos,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
-Portugal,8591089441986686548,2000268884,João Simões,real,player,green,
+Portugal,8591089441986686548,2000268884,João Simões,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,256908856614616565,,João Soares,created,player,green,
 Portugal,3865470791740399443,,João Soares Cardoso,created,player,green,
 Portugal,3876469978547617,902561,João Tomás,real,player,green,
 Portugal,3554653031647700162,,João Tomé,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell"
 Portugal,357211695652082213,83169829,João Valido,real,player,green,
 Portugal,236529638661706356,55071348,João Varudo,real,player,green,
-Portugal,8590499322070013342,2000131486,João Veloso,real,player,green,club set to Sport Lisboa e Benfica (squad sheet)
+Portugal,8590499322070013342,2000131486,João Veloso,real,player,green,"club set to Sport Lisboa e Benfica (squad sheet, by surname and career)"
 Portugal,236579683620651000,55083000,João Vigário,real,player,purple,profile from FM16 - redo by hand; PA 145 -> -75
 Portugal,3200897392533299,745267,João Vilela,real,player,green,
 Portugal,2062358097667581546,,Juan de Dios Carrasco Hidalgo,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
@@ -1031,7 +1031,7 @@ Portugal,82778085831087675,19273275,Liziero,real,player,green,
 Portugal,3865775509978087,900071,Ljubinko Drulović,real,player,green,
 Portugal,8591848693420548317,2000445661,Lorougnon Gohi,real,player,green,
 Portugal,83189754151537828,19369124,Luan Patrick,real,player,green,
-Portugal,236483923029797088,55060704,Lucas João,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; club set to Clube Desportivo Nacional (squad sheet)"
+Portugal,236483923029797088,55060704,Lucas João,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; not in the squad sheet - club left as FM27 has it"
 Portugal,81959787186826750,19082750,Lucas Lima,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,1196180653437402525,,Lucas Sebastião da Fonseca,created,player,green,
 Portugal,82976070938577484,19319372,Lucas Soares,real,player,green,"his move opened on 1/1/2027: career read a year late, moved into 2026/2027"
@@ -1046,7 +1046,7 @@ Portugal,3865471285661638598,,Luiz Bonfim Marcos,created,player,green,
 Portugal,354782553655239851,,Luiz Carlos Filgueira,created,player,green,
 Portugal,3865471294251573192,,Luiz Carlos Martins Moreira,created,player,green,
 Portugal,83163383052334248,19362984,Luiz Júnior,real,player,green,
-Portugal,357760081371530470,83297510,Lukáš Horníček,real,player,green,club set to Sporting Clube de Braga (squad sheet)
+Portugal,357760081371530470,83297510,Lukáš Horníček,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,3865471414510657508,7000498,Luís,recreated,player,purple,"recreated as new player 3865471414510657508 (already missing in FM26); from FM17: height 182, nationality, birth city, personality, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,3865471491820068854,4088,Luís,recreated,player,purple,"recreated as new player 3865471491820068854 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,3865471676503662625,315562,Luís Alberto,recreated,player,purple,"recreated as new player 3865471676503662625 (already missing in FM26); from FM17: height 183, nationality, personality, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
@@ -1089,16 +1089,16 @@ Portugal,82323098470479980,19167340,Mansur,real,player,green,
 Portugal,357830261137163450,83313850,Manu Silva,real,player,green,
 Portugal,3419024875042399223,,Manuel Alberto Vieira,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
 Portugal,3777256462135354975,,Manuel Alegria Martelo,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); PA 116 -> -65
-Portugal,3676720675124438015,,Manuel Alves Penteado,created,player,green,
+Portugal,3676720675124438015,,Manuel Alves Penteado,created,player,green,club set to Académico de Viseu Futebol Clube (squad sheet)
 Portugal,412092527686237536,,Manuel Anselmo Lourenço Simões,created,player,green,PA 125 -> -65
 Portugal,148848067337021011,,Manuel Antonio Graça Paixão,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3241386746274168143,,Manuel António Leitão da Silva,created,player,green,PA 139 -> -75
 Portugal,1183836694090400201,,Manuel António Marques Machado,created,staff,green,
-Portugal,1143625637699806191,,Manuel António Rechestre Abrantes,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
+Portugal,1143625637699806191,,Manuel António Rechestre Abrantes,created,player,green,check age: seasons typed in FM17 after the birth date (FM15); club set to Clube Olímpico do Montijo (squad sheet)
 Portugal,1643663421270418424,,Manuel Augusto da Conceição Fonseca Esteves,created,player,green,
 Portugal,1790529287312014856,,Manuel Barbosa,created,player,green,
 Portugal,4493894395913204,,Manuel Campos Pinto,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
-Portugal,77638380071146418,18076594,Manuel Correia,real,player,purple,no date of birth to move - set his age by hand; club set to Grupo Desportivo de Chaves (squad sheet)
+Portugal,77638380071146418,18076594,Manuel Correia,real,player,purple,no date of birth to move - set his age by hand; not in the squad sheet - club left as FM27 has it
 Portugal,803044777662922112,,Manuel da Costa,created,player,green,
 Portugal,1123499627716591092,,Manuel da Luz Afonso,created,staff,green,
 Portugal,1709105696833061241,,Manuel da Silva Correia,created,player,purple,created career never rebuilt by the converter - edit by hand
@@ -1120,7 +1120,7 @@ Portugal,2639688318855439358,,Manuel Luís Carlos Silva,created,player,green,
 Portugal,1738309395074278831,,Manuel Luís dos Santos,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,1935947108990631349,,Manuel Maria Nogueira Capela,created,player,green,
 Portugal,3927852678551463289,,Manuel Pedro Gomes,created,player,green,
-Portugal,795817382183462057,,Manuel Pires,created,player,green,
+Portugal,795817382183462057,,Manuel Pires,created,player,green,club set to Ginásio Clube de Alcobaça (squad sheet)
 Portugal,2963922766506802575,,Manuel Ramos Dias,created,player,green,PA 122 -> -65
 Portugal,3036794342746668397,,Manuel Rodrigues,created,player,green,
 Portugal,3832768957385827500,,Manuel Semedo,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); his move opened on 1/7/2027: career read a year late, moved into 2026/2027; contract joined date set to 1/7/2026, the career's open spell"
@@ -1152,7 +1152,7 @@ Portugal,3865471341496213459,734017,Marinho,recreated,player,blue,"recreated as 
 Portugal,8590728462870275589,2000184837,Mario Dorgeles,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,155103153269180799,36112767,Marios Vrousai,real,player,green,
 Portugal,266654887175215413,62085429,Marko Grujić,real,player,green,
-Portugal,8590721625282338765,2000183245,Martim Fernandes,real,player,green,
+Portugal,8590721625282338765,2000183245,Martim Fernandes,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,210725204558390645,49063285,Marvin Elimbi,real,player,green,
 Portugal,81827682582705624,19051992,Marçal,real,player,green,
 Portugal,8589993787239287254,2000013782,Mateja Stjepanović,real,player,green,
@@ -1170,7 +1170,7 @@ Portugal,335422514805582080,78096640,Matías Rocha,real,player,green,
 Portugal,335012512932443163,78001179,Mauro Goicoechea,real,player,green,
 Portugal,3969461119645023720,,Mauro Soares,created,player,green,
 Portugal,3865471388740853726,304532,Maurício,recreated,player,purple,"recreated as new player 3865471388740853726; from FM26: body type, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
-Portugal,2957785876629454375,,Maurício Zacarias Reinaldo Rodrigues Gomes,created,player,green,
+Portugal,2957785876629454375,,Maurício Zacarias Reinaldo Rodrigues Gomes,created,player,green,club set to Sport Clube Vila Real (squad sheet)
 Portugal,335407564024421223,78093159,Maximiliano Araújo,real,player,green,
 Portugal,99333651457697646,23127918,Mehdi Taremi,real,player,green,
 Portugal,3865471732338237486,727174,Mendonça,recreated,player,purple,"recreated as new player 3865471732338237486 (already missing in FM26); from FM17: height 172, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
@@ -1239,7 +1239,7 @@ Portugal,82211665543959315,19141395,Naldo,real,player,green,
 Portugal,3161134585297673,736009,Nani,real,player,green,PA 156 -> -85
 Portugal,907307546523953,211249,Nego Tembeng,real,player,green,
 Portugal,60908537556526078,14181374,Nehuén Pérez,real,player,green,born 24/6/2009: FM26's date moved by the career's +9
-Portugal,6871947675200,1600,Nelo,real,player,green,
+Portugal,6871947675200,1600,Nelo,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,81630711087497907,19006131,Nenê,real,player,green,
 Portugal,90259034099198493,21015069,Nermin Zolotić,real,player,green,
 Portugal,288948765333818719,67276127,Nico González,real,player,green,
@@ -1282,7 +1282,7 @@ Portugal,55468696568620612,,Nélson Borges de Freitas,created,player,green,check
 Portugal,3096228211250455553,,Nélson Ernesto Filpo Núñez,created,staff,green,
 Portugal,1575495152047253162,,Nélson Fernandes,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,236270656428664553,55011049,Nélson Oliveira,real,player,green,
-Portugal,236487212974746590,55061470,Nélson Semedo,real,player,green,
+Portugal,236487212974746590,55061470,Nélson Semedo,real,player,green,club set to Centro Desportivo de Fátima (squad sheet)
 Portugal,1467851580708512933,,Nélson Vasco,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3875808553583879,902407,Nélson Veríssimo,real,staff,green,
 Portugal,236315079275417424,55021392,Oceano,real,player,purple,profile from FM16 - redo by hand
@@ -1320,8 +1320,8 @@ Portugal,1045729057160085942,,Paulino Pavão,created,staff,green,
 Portugal,3865471633553989655,2662,Paulo Alexandre,recreated,player,purple,"recreated as new player 3865471633553989655 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
 Portugal,57342108382247,13351,Paulo Alves,real,player,green,
 Portugal,3127595185675400,728200,Paulo Assunção,real,player,green,
-Portugal,30075194964629819,7002427,Paulo Clemente,real,player,green,
-Portugal,2345512896738000356,,Paulo Costinha,created,player,green,
+Portugal,30075194964629819,7002427,Paulo Clemente,real,player,green,not in the squad sheet - club left as FM27 has it
+Portugal,2345512896738000356,,Paulo Costinha,created,player,green,club set to Futebol Clube do Porto (squad sheet)
 Portugal,3625429562016038414,,Paulo César Rocha Rosa,created,player,green,
 Portugal,62397284890816,14528,Paulo Duarte,real,player,purple,profile from FM16 - redo by hand
 Portugal,17618144830855068,4102044,Paulo Ferreira,real,player,green,
@@ -1331,7 +1331,7 @@ Portugal,30066914267681203,7000499,Paulo Jorge,real,player,green,PA 120 -> -65
 Portugal,1612280585472229769,,Paulo Jorge Carreira Nunes,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3865470615646740266,,Paulo Jorge Ferreira de Sousa,created,player,green,
 Portugal,3865470731610857285,,Paulo Jose Lopes de Figueiredo,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
-Portugal,497894083904725,115925,Paulo Lopes,real,player,blue,"staff in FM27: made a player first, retirements cleared, 35 attribute(s) and positions from FM17; body type not copied yet; reputations from CA 116; profile from FM16, its empty attributes filled from FM24 - check it"
+Portugal,497894083904725,115925,Paulo Lopes,real,player,blue,"staff in FM27: made a player first, retirements cleared, 35 attribute(s) and positions from FM17; body type not copied yet; reputations from CA 116; profile from FM16, its empty attributes filled from FM24 - check it; club set to Clube Desportivo Trofense (squad sheet)"
 Portugal,357232990099940739,83174787,Paulo Moreira,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,1764576646257468585,,Paulo Neves,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,236329823898148025,55024825,Paulo Oliveira,real,player,purple,profile from FM15 - redo by hand; PA 146 -> -8
@@ -1353,7 +1353,7 @@ Portugal,236418502087929184,55045472,Pedrinho,real,player,purple,profile from FM
 Portugal,3873845753529150,901950,Pedro,real,player,green,
 Portugal,3865470817510203225,,Pedro Alexandre Santos Barbosa,created,player,green,
 Portugal,3865471577719414794,744524,Pedro Araújo,recreated,player,purple,"recreated as new player 3865471577719414794 (already missing in FM26); from FM17: height 173, nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM17 - redo by hand"
-Portugal,3901688794346185711,,Pedro Benje Neto,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
+Portugal,3901688794346185711,,Pedro Benje Neto,created,player,green,check age: seasons typed in FM17 after the birth date (FM15); club set to Associação Desportiva Sanjoanense (squad sheet)
 Portugal,3875941697570086,902438,Pedro Bessa,real,player,green,PA 122 -> -65
 Portugal,8590706056025887140,2000179620,Pedro Bondo,real,player,green,
 Portugal,6816113100339,1587,Pedro Emanuel,real,player,purple,profile from FM16 - redo by hand
@@ -1367,7 +1367,7 @@ Portugal,1636029189916222652,,Pedro Martín Sanz,created,player,green,
 Portugal,236264742258696584,55009672,Pedro Mendes,real,player,green,"staff in FM27: made a player first, retirements cleared, 18 attribute(s) and positions from FM26; from FM26: height 186, home-grown 1 club(s), 1 nation(s); body type not copied yet"
 Portugal,17617745398896447,4101951,Pedro Mesquita,real,player,green,
 Portugal,3495108709383306777,,Pedro Miguel da Silva Mendes,created,player,green,
-Portugal,3876512928220587,902571,Pedro Miguel Rocha,real,player,green,
+Portugal,3876512928220587,902571,Pedro Miguel Rocha,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,236241729823919258,55004314,Pedro Monteiro,real,player,green,
 Portugal,236272348645779571,55011443,Pedro Moreira,real,player,green,
 Portugal,3185774812680562,741746,Pedro Moreira,real,player,green,
@@ -1378,9 +1378,9 @@ Portugal,421069265128910916,98037828,Pedro Pacheco,real,player,green,"his move o
 Portugal,2351967502526103930,,Pedro Paulo Pinheiro Neves,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3186711115551308,741964,Pedro Pereira,real,player,green,
 Portugal,357358381670176654,83203982,Pedro Pinto,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
-Portugal,1744832020780203514,,Pedro Ricardo Quintela Henriques,created,player,green,
+Portugal,1744832020780203514,,Pedro Ricardo Quintela Henriques,created,player,green,"club set to Clube de Futebol Os Belenenses (squad sheet, by surname and career)"
 Portugal,3876302474823034,902522,Pedro Roma,real,player,green,
-Portugal,236513803117282317,55067661,Pedro Santos,real,player,green,
+Portugal,236513803117282317,55067661,Pedro Santos,real,player,green,club set to Clube Desportivo Feirense (squad sheet)
 Portugal,2293512536598,534,Pedro Simões,real,player,purple,profile from FM16 - redo by hand
 Portugal,3196387676871449,744217,Pedro Trigueira,real,player,green,
 Portugal,1327776254965659,309147,Pepe,real,player,green,
@@ -1423,7 +1423,7 @@ Portugal,236402048068214377,55041641,Raphael Guzzo,real,player,green,
 Portugal,82644950434815269,19242277,Raphinha,real,player,green,
 Portugal,2684572656059711004,,Rasheed Yekini,created,player,green,
 Portugal,2959066751927893430,,Raul António Leandro de Figueiredo,created,player,green,
-Portugal,1522518083365790706,,Raul Elisiário Caneira,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,1522518083365790706,,Raul Elisiário Caneira,created,player,green,check age: seasons typed in FM17 after the birth date (FM16); club set to Associação Desportiva Sanjoanense (squad sheet)
 Portugal,459778282558373298,,Raul Ferreira dos Santos,created,player,green,PA 122 -> -65
 Portugal,3865471191172358064,,Raul Miguel Silva Fonseca Castanheira de Oliveira,created,player,green,
 Portugal,1718972820947494299,,Raúl Augusto de Castro,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
@@ -1432,7 +1432,7 @@ Portugal,2227541960051155964,,Raúl Jorge Silva,created,player,green,
 Portugal,2100387451798316018,,Raúl José de Oliveira,created,player,green,
 Portugal,430578603191723569,,Raúl Martins Machado,created,player,green,
 Portugal,3865471629259022358,734369,Raúl Meireles,recreated,player,purple,"recreated as new player 3865471629259022358 (already missing in FM26); from FM17: nationality, birth city, personality, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM17 - redo by hand; PA 150 -> -8"
-Portugal,1236338090241451179,,Raúl Sousa,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
+Portugal,1236338090241451179,,Raúl Sousa,created,player,green,"check age: seasons typed in FM17 after the birth date (FM16); club set to Clube de Futebol União de Coimbra (squad sheet, by surname and career)"
 Portugal,19237158523263,4479,Redouane Hajry,real,player,green,
 Portugal,83169838388181639,19364487,Reinaldo,real,player,green,
 Portugal,4062787361754627573,,Reinaldo Costa Teles Pinheiro,created,staff,green,
@@ -1450,12 +1450,12 @@ Portugal,17613205618463518,4100894,Ricardo Chaves,real,player,purple,profile fro
 Portugal,236319301228270375,55022375,Ricardo Esgaio,real,player,green,
 Portugal,30080980285578878,7003774,Ricardo Fernandes,real,player,green,
 Portugal,30085258073006690,7004770,Ricardo Formosinho,real,player,green,
-Portugal,236522972872461412,55069796,Ricardo Horta,real,player,green,not in the squad sheet - club left as FM27 has it
+Portugal,236522972872461412,55069796,Ricardo Horta,real,player,green,
 Portugal,38116168313563764,8874612,Ricardo Janota,real,player,green,"staff in FM27: made a player first, retirements cleared, 41 attribute(s) and positions from FM17; body type not copied yet; reputations from CA 104; his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,3865471229827063737,,Ricardo Jorge Freitas Lopes,created,player,green,
 Portugal,3886475483920252368,,Ricardo José Araújo Ferreira,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,30084506453729715,7004595,Ricardo Malafaia,real,player,purple,profile from FM17 - redo by hand
-Portugal,3179542640300703185,,Ricardo Miguel Moreira da Costa,created,player,green,
+Portugal,3179542640300703185,,Ricardo Miguel Moreira da Costa,created,player,green,"club set to Boavista Futebol Clube - SAD (squad sheet, by surname and career)"
 Portugal,3314938323211174270,,Ricardo Miguel Santos Lopes Ramires,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,3196550885628735,744255,Ricardo Nunes,real,player,green,"staff in FM27: made a player first, retirements cleared, 42 attribute(s) and positions from FM24; body type not copied yet"
 Portugal,2512083036605015026,,Ricardo Queirós,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
@@ -1518,7 +1518,7 @@ Portugal,3873390486995668,901844,Rui Gregório,real,player,purple,profile from F
 Portugal,3865796984814572,900076,Rui Jorge,real,player,purple,profile from FM16 - redo by hand
 Portugal,30075663116065192,7002536,Rui Júnior,real,player,green,
 Portugal,17618990939412577,4102241,Rui Lima,real,player,green,"staff in FM27: made a player first, retirements cleared, 43 attribute(s) and positions from FM17; body type not copied yet"
-Portugal,3865471440280461290,902113,Rui Manuel,recreated,player,purple,"recreated as new player 3865471440280461290 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand"
+Portugal,3865471440280461290,902113,Rui Manuel,recreated,player,purple,"recreated as new player 3865471440280461290 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand; club set to Futebol Clube Maia Lidador (squad sheet)"
 Portugal,2409400285637141757,,Rui Manuel da Silva Correia,created,player,green,
 Portugal,636821622780618406,,Rui Manuel da Silva Ramos,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3865470881934712680,,Rui Manuel de Almeida Santos,created,player,green,
@@ -1566,7 +1566,7 @@ Portugal,1399668747251246532,,Sebastião Loureiro da Silva,created,player,green,
 Portugal,3865470697251118909,,Sebastião MarcosBarbosa de Oliveira,created,player,green,
 Portugal,369392609453430943,86005919,Sema Velázquez,real,player,green,
 Portugal,522732062052236704,,Serafim das Neves,created,player,green,
-Portugal,2085124795885708288,,Serafim de Oliveira,created,player,green,
+Portugal,2085124795885708288,,Serafim de Oliveira,created,player,green,club set to Sport Clube União Torreense (squad sheet)
 Portugal,3360394220650128786,,Serafim Pereira Batista,created,player,green,
 Portugal,496806470615065767,,Serge Cadorin,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,3154176738276533,734389,Serginho,real,player,green,
@@ -1584,7 +1584,7 @@ Portugal,3197732001635410,744530,Silvestre Varela,real,player,green,
 Portugal,3869018210287322,900826,Silvino,real,player,purple,profile from FM16 - redo by hand; PA 123 -> -65
 Portugal,725878014476313586,,Silvino Batista Preto,created,player,green,check age: seasons typed in FM17 after the birth date (FM15)
 Portugal,17610568508543160,4100280,Simão Sabrosa,real,player,green,
-Portugal,8591149683197994270,2000282910,Simão Silva,real,player,green,club set to Académico de Viseu Futebol Clube (squad sheet)
+Portugal,8591149683197994270,2000282910,Simão Silva,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,8590012337203042997,2000018101,Sorriso,real,player,purple,no date of birth to move - set his age by hand
 Portugal,155228020853406480,36141840,Sotiris Alexandropoulos,real,player,green,
 Portugal,365284301435158563,85049379,Soualiho Meïté,real,player,green,
@@ -1618,7 +1618,7 @@ Portugal,236576505344851220,55082260,Tiago Dias,real,player,green,
 Portugal,236563044917342422,55079126,Tiago Esgaio,real,player,green,
 Portugal,236319558926308195,55022435,Tiago Ferreira,real,player,green,
 Portugal,357462856749676179,83228307,Tiago Gonçalves,real,player,green,
-Portugal,357463157397386969,83228377,Tiago Gouveia,real,player,green,club set to Sport Lisboa e Benfica (squad sheet)
+Portugal,357463157397386969,83228377,Tiago Gouveia,real,player,green,club set to Sport Lisboa e Benfica (his open club spell)
 Portugal,347155774676712953,,Tiago Henrique Damil Gomes,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,236389309195211475,55038675,Tiago Ilori,real,player,green,
 Portugal,236327358586919547,55024251,Tiago Rodrigues,real,player,green,
@@ -1629,7 +1629,7 @@ Portugal,999233815075382261,,Tito José da Costa Santos,created,player,green,che
 Portugal,11463267715693,2669,Tito Ribeiro,real,player,green,PA 121 -> -65
 Portugal,159174142316609546,37060618,Tom van de Looi,real,player,green,
 Portugal,236327362881886844,55024252,Tomané,real,player,purple,born 23/10/2001: FM26's date moved by the career's +9; profile from FM17 - redo by hand
-Portugal,357526220402208820,83243060,Tomás Araújo,real,player,green,
+Portugal,357526220402208820,83243060,Tomás Araújo,real,player,green,not in the squad sheet - club left as FM27 has it
 Portugal,4288591298792045951,,Tomé Augusto Domingos Antunes,created,player,green,
 Portugal,288691170375213847,67216151,Toni Martínez,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,3865471646438891546,83118797,Toni Vidigal,recreated,player,purple,"recreated as new player 3865471646438891546 (already missing in FM26); from FM17: nationality, birth city, personality, ethnicity, skin tone; hair colour, hair length and preferred moves not copied yet; profile from FM16 - redo by hand; PA 118 -> -65"
@@ -1687,7 +1687,7 @@ Portugal,1653953162184254834,,Vítor Manuel Afonso Damas de Oliveira,created,pla
 Portugal,3114979996122529150,,Vítor Manuel da Silva Gaspar,created,player,green,
 Portugal,144560951848648052,,Vítor Manuel de Jesus Gonçalves,created,player,green,
 Portugal,4217026784179567970,,Vítor Manuel dos Santos Fernandes,created,player,green,
-Portugal,2928881665850375657,,Vítor Manuel Ferreira,created,player,green,
+Portugal,2928881665850375657,,Vítor Manuel Ferreira,created,player,green,club set to Sporting Clube Campomaiorense (squad sheet)
 Portugal,1307317875121350053,,Vítor Manuel Ferreira Baptista,created,player,green,check age: seasons typed in FM17 after the birth date (FM16)
 Portugal,2484560109390577922,,Vítor Manuel Martins Baía,created,player,purple,created career never rebuilt by the converter - edit by hand
 Portugal,1890688757965045093,,Vítor Manuel Motas Fernandes,created,staff,green,
@@ -1717,7 +1717,7 @@ Portugal,236275196209097482,55012106,William Carvalho,real,player,green,
 Portugal,8590838903659350647,2000210551,William Gomes,real,player,green,
 Portugal,28836410432058,6714,Wilson,real,player,green,
 Portugal,236264810978173336,55009688,Wilson Eduardo,real,player,green,PA 132 -> -7
-Portugal,356925513391148509,83103197,Witi,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; club set to Clube Desportivo Nacional (squad sheet)"
+Portugal,356925513391148509,83103197,Witi,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027; not in the squad sheet - club left as FM27 has it"
 Portugal,357207198821322254,83168782,Xadas,real,player,green,
 Portugal,236525141830946397,55070301,Xande Silva,real,player,green,"his move opened on 1/7/2027: career read a year late, moved into 2026/2027"
 Portugal,357303985909360149,83191317,Xavi,real,player,green,
@@ -1727,7 +1727,7 @@ Portugal,210658739939469570,49047810,Yanis Begraoui,real,player,green,
 Portugal,206349191228496255,48044415,Yanis Hamache,real,player,green,
 Portugal,2068782776644321622,,Yannick dos Santos Djaló,created,player,purple,"created career never rebuilt by the converter - edit by hand; career reads season 2025, not 2026"
 Portugal,3158982806681876,735508,Yannick Quesnel,real,player,green,
-Portugal,356945901600907368,83107944,Yannick Semedo,real,player,green,
+Portugal,356945901600907368,83107944,Yannick Semedo,real,player,green,club set to 2000040208 (squad sheet)
 Portugal,193751622649665555,45111315,Yuki Soma,real,player,green,
 Portugal,3865471766697975862,901985,Yulian Spasov,recreated,player,blue,"recreated as new player 3865471766697975862; from FM26: body type, nationality, personality; hair colour, hair length and preferred moves not copied yet"
 Portugal,77775711650467993,18108569,Yusuf Lawal,real,player,green,

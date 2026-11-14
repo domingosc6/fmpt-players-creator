@@ -113,6 +113,63 @@ def club_country(cid, namer):
     return _CLUB_NATION.get(cid) or ""
 
 
+_KIT = {}
+
+
+def club_colours(cid):
+    """(background RGB, text RGB) of an FM27 club: the last 8 bytes of its row in
+    client table 4 (rows by club index, opening with index u32 + founding year
+    u16 + ffffffff), two colours of alpha, red, green, blue. Benfica red on
+    white text... read as (207,28,44) then (250,250,250); the sheet's own cells
+    show white text on the club colour, so the first is the background
+    (user's probe, Infesta: properties tbcl/ttcl, client fields)."""
+    if not _KIT:
+        import pickle, fm_db_world, fm26_install
+        sys.path.insert(0, os.path.join(ROOT, "comparativo"))
+        from fm26_leagues import index_map
+        cache = os.path.join(ROOT, "work", "fm27_client_secs.pkl")
+        if os.path.exists(cache):
+            cl = pickle.load(open(cache, "rb"))
+        else:
+            cl = fm_db_world.sections(os.path.join(fm26_install.db_dir(27), "client_db.dat"))
+            pickle.dump(cl, open(cache, "wb"))
+        m = index_map(cl[3])
+        t, starts, pos = cl[4], [], 12
+        for k in range(len(m) + 1):
+            key = struct.pack("<I", k)
+            q = t.find(key, pos)
+            while q >= 0 and t[q + 6:q + 10] != b"\xff\xff\xff\xff":
+                q = t.find(key, q + 1)
+            if q < 0:
+                break
+            starts.append(q)
+            pos = q + 10
+        starts.append(len(t))
+        for i, d in m.items():
+            if i + 1 < len(starts):
+                e = starts[i + 1]
+                c8 = t[e - 8:e]
+                _KIT[d] = (tuple(c8[1:4]), tuple(c8[5:8]))
+    return _KIT.get(cid)
+
+
+def sheet_names(country):
+    """{club id: [(display name, words)]} from the squad sheet extract: the name
+    as the sheet writes it, captain marks (C)/(VC) dropped (user, 2026-11-14)."""
+    import re as _re
+    raw = json.load(open(os.path.join(ROOT, "work", "%s_sheet_clubs.json" % country.lower()), encoding="utf-8"))
+    ids = F.sheet_clubs(country)
+    out = {}
+    for name, ents in raw.items():
+        if name.startswith("_"):
+            continue
+        disp = " ".join(_re.sub(r"\((C|VC)\)", " ", name, flags=_re.I).split())
+        words = {w for w in F.norm_name(name).split() if len(w) > 2}
+        for cl, _y in ids.get(F.norm_name(name), []):
+            out.setdefault(F.as_dbid(cl), []).append((disp, words))
+    return out
+
+
 def main():
     namer = fm_names.Names()
     ed17, ed24, ed26, ed27 = F.Edition(17), F.Edition(24), F.Edition(26), F.Edition(27)
@@ -126,6 +183,7 @@ def main():
     for u in sys.argv[2:]:
         if u in people and all(u != p["uid"] for p in miss):
             miss.append(people[u])
+    by_club = sheet_names(country)
     sheet_team = json.load(open(os.path.join(ROOT, "work", "sheet_team_names.json"), encoding="utf-8"))
     sheet_set = set(sheet_team)
     docs = F.index_docs([int(status[p["uid"]]["dbid"]) for p in miss if status[p["uid"]]["dbid"]])
@@ -211,7 +269,17 @@ def main():
             # competitions it played in (fm_names.nation), as the league (user,
             # 2026-11-14: "use that country as the league")
             team, league = hit, e.get("na") or namer.nation(club) or nation_name(club_country(club, namer))
-        rows.append({"uid": p["uid"], "name": p["name"], "role": p["role"], "pos": pos,
+        # the squad sheet's own name for him at that club (Pedro Barbosa for
+        # Pedro Alexandre Santos Barbosa): every word of it one of his
+        disp = p["name"]
+        if club:
+            mine = {w for n in [p["name"]] + list(F.name_parts(rs)[0]) + list(F.name_parts(rs)[1])
+                    for w in F.norm_name(n).split() if len(w) > 2}
+            fits = [dn for dn, ws in by_club.get(club, []) if ws and ws <= mine]
+            if fits:
+                disp = max(fits, key=len)
+        kit = club_colours(club) if club else None
+        rows.append({"uid": p["uid"], "name": disp, "file_name": p["name"], "kit": kit, "role": p["role"], "pos": pos,
                      "ca": ca, "pa": pa, "country": nation_name(namer.get("nation", nat)) if nat else "",
                      "team": team, "league": league, "file": country,
                      "obs": "/".join(x for x in ("Youth" if p["youth"] else "", p["ot"]) if x),

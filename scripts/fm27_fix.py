@@ -1038,14 +1038,71 @@ def sheet_clubs(country):
             hit = build.resolve_club(club, country, cache)
             if hit:
                 res.append((str(hit["id"]), youth))
-        out[norm_name(name)] = res
+        # two players can share a name once the captain marks are gone (Jorge
+        # Vieira (C) at Sporting, Jorge Vieira at O Elvas): keep both
+        out.setdefault(norm_name(name), [])
+        out[norm_name(name)] += [e for e in res if e not in out[norm_name(name)]]
     build._club_cache_save(cache)
     return out
 
 
 def norm_name(s):
+    """Lower-case, no accents, no captain marks or seasons in brackets, no quotes:
+    the squad sheet writes Jorge Vieira (C), Pedro "Pote" Goncalves."""
     s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower()
+    s = re.sub(r"\([^)]*\)", " ", s).replace('"', " ").replace("'", " ")
     return " ".join(s.split())
+
+
+def name_parts(rs):
+    """(full names, short names) the file gives him: Pfln; Pcna and first + second."""
+    got = {}
+    for r in rs:
+        pr = c.rec_prop(r)
+        if pr in ("Pfna", "Psna", "Pcna", "Pfln"):
+            nv = r.find('*[@id="new_value"]')
+            if nv is not None and nv.get("value"):
+                got[pr] = nv.get("value")
+    short = [got["Pcna"]] if "Pcna" in got else []
+    if "Pfna" in got or "Psna" in got:
+        short.append(" ".join(got[k] for k in ("Pfna", "Psna") if k in got))
+    return ([got["Pfln"]] if "Pfln" in got else []), short
+
+
+def as_dbid(x):
+    x = int(x)
+    return x // S if x > 10 ** 8 else x
+
+
+def sheet_pick(by_sheet, full, short, career):
+    """The squad sheet's club for a legend. His FULL name (status name, Pfln)
+    found as is: the club his career passes through, else the only club that
+    name has. A SHORT name (Pcna, first + second) or a sheet name whose every word
+    is one of his ("Nogueira" for Antonio Jose Nogueira Santos): only at a club
+    of his career - a short name is shared (Joao Pinto is two FC Porto/Benfica
+    legends). Returns (club id, how matched) or None."""
+    fk = [norm_name(n) for n in full if n]
+    sk = [norm_name(n) for n in short if n]
+    exact = [cl for k in fk for cl, _y in by_sheet.get(k, [])]
+    hit = next((cl for cl in exact if as_dbid(cl) in career), None)
+    if hit:
+        return hit, "squad sheet"
+    # a full name alone, at a club he never played for, only when the name is long
+    # enough to be his: two-word names collide (the sheet's Diogo Costa at Anadia,
+    # Miguel Veloso at Olivais e Moscavide, Andre Silva at Arouca)
+    if len(set(exact)) == 1 and any(len(k.split()) >= 3 for k in fk if by_sheet.get(k)):
+        return exact[0], "squad sheet"
+    hit = next((cl for k in sk for cl, _y in by_sheet.get(k, []) if as_dbid(cl) in career), None)
+    if hit:
+        return hit, "squad sheet"
+    mine = {w for k in fk + sk for w in k.split() if len(w) > 2}
+    loose = []
+    for k, ents in by_sheet.items():
+        words = [w for w in k.split() if len(w) > 2]
+        if words and set(words) <= mine:
+            loose += [cl for cl, _y in ents if as_dbid(cl) in career]
+    loose = list(dict.fromkeys(loose))
+    return (loose[0], "squad sheet, by surname and career") if len(loose) == 1 else None
 
 
 def main(argv=None):
@@ -1151,6 +1208,19 @@ def main(argv=None):
                 # history ends in 2013, spells run to 2027) - nothing to move by rule
                 st = ORANGE if st == GREEN else st
                 obs.append("club spells open after 2026 and do not match his playing history - fix by hand")
+        if kind == "created" and role == "player":
+            pcti, open_club, join = file_club(rs)
+            own = replace.get(uid) or [r for r in rs if c.rec_prop(r) in ("Plhs", "Pnph")]
+            career = {as_dbid(x) for x in _career_clubs([o for o in own if c.rec_prop(o) == "Plhs"])}
+            career |= {as_dbid(sp["team"][1]) for sp in c.replay_spells([o for o in own if c.rec_prop(o) == "Pnph"])
+                       if sp.get("team")}
+            full, short = name_parts(rs)
+            pick = sheet_pick(by_sheet, [name] + full, short, career)
+            now = as_dbid(pcti or open_club) if (pcti or open_club) else None
+            if pick and as_dbid(pick[0]) != now:
+                tail.extend(club_ops(int(uid), as_dbid(pick[0]), None, rng))
+                obs.append("club set to %s (%s)" % (namer.club(as_dbid(pick[0])) or pick[0], pick[1]))
+                count["club set (created)"] += 1
         new_uid = uid
         if kind == "real":
             t26, t27 = fm26.type(d), fm27.type(d)
@@ -1318,22 +1388,21 @@ def main(argv=None):
                     st = PURPLE if st in (GREEN, BLUE) else st
                     obs.append("profile from %s - redo by hand" % c.EDITION_BY_BUILD.get(last_attr, last_attr))
                     count["old profile"] += 1
-                # club: the squad sheet's, where the file does not set one
+                # club: the squad sheet's - the source of truth, also over a club an
+                # older edition set in the file (user, 2026-11-14: Nogueira Santos)
                 pcti, open_club, join = file_club(rs)
-                if not pcti:
-                    team27 = str((doc.get("team") or {}).get("fm_id") or "")
-                    career = {ci_club for ci_club in _career_clubs(fix[0] if fix else plhs)}
-                    cands = by_sheet.get(norm_name(name), [])
-                    want = next((cl for cl, _y in cands if cl in career), cands[0][0] if cands else None)
-                    if want is None:
-                        want = open_club
-                    if want and want != team27:
-                        tail.extend(club_ops(int(new_uid), int(want), join, rng))
-                        obs.append("club set to %s%s" % (namer.club(want) or want,
-                                                         " (squad sheet)" if cands else " (his open club spell)"))
-                        count["club set"] += 1
-                    elif not want and not cands:
-                        obs.append("not in the squad sheet - club left as FM27 has it")
+                team27 = str((doc.get("team") or {}).get("fm_id") or "")
+                career = {as_dbid(x) for x in _career_clubs(fix[0] if fix else plhs)}
+                full, short = name_parts(rs)
+                pick = sheet_pick(by_sheet, [name] + full, short, career)
+                want, how = pick if pick else ((open_club, "his open club spell") if not pcti else (None, None))
+                now = as_dbid(pcti) if pcti else (int(team27) if team27 else None)
+                if want and as_dbid(want) != now:
+                    tail.extend(club_ops(int(new_uid), as_dbid(want), join if as_dbid(want) == as_dbid(open_club or 0) else None, rng))
+                    obs.append("club set to %s (%s)" % (namer.club(as_dbid(want)) or want, how))
+                    count["club set"] += 1
+                elif not pick and not pcti:
+                    obs.append("not in the squad sheet - club left as FM27 has it")
         # negative PA for the young (user, 2026-11-13)
         pa = last_int(rs, "PPAB")
         born = dob_of.get(uid)
