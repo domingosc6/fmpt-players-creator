@@ -995,6 +995,19 @@ def main(argv=None):
             st = PURPLE
             obs.append("created career never rebuilt by the converter - edit by hand")
             count["created, manual"] += 1
+        if kind == "created" and role == "player" and plhs:
+            # seasons typed in a later edition than the last birth-date edit: the
+            # age may have drifted (user, 2026-11-14: Alves Nilo -1, Amilcar Cavem
+            # -2; false positives accepted - it is a list to check, not a fix)
+            dob_b = [c.rec_build(r) for r in rs if c.rec_prop(r) == "Pdob" and 0 < (c.rec_build(r) or 0) < 3569]
+            if dob_b:
+                dob_ed = c.EDITION_BY_BUILD.get(max(dob_b), max(dob_b))
+                later = sorted({c.EDITION_BY_BUILD.get(c.rec_build(r), c.rec_build(r)) for r in plhs
+                                if max(dob_b) < (c.rec_build(r) or 0) < 3569} - {dob_ed}, key=str)
+                if later:
+                    obs.append("check age: seasons typed in %s after the birth date (%s)"
+                               % ("/".join(map(str, later)), dob_ed))
+                    count["age to check"] += 1
         if kind == "created" and role == "player" and plhs and \
                 (a.future_spells is None or norm_name(name) in a.future_spells):
             # the same career-a-year-late case on a created player (user,
