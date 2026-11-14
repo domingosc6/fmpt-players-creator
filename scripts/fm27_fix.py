@@ -157,6 +157,36 @@ GREEN, ORANGE, YELLOW, RED, BLUE, PURPLE, PINK = (
 
 # ------------------------------------------------------------- databases ----
 
+def dob_pos17(r):
+    """FM17's date of birth: after the full-name string (u32 length + UTF-8),
+    whose name ids before it are not zero-padded as FM24+'s are. A person
+    named only by name-table ids has a zero-length string (Fernando Prass): the
+    date then follows at once, and is accepted when the bytes after it read as a
+    birth block (a nation row under 300, an ethnicity under 13)."""
+    for i in range(16, len(r) - 30):
+        n = struct.unpack_from("<I", r, i)[0]
+        if n == 0 and struct.unpack_from("<I", r, i - 12)[0] not in (0, 0xFFFFFFFF):
+            doy, y = struct.unpack_from("<HH", r, i + 4)
+            if 1850 <= y <= 2015 and 1 <= doy <= 366 and r[i + 8] < 13                     and struct.unpack_from("<I", r, i + 11)[0] < 300:
+                return i + 4
+            continue
+        if not 2 <= n <= 90 or i + 4 + n + 4 > len(r):
+            continue
+        nm = r[i + 4:i + 4 + n]
+        if min(nm) < 32:
+            continue
+        try:
+            t = nm.decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        if not any(ch.isalpha() for ch in t):
+            continue
+        doy, y = struct.unpack_from("<HH", r, i + 4 + n)
+        if 1850 <= y <= 2015 and 1 <= doy <= 366:
+            return i + 4 + n
+    return -1
+
+
 def dob_pos(rec):
     """Offset of the date of birth (u16 day of year, u16 year) in a people_db
     record: it follows the full-name string (u32 length + UTF-8), itself after
@@ -180,6 +210,15 @@ def dob_pos(rec):
     return -1
 
 
+def dob_pos_any(rec):
+    """dob_pos, else FM17's string-and-date scan: FM27 writes some people with
+    name ids whose bytes defeat dob_pos's zero test (Abraham Marcus, Samuel Lino,
+    Schjelderup), though the date still follows the full-name string. Returns
+    (offset, found by the fallback)."""
+    i = dob_pos(rec)
+    return (i, False) if i >= 0 else (dob_pos17(rec), True)
+
+
 class Edition:
     """One release database: person types and the player block, by DBID."""
 
@@ -190,13 +229,31 @@ class Edition:
     # (3372 of 3372 positions and attributes) and against FM26's record of the
     # same 1434 players for the birth block (2026-11-13).
     LAYOUT = {26: dict(pos=36, attr=50, height=132, body=134, eth=5, skin=8, nation=17, pers=21, city=33),
-              24: dict(pos=35, attr=49, height=133, body=None, eth=5, skin=8, nation=13, pers=17, city=29)}
+              # FM27's birth block is one byte longer after the skin tone: nation +18,
+              # personality +22, city +34 (against FM26's record of the same 3994
+              # people: 99.6%, 98.7%, 94.8%; ethnicity +5 and skin +8 unchanged)
+              27: dict(pos=36, attr=50, height=132, body=134, eth=5, skin=8, nation=18, pers=22, city=34),
+              24: dict(pos=35, attr=49, height=133, body=None, eth=5, skin=8, nation=13, pers=17, city=29),
+              # FM17 (2026-11-14): the FM18 layout. Positions and attributes against
+              # FM17-built odvl (every one of the 68 properties peaks at its offset);
+              # the birth block against FM24's record of the same 2940 people:
+              # nation row +7 (97%), ethnicity +4 (88%), personality +11 (81%), city
+              # row +19 (83%), skin +6 (68% - it changes between editions), height
+              # 121. Nation and city are ROW numbers, turned into DBIDs by the
+              # release's own world tables (fm_db_world).
+              17: dict(pos=30, attr=44, height=121, body=None, eth=4, skin=6, nation=7, pers=11, city=19,
+                       rows=True)}
 
     def __init__(self, ed):
         self.ed = ed
-        self.lay = self.LAYOUT[24 if ed < 26 else 26]
+        self.lay = self.LAYOUT[17 if ed < 20 else 24 if ed < 26 else 26 if ed == 26 else 27]
         self.db = fm_db_people.PeopleDB(fm26_install.db_dir(ed),
                                         cache=os.path.join(ROOT, "work", "fm%d_people.pkl" % ed))
+        self.world = None
+        if self.lay.get("rows"):
+            import fm_db_world
+            self.world = fm_db_world.WorldDB(fm26_install.db_dir(ed))
+        self.dob_at = (lambda r: (dob_pos17(r), False)) if ed < 20 else dob_pos_any
 
     def has(self, d):
         return d in self.db.prows
@@ -230,8 +287,8 @@ class Edition:
         Silva (Sporting + Portugal), Heldon (Cape Verde + Portugal) and Gyokeres
         (Brommapojkarna + Sweden). A club entry can also come in a short form that
         is not read (Baba's Jeanne d'Arc), so a club list may come up short."""
-        if d not in self.db.prows:
-            return [], []
+        if d not in self.db.prows or self.world:
+            return [], []              # FM17's home-grown entries are not decoded
         s, e = self.db.prows[d]
         r = self.db.people[s:e]
         clubs, nations = [], []
@@ -256,14 +313,22 @@ class Edition:
             return None
         s, e = self.db.prows[d]
         r = self.db.people[s:e]
-        i = dob_pos(r)
+        i, loose = self.dob_at(r)
         L = self.lay
         if i < 0 or i + L["city"] + 4 > len(r):
             return None
+        nation = struct.unpack_from("<I", r, i + L["nation"])[0]
+        city = struct.unpack_from("<I", r, i + L["city"])[0]
+        pers = r[i + L["pers"]:i + L["pers"] + 8]
+        if loose and 0 in pers:
+            return None                # a fallback date that reads no personality was misread
+        if self.world:
+            nation = (self.world.nation(nation) or {}).get("dbid") or 0
+            city = (self.world.city(city) or {}).get("dbid") or 0
         return {"Peth": r[i + L["eth"]], "Pskt": r[i + L["skin"]],
-                "nation": struct.unpack_from("<I", r, i + L["nation"])[0],
+                "nation": nation,
                 "personality": dict(zip(PERSONALITY, r[i + L["pers"]:i + L["pers"] + 8])),
-                "city": struct.unpack_from("<I", r, i + L["city"])[0]}
+                "city": city}
 
     def dob(self, d):
         """(day, month, year) of birth in this database, or None."""
@@ -271,7 +336,7 @@ class Edition:
             return None
         s, e = self.db.prows[d]
         r = self.db.people[s:e]
-        i = dob_pos(r)
+        i = self.dob_at(r)[0]
         if i < 0:
             return None
         doy, y = struct.unpack_from("<HH", r, i)
@@ -283,8 +348,8 @@ class Edition:
         language DBID and fluency (Baba 19/5 and 88/10, Cicero 21/2, Adrien Silva
         8/5 19/10 15/2 10/5, the user's probe player 24/4 66/5). The NATIVE
         language is not in it - the game works that out itself."""
-        if d not in self.db.prows:
-            return []
+        if d not in self.db.prows or self.world:
+            return []                  # FM17's language entries are not decoded
         s, e = self.db.prows[d]
         r = self.db.people[s:e]
         for p in range(104, len(r) - 10):
@@ -538,6 +603,54 @@ def twin_of(uid, rs, created, recs, names, dob_of):
 
 
 _FP, _NAME, _TERMS = {}, {}, {}
+
+GENERIC_CLUB = {"sport", "clube", "club", "futebol", "football", "fc", "sad", "de", "do", "da", "dos",
+                "das", "e", "desportivo", "cf", "sc", "cd", "sporting", "grupo", "associacao", "uniao"}
+
+
+def club_words(namer, cid):
+    """The distinctive words of a club's name: Estrela da Amadora and Club Football
+    Estrela da Amadora SAD share "estrela" and "amadora" - one club in two
+    database records (user, 2026-11-14: Chainho, Miguel)."""
+    if not cid:
+        return set()
+    e = namer.entry("team", cid) or {}
+    return {w for w in norm_words(e.get("n") or "") if w not in GENERIC_CLUB and len(w) > 3}
+
+
+def created_twin(uid, rs, cands, names, dob_of, namer):
+    """A legend created in the file that is this real record under another id:
+    the same birthday, a shared name word, and the same club (or a club that is
+    the same club in another database record) or a birth year within 3. Catches
+    Carlos Chainho (real 522, FM16 changes; created in FM26 at Estrela SAD, born a
+    year apart) and Miguel (lost 7003451; the created Miguel Monteiro, 8 years
+    apart - the birth year is relabelled edition after edition)."""
+    d = dob_of.get(uid)
+    if not d:
+        return None
+    mine = norm_words(_NAME.get(uid, "") + " " + (names.get(uid) or ""))
+    for t in _TERMS.get(uid, []):
+        mine |= norm_words(t)
+    pc, sp, _ = file_club(rs)
+    myclub = club_words(namer, pc or sp)
+    for cu, crs in cands:
+        cd = dob_of.get(cu)
+        if cu == uid or not cd or cd[:2] != d[:2]:
+            continue
+        theirs = [w for w in re.split(r"[\s\-]+", unicodedata.normalize("NFKD", names.get(cu) or "")
+                  .encode("ascii", "ignore").decode().lower()) if len(w) > 2]
+        short = norm_words(_NAME.get(uid, "") or names.get(uid) or "")
+        # the shared word must be his surname, or his whole one-word name ("Miguel",
+        # "Costinha"): a first name alone pairs Chiquinho Conde with Francisco
+        # Crisanto, who merely shares his birthday and club
+        if not theirs or not ((theirs[-1] in mine) or (len(short) == 1 and short <= set(theirs))):
+            continue
+        cpc, csp, _ = file_club(crs)
+        # the same club is required: a birthday and a common name word alone pair
+        # strangers among 1800 legends (Paulo Assuncao "da Silva" with Eusebio)
+        if myclub & club_words(namer, cpc or csp):
+            return cu
+    return None
 
 
 # Negative PA codes and the middle of the range each stands for (user, 2026-11-13:
@@ -956,7 +1069,7 @@ def main(argv=None):
                                        "FMPT Legends - %s - Squads.xml" % country)
 
     tree, changes, created, recs, staff, names = scan(src)
-    fm26, fm27, fm24 = Edition(26), Edition(27), Edition(24)
+    fm26, fm27, fm24, fm17 = Edition(26), Edition(27), Edition(24), Edition(17)
     namer = fm_names.Names()
     by_sheet = sheet_clubs(country)
     hist26, hist24 = fm26_history.History(26), fm26_history.History(24)
@@ -971,6 +1084,13 @@ def main(argv=None):
         doc = docs.get(dbid_of(u)) or {}
         _NAME[u] = names.get(u) or doc.get("name") or namer.person(u) or ""
         _TERMS[u] = [t for t in doc.get("search_terms", []) if " " in t]
+
+    # created legends, for the old-twin rule (created_twin)
+    twin_cands = [(u, legends[u]) for u in created if u in legends and u not in staff]
+    namer.fetch([("team", int(x) // S if int(x) > 10 ** 8 else int(x))
+                 for rs in legends.values() for x in file_club(rs)[:2] if x])
+    drop = set()                   # real records whose every change is removed (old twins)
+    twins = []
 
     head = defaultdict(list)       # uid -> ops put right before his first change
     tail = []                      # ops appended at the end of the file
@@ -1036,6 +1156,19 @@ def main(argv=None):
             t26, t27 = fm26.type(d), fm27.type(d)
             doc = docs.get(d) or {}
             fix = rebuilt.get(uid)
+            ctwin = created_twin(uid, rs, twin_cands, names, dob_of, namer)
+            if ctwin and t27 is not None:
+                # the legend lives on as the created record; this one only carries
+                # older editions' changes to FM27's own copy of him, which would
+                # make him a second player (user, 2026-11-14: drop the changes only)
+                drop.add(uid)
+                twins.append((uid, name, ctwin, names.get(ctwin)))
+                count["old twin of a created legend, changes dropped"] += 1
+                continue
+            if t27 is None and ctwin:
+                twins.append((uid, name, ctwin, names.get(ctwin)))
+                count["already recreated in FM26"] += 1
+                continue
             if t27 is None:
                 twin, why = (twin_of(uid, rs, created, recs, names, dob_of) if t26 is None else (None, None))
                 if twin:
@@ -1060,8 +1193,10 @@ def main(argv=None):
                 elif not ({"Pfna", "Psna", "Pcna", "Pfln"} & props):
                     st = RED
                     obs.append("no name anywhere - name him by hand")
-                # FM26's record, else FM24's (user, 2026-11-13: Secretario)
-                src_ed, src_name = (fm26, "FM26") if t26 else (fm24, "FM24")
+                # FM26's record, else FM24's (user, 2026-11-13: Secretario), else
+                # FM17's for the oldest (user, 2026-11-14: Bosingwa, created with no
+                # nationality because no newer release has him)
+                src_ed, src_name = (fm26, "FM26") if t26 else (fm24, "FM24") if fm24.has(d) else (fm17, "FM17")
                 block = src_ed.player_block(d) if src_ed.type(d) in (2, 3) else {}
                 h += player_block_ops(new, block, props, rng)
                 prof, done = src_ed.profile_ops(new, d, props, rng, full=True) if src_ed.has(d) else ([], [])
@@ -1069,7 +1204,7 @@ def main(argv=None):
                 head[uid] = h
                 if not (props & set(ATTRIBUTES)) and not block:
                     st = RED
-                    obs.append("neither the file nor FM26/FM24 has his attributes")
+                    obs.append("neither the file nor FM26/FM24/FM17 has his attributes")
                 obs.insert(0, "recreated as new player %s%s" % (new, "" if t26 else " (already missing in FM26)"))
                 if done:
                     obs.append("from %s: " % src_name + ", ".join(done))
@@ -1084,13 +1219,15 @@ def main(argv=None):
                     # FM26 had him as staff too: what the file leaves empty comes
                     # from FM24 (user, 2026-11-13: Edgar Costa, not a complete profile)
                     block, src_name = fm24.player_block(d), "FM24"
+                if not block and fm17.type(d) in (2, 3):
+                    block, src_name = fm17.player_block(d), "FM17"
                 prof, done = fm26.profile_ops(int(uid), d, props, rng)
                 missing = [p for p in block if p in ATTRIBUTES and p not in props]
                 head[uid] = [rlr.type_change(int(uid), rng)] + build.retirement_ops(int(uid), rng) \
                     + player_block_ops(uid, block, props, rng) + prof
                 obs.append("staff in FM27: made a player first, retirements cleared"
                            + (", %d attribute(s) and positions from %s" % (len(missing), src_name) if block else ""))
-                if src_name == "FM24" and missing:
+                if src_name in ("FM24", "FM17") and missing:
                     filled24.add(uid)
                 if not block and not (props & set(ATTRIBUTES)):
                     st = PURPLE
@@ -1215,6 +1352,8 @@ def main(argv=None):
                        "status": st, "obs": "; ".join(obs)})
 
     print("%s: %d legends; %s" % (country, len(status), dict(count)))
+    for u, n, cu, cn in twins:
+        print("  old twin: %s %s -> created %s %s%s" % (u, n, cu, cn, " (changes dropped)" if u in drop else ""))
     print("status:", dict(Counter(s["status"] for s in status)))
     if a.status_out:
         with open(a.status_out, "w", newline="", encoding="utf-8") as fh:
@@ -1231,6 +1370,8 @@ def main(argv=None):
     for rec in list(changes):
         u = rec.find('large[@id="db_unique_id"]')
         uid = u.get("value") if u is not None else None
+        if uid in drop:
+            continue
         if uid in head and uid not in started:
             out.extend(head[uid])
             started.add(uid)

@@ -25,7 +25,10 @@ EDITIONS = {26: ("Football Manager 26 Editor", "2620"),
             27: ("Football Manager 27 Editor", "2700"),
             # FM24's editor ships no database: it reads the game's, which sits
             # under data/ instead of shared/data/ (final update 24.3 = 2430)
-            24: ("Football Manager 2024", "2430")}
+            24: ("Football Manager 2024", "2430"),
+            # FM17: the game's own database, data/db/1700 (no database/ level),
+            # zlib-compressed (user, 2026-11-14: for legends no newer release has)
+            17: ("Football Manager 2017", "1700")}
 
 
 def _steam_roots():
@@ -55,8 +58,11 @@ def db_dir(edition=26):
     When no install has it, the default path, so a missing file names where it
     was looked for. FM26_EDITOR_DIR / FM27_EDITOR_DIR override the search."""
     editor, ver = EDITIONS[edition]
-    db = os.path.join("data" if edition < 26 else os.path.join("shared", "data"),
-                      "database", "db", ver, ver + "_fm")
+    if edition < 20:
+        db = os.path.join("data", "db", ver, ver + "_fm")
+    else:
+        db = os.path.join("data" if edition < 26 else os.path.join("shared", "data"),
+                          "database", "db", ver, ver + "_fm")
     env = "FM%d_EDITOR_DIR" % edition
     if os.environ.get(env):
         return os.path.join(os.environ[env], db)

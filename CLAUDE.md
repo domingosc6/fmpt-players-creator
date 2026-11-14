@@ -1145,6 +1145,26 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
   the native language `dfln`.
 - 242 Portugal real legends were ALREADY missing in FM26; 157 had been rebuilt as
   created records (`rebuild_lost_records`), the rest silently never loaded.
+- **FM17** (`db_dir(17)`: the game folder `Football Manager 2017/data/db/1700`, zlib):
+  the FM18 layout - positions 30, attributes 44 (each property peaks at its offset
+  against FM17-built odvl), height 121; birth block from the date: ethnicity +4, skin
+  +6, nation ROW +7, personality +11, city ROW +19 (rows turned into DBIDs by
+  `fm_db_world`). Some names are id-only (zero-length string): `dob_pos17`. Used for
+  recreations no newer release has (Bosingwa, Fernando Prass): FM26, else FM24, else FM17.
+- **FM27's birth block** is one byte longer after the skin: nation +18, personality
+  +22, city +34 (FM26 +17/+21/+33). Some FM27 names defeat `dob_pos`; `dob_pos_any`
+  falls back to the string-and-date scan and refuses a block with a 0 personality.
+- **CA/PA** are i16 at bytes 11 and 13 in FM17, FM24, FM26 and FM27 alike (reputations
+  near them: current 7, home 5, world 9 in FM24).
+- **Old twins** (`created_twin`): a real record whose legend the file already carries as
+  a created record - same birthday, the created record's surname (or the whole one-word
+  name) among his names, and the same club family (Estrela da Amadora = Estrela da
+  Amadora SAD by distinctive name words). FM27 still has him: every change on the real
+  record is dropped (user: drop only, no retirement - Chainho 522, Bilro, Costinha,
+  Sougou). FM27 lost him: not recreated (Miguel = Miguel Monteiro).
+- **Comparativo duplicates** (appended rows): same club, overlapping positions, CA within
+  5, PA within 5 or a negative PA whose range covers the other, a shared name word (one
+  word only with both CAs within 3); the status goes to the existing row.
 
 ## 6. Known limitations (not converter bugs)
 
