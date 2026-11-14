@@ -995,6 +995,29 @@ def main(argv=None):
             st = PURPLE
             obs.append("created career never rebuilt by the converter - edit by hand")
             count["created, manual"] += 1
+        if kind == "created" and role == "player" and plhs and \
+                (a.future_spells is None or norm_name(name) in a.future_spells):
+            # the same career-a-year-late case on a created player (user,
+            # 2026-11-14: Alberto Antonio Monteiro, Amilcar Cavem)
+            own = [r for r in rs if c.rec_prop(r) in ("Plhs", "Pnph")]
+            fixed, was = future_spell_fix(uid, own, rs, namer)
+            if fixed:
+                replace[uid] = fixed
+                obs.append("his move opened on %d/%d/%d: career read a year late, moved into %d/%d"
+                           % (was + (SEASON, SEASON + 1)))
+                count["future spell moved (created)"] += 1
+                tail.extend(contract_sync_ops(int(uid), fixed, rs, rng, obs, count))
+                opened = [sp for sp in c.replay_spells([o for o in fixed if c.rec_prop(o) == "Pnph"])
+                          if sp["left"] is None]
+                if len(opened) > 1:
+                    st = ORANGE if st == GREEN else st
+                    obs.append("%d club spells left open - check which is his club" % len(opened))
+            elif any(sp["left"] is None and sp["join"] is not None and int(sp["join"].get("year")) > SEASON
+                     for sp in c.replay_spells([o for o in own if c.rec_prop(o) == "Pnph"])):
+                # his spells and his rows tell different stories (Severiano Correia:
+                # history ends in 2013, spells run to 2027) - nothing to move by rule
+                st = ORANGE if st == GREEN else st
+                obs.append("club spells open after 2026 and do not match his playing history - fix by hand")
         new_uid = uid
         if kind == "real":
             t26, t27 = fm26.type(d), fm27.type(d)
