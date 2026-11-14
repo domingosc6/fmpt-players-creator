@@ -163,11 +163,21 @@ def dob_pos17(r):
     named only by name-table ids has a zero-length string (Fernando Prass): the
     date then follows at once, and is accepted when the bytes after it read as a
     birth block (a nation row under 300, an ethnicity under 13)."""
+    def sane(at):
+        # a real birth block: a plausible year, a nation row under 300 and eight
+        # personality values of 0-20, FM17 leaving unset ones at 0 (Avelino and
+        # Vitor read a date at a name id first - born 2015 and 1900, personality
+        # 68, 128, 117 - and came out Algerian, 2026-11-14)
+        if at + 23 > len(r):
+            return False
+        doy, y = struct.unpack_from("<HH", r, at)
+        return 1850 <= y <= 2010 and y != 1900 and 1 <= doy <= 366 \
+            and struct.unpack_from("<I", r, at + 7)[0] < 300 \
+            and all(v <= 20 for v in r[at + 11:at + 19]) and any(r[at + 11:at + 19])
     for i in range(16, len(r) - 30):
         n = struct.unpack_from("<I", r, i)[0]
         if n == 0 and struct.unpack_from("<I", r, i - 12)[0] not in (0, 0xFFFFFFFF):
-            doy, y = struct.unpack_from("<HH", r, i + 4)
-            if 1850 <= y <= 2015 and 1 <= doy <= 366 and r[i + 8] < 13                     and struct.unpack_from("<I", r, i + 11)[0] < 300:
+            if sane(i + 4):
                 return i + 4
             continue
         if not 2 <= n <= 90 or i + 4 + n + 4 > len(r):
@@ -181,8 +191,7 @@ def dob_pos17(r):
             continue
         if not any(ch.isalpha() for ch in t):
             continue
-        doy, y = struct.unpack_from("<HH", r, i + 4 + n)
-        if 1850 <= y <= 2015 and 1 <= doy <= 366:
+        if sane(i + 4 + n):
             return i + 4 + n
     return -1
 
@@ -270,6 +279,12 @@ class Edition:
         out = {p: rec[s + self.lay["pos"] + i] for i, p in enumerate(POSITIONS)}
         out.update({p: rec[s + self.lay["attr"] + i] for i, p in enumerate(ATTRIBUTES)})
         return {p: v for p, v in out.items() if v}
+
+    def ca_pa(self, d):
+        """(CA, PA): i16 at bytes 11 and 13 in every release read here."""
+        if d not in self.db.prows:
+            return None, None
+        return struct.unpack_from("<hh", self.db.people, self.db.prows[d][0] + 11)
 
     def height(self, d):
         """Height in cm, byte 132 (user's examples 2026-11-13: Cicero 189, Adrien
@@ -1071,10 +1086,29 @@ def name_parts(rs):
 
 def as_dbid(x):
     x = int(x)
-    return x // S if x > 10 ** 8 else x
+    return x // S if x >= S else x
 
 
-def sheet_pick(by_sheet, full, short, career):
+def club_family(a, b, namer):
+    """One club under two ids: the old Estrela da Amadora and Estrela da Amadora
+    SAD, U. Leiria and UD Leiria - every distinctive word of one's names begins a
+    word of the other's."""
+    a, b = as_dbid(a), as_dbid(b)
+    if a == b:
+        return True
+    if namer is None:
+        return False
+    namer.fetch([("team", a), ("team", b)])
+    pools = []
+    for x in (a, b):
+        e = namer.entry("team", x) or {}
+        pools.append([club_key_words(n) for n in [e.get("n")] + list(e.get("t") or []) if n])
+    flat = [{w for ws in p for w in ws} for p in pools]
+    return any(ws and all(any(f.startswith(w) for f in flat[1 - k]) for w in ws)
+               for k in (0, 1) for ws in pools[k])
+
+
+def sheet_pick(by_sheet, full, short, career, now=None, namer=None):
     """The squad sheet's club for a legend. His FULL name (status name, Pfln)
     found as is: the club his career passes through, else the only club that
     name has. A SHORT name (Pcna, first + second) or a sheet name whose every word
@@ -1083,6 +1117,11 @@ def sheet_pick(by_sheet, full, short, career):
     legends). Returns (club id, how matched) or None."""
     fk = [norm_name(n) for n in full if n]
     sk = [norm_name(n) for n in short if n]
+    if namer is not None:
+        # a sheet club counts as his when it is one of his career clubs under
+        # another id (club_family)
+        sheet_ids = {as_dbid(cl) for k in fk + sk for cl, _y in by_sheet.get(k, [])}
+        career = set(career) | {x for x in sheet_ids if any(club_family(x, y, namer) for y in career)}
     exact = [cl for k in fk for cl, _y in by_sheet.get(k, [])]
     hit = next((cl for cl in exact if as_dbid(cl) in career), None)
     if hit:
@@ -1092,6 +1131,10 @@ def sheet_pick(by_sheet, full, short, career):
     # Miguel Veloso at Olivais e Moscavide, Andre Silva at Arouca)
     if len(set(exact)) == 1 and any(len(k.split()) >= 3 for k in fk if by_sheet.get(k)):
         return exact[0], "squad sheet"
+    # a two-word full name too, for a legend with no club at all in FM27 (Silvestre
+    # Varela, Manuel Correia): there is no club of his for the sheet to contradict
+    if len(set(exact)) == 1 and not now:
+        return exact[0], "squad sheet, he has no club"
     hit = next((cl for k in sk for cl, _y in by_sheet.get(k, []) if as_dbid(cl) in career), None)
     if hit:
         return hit, "squad sheet"
@@ -1103,6 +1146,170 @@ def sheet_pick(by_sheet, full, short, career):
             loose += [cl for cl, _y in ents if as_dbid(cl) in career]
     loose = list(dict.fromkeys(loose))
     return (loose[0], "squad sheet, by surname and career") if len(loose) == 1 else None
+
+
+PROP_SLOT = dict(zip(POSITIONS, ["GK", "D L", "D C", "D R", "DM", "M L", "M C", "M R",
+                                 "AM L", "AM C", "AM R", "ST", "WB L", "WB R"]))
+# the squad sheet's position codes, and the ones that mean staff (T coach, Pres.)
+SHEET_SLOTS = {"gr": {"GK"}, "dc": {"D C"}, "dd": {"D R", "WB R"}, "de": {"D L", "WB L"},
+               "mdef": {"DM", "M C"}, "mc": {"M C", "DM"}, "mac": {"AM C", "M C"},
+               "ed": {"M R", "AM R", "WB R"}, "ee": {"M L", "AM L", "WB L"}, "pl": {"ST"},
+               "mad": {"M R", "AM R"}, "mae": {"M L", "AM L"}, "md": {"M R"}, "me": {"M L"}}
+SHEET_STAFF = {"t", "pres", "ta", "tgr", "tf", "dir", "dt", "presidente", "treinador"}
+FILLER = {"de", "da", "do", "dos", "das", "e"}
+
+
+CLUB_GENERIC = {"sport", "sp", "clube", "club", "futebol", "football", "fc", "sad", "de", "do", "da", "dos",
+                "e", "desportivo", "desp", "cf", "sc", "cd", "ud", "ad", "gd", "sl", "ac", "uniao"}
+
+
+def club_key_words(name):
+    return [w for w in norm_name((name or "").replace(".", " ").replace("-", " ")).split()
+            if len(w) > 1 and w not in CLUB_GENERIC]
+
+
+def sheet_squads(country):
+    """[(club as the sheet names it, its DBID or None, [(position, name, nation,
+    youth)])] from work/<country>_sheet_squads.json."""
+    path = os.path.join(ROOT, "work", "%s_sheet_squads.json" % country.lower())
+    if not os.path.exists(path):
+        return []
+    cache = build._club_cache()
+    out = []
+    for club, rows in json.load(open(path, encoding="utf-8")).items():
+        hit = build.resolve_club(club, country, cache)
+        out.append((club, as_dbid(hit["id"]) if hit else None, [tuple(x) for x in rows]))
+    build._club_cache_save(cache)
+    return out
+
+
+def squad_of(squads, cid, namer, country):
+    """Every sheet row at club cid: the sheet writes one club several ways (U.
+    Leiria and UD Leiria, Sp. Espinho and SC Espinho, Estrela Amadora) and they
+    do not all resolve to the same id, so a sheet club also counts when every
+    distinctive word of its name begins a word of the club's FM names. None when
+    the sheet does not list the club at all."""
+    e = namer.entry("team", cid) or {}
+    if (e.get("na") or namer.nation(cid) or "") != country:
+        return None                     # a foreign club: the sheet lists this country's
+    pool = {w for n in [e.get("n")] + list(e.get("t") or []) for w in club_key_words(n)}
+    rows, hit = [], False
+    for club, did, rs in squads:
+        kw = club_key_words(club)
+        if did == cid or (kw and pool and all(any(p.startswith(w) for p in pool) for w in kw)):
+            hit = True
+            rows += [r for r in rs if r not in rows]
+    return rows if hit else None
+
+
+def sheet_slots(code):
+    """(positions, is staff) of a squad sheet position code such as 'MAC (PL)'."""
+    toks = [t for t in re.split(r"[/\s,.]+", norm_name((code or "").replace("(", "/").replace(")", ""))) if t]
+    slots = set().union(*[SHEET_SLOTS.get(t, set()) for t in toks]) if toks else set()
+    return slots, bool(toks) and not slots and all(t in SHEET_STAFF for t in toks)
+
+
+def _w(n):
+    return [w for w in norm_name(n).split() if len(w) > 1 and w not in FILLER]
+
+
+def _near(a, b):
+    """Same word, or one edit apart for words of five letters or more (Spassov, Spasov)."""
+    if a == b:
+        return True
+    if min(len(a), len(b)) < 5 or abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) == len(b):
+        diff = [i for i in range(len(a)) if a[i] != b[i]]
+        return len(diff) == 1 or (len(diff) == 2 and a[diff[0]] == b[diff[1]] and a[diff[1]] == b[diff[0]])
+    a, b = (a, b) if len(a) > len(b) else (b, a)
+    return any(a[:i] + a[i + 1:] == b for i in range(len(a)))
+
+
+def name_score(names, sheet_name):
+    """3 the same name, 2 every word of the sheet's name is one of his (or his short
+    name is inside the sheet's), 1 one word shared, 0 nothing."""
+    sk, sw = norm_name(sheet_name), _w(sheet_name)
+    best = 0
+    for n in names:
+        if not n:
+            continue
+        if norm_name(n) == sk:
+            return 3
+        mw = _w(n)
+        if sw and all(any(_near(x, y) for y in mw) for x in sw):
+            best = max(best, 2)
+        elif mw and len(mw) <= 2 and all(any(_near(x, y) for y in sw) for x in mw):
+            best = max(best, 2)
+        elif any(_near(x, y) for x in sw for y in mw if len(x) > 3):
+            best = max(best, 1)
+    return best
+
+
+def squad_match(squads, people, by_sheet=None):
+    """Which squad sheet row each legend at a club the sheet lists is. people:
+    {uid: {club, names, role, slots}}. Returns {uid: (sheet name, how)} for those
+    found and {uid: None} for those at a listed club who are not in its squad.
+    Rows are matched one to one, best name first, the position breaking ties
+    (the sheet's Barreirense has Carlos Manuel MAC and Carlos Silva EE, and
+    Manuel Luis Carlos Silva is the left winger); a legend left over whose row
+    went to another legend of the same name is flagged as a second record. No
+    match by elimination: it paired Vitor at Pacos with Andrezinho."""
+    out = {}
+    at = defaultdict(list)
+    for u, p in people.items():
+        # players only: the sheet names a club's coach and president, not the
+        # rest of its staff
+        if p["club"] in squads and p["role"] == "player":
+            at[p["club"]].append(u)
+
+    def kind_ok(p, pos):
+        # a player is never a staff row, a goalkeeper never an outfield row
+        slots, staff = sheet_slots(pos)
+        if staff:
+            return False
+        return not p["slots"] or not slots or (("GK" in slots) == p.get("gk", "GK" in p["slots"]))
+
+    def fits(p, pos):
+        slots = sheet_slots(pos)[0]
+        return kind_ok(p, pos) and (not p["slots"] or not slots or bool(p["slots"] & slots))
+
+    for cl, us in at.items():
+        rows = squads[cl]
+        # the sheet's positions are rough (Feliciano DC there, D L in FM): a name
+        # match stands on its own, the position only breaks ties; one shared
+        # word needs the position to agree
+        pairs = []
+        for u in us:
+            for i, r in enumerate(rows):
+                if not kind_ok(people[u], r[0]):
+                    continue
+                sc, ok = name_score(people[u]["names"], r[1]), fits(people[u], r[0])
+                if sc >= 2 or (sc == 1 and ok):
+                    # a tie goes to the legend whose own name is not a row at
+                    # another club (Benfica's Eurico is Eurico Gomes; Eurico
+                    # Caires is the sheet's Montijo row)
+                    pairs.append((sc * 10 + 2 * ok - (sc < 3 and bool(people[u].get("exact_elsewhere"))), sc, u, i))
+        pairs.sort(key=lambda t: -t[0])
+        used_u, used_i = set(), set()
+        for _t, sc, u, i in pairs:
+            if u not in used_u and i not in used_i:
+                out[u] = (rows[i][1], "name" if sc > 1 else "one name word")
+                used_u.add(u)
+                used_i.add(i)
+        for u in us:
+            if u in used_u:
+                continue
+            twin = next((i for i, r in enumerate(rows) if i in used_i and kind_ok(people[u], r[0])
+                         and name_score(people[u]["names"], r[1]) >= 2), None)
+            if twin is not None:
+                # his row is taken by another legend of the same name: two records
+                # of one person (Tiberio, Hugo Costa) - flagged, not dropped
+                other = next(v for v in us if out.get(v) and out[v][0] == rows[twin][1])
+                out[u] = (rows[twin][1], "duplicate of %s" % other)
+            else:
+                out[u] = None
+    return out
 
 
 def main(argv=None):
@@ -1129,6 +1336,7 @@ def main(argv=None):
     fm26, fm27, fm24, fm17 = Edition(26), Edition(27), Edition(24), Edition(17)
     namer = fm_names.Names()
     by_sheet = sheet_clubs(country)
+    squads = sheet_squads(country)
     hist26, hist24 = fm26_history.History(26), fm26_history.History(24)
     recs26 = scan(fm26_file)[3]            # the FM26 file's own ops, unshifted
     rebuilt = rebuild_real(fm26_file, os.path.join(ROOT, "work"), country)
@@ -1144,7 +1352,7 @@ def main(argv=None):
 
     # created legends, for the old-twin rule (created_twin)
     twin_cands = [(u, legends[u]) for u in created if u in legends and u not in staff]
-    namer.fetch([("team", int(x) // S if int(x) > 10 ** 8 else int(x))
+    namer.fetch([("team", int(x) // S if int(x) >= S else int(x))
                  for rs in legends.values() for x in file_club(rs)[:2] if x])
     drop = set()                   # real records whose every change is removed (old twins)
     twins = []
@@ -1157,6 +1365,9 @@ def main(argv=None):
     ids = Ids(fm26, fm27)
     count = Counter()
     filled24 = set()               # staff -> player whose empty attributes came from FM24
+    final_club = {}                # uid -> the club he ends up at
+    people = {}                    # uid -> what squad_match needs
+    st_of = {}                     # uid -> his status row
 
     for uid, rs in legends.items():
         d = dbid_of(uid)
@@ -1215,8 +1426,10 @@ def main(argv=None):
             career |= {as_dbid(sp["team"][1]) for sp in c.replay_spells([o for o in own if c.rec_prop(o) == "Pnph"])
                        if sp.get("team")}
             full, short = name_parts(rs)
-            pick = sheet_pick(by_sheet, [name] + full, short, career)
             now = as_dbid(pcti or open_club) if (pcti or open_club) else None
+            pick = sheet_pick(by_sheet, [name] + full, short, career, now, namer)
+            if pick:
+                final_club[uid] = as_dbid(pick[0])
             if pick and as_dbid(pick[0]) != now:
                 tail.extend(club_ops(int(uid), as_dbid(pick[0]), None, rng))
                 obs.append("club set to %s (%s)" % (namer.club(as_dbid(pick[0])) or pick[0], pick[1]))
@@ -1291,6 +1504,14 @@ def main(argv=None):
                     block, src_name = fm24.player_block(d), "FM24"
                 if not block and fm17.type(d) in (2, 3):
                     block, src_name = fm17.player_block(d), "FM17"
+            if role == "player" and t27 == 1 and not makes_player(rs) and not block \
+                    and not (props & set(ATTRIBUTES)):
+                # a coach with no attributes anywhere stays a coach (user, 2026-11-14:
+                # Goncalo Pedro, Joao Pedro Sousa, Antonio Ferreira, Nuno Campos)
+                role = "staff"
+                obs.append("staff in FM27, no attributes in the file or any database: left as staff")
+                count["staff with no attributes, left as staff"] += 1
+            elif role == "player" and t27 == 1 and not makes_player(rs):
                 prof, done = fm26.profile_ops(int(uid), d, props, rng)
                 missing = [p for p in block if p in ATTRIBUTES and p not in props]
                 head[uid] = [rlr.type_change(int(uid), rng)] + build.retirement_ops(int(uid), rng) \
@@ -1394,9 +1615,12 @@ def main(argv=None):
                 team27 = str((doc.get("team") or {}).get("fm_id") or "")
                 career = {as_dbid(x) for x in _career_clubs(fix[0] if fix else plhs)}
                 full, short = name_parts(rs)
-                pick = sheet_pick(by_sheet, [name] + full, short, career)
+                now = as_dbid(pcti) if pcti else (int(team27) if team27 and team27 != "0" else None)
+                pick = sheet_pick(by_sheet, [name] + full, short, career,
+                                  now or (as_dbid(open_club) if open_club else None), namer)
                 want, how = pick if pick else ((open_club, "his open club spell") if not pcti else (None, None))
-                now = as_dbid(pcti) if pcti else (int(team27) if team27 else None)
+                if want:
+                    final_club[uid] = as_dbid(want)
                 if want and as_dbid(want) != now:
                     tail.extend(club_ops(int(new_uid), as_dbid(want), join if as_dbid(want) == as_dbid(open_club or 0) else None, rng))
                     obs.append("club set to %s (%s)" % (namer.club(as_dbid(want)) or want, how))
@@ -1411,6 +1635,15 @@ def main(argv=None):
             tail.append(build.int_op(int(new_uid), "PPAB", code, rng, odvl=pa))
             obs.append("PA %d -> %d" % (pa, code))
             count["negative PA"] += 1
+        elif role == "player" and pa and pa > 0:
+            # PA below CA is raised to CA (user, 2026-11-14)
+            ca = last_int(rs, "PCAB")
+            if ca is None and d and fm27.has(d):
+                ca = fm27.ca_pa(d)[0]
+            if ca and pa < ca:
+                tail.append(build.int_op(int(new_uid), "PPAB", ca, rng, odvl=pa))
+                obs.append("PA %d -> %d (below CA)" % (pa, ca))
+                count["PA raised to CA"] += 1
         if role == "player" and uid not in replace:
             cs = career_season(rs)
             if cs is not None and cs != SEASON:
@@ -1419,14 +1652,87 @@ def main(argv=None):
         status.append({"file": country, "uid": new_uid, "dbid": d or "", "name": name,
                        "kind": "recreated" if uid in move else kind, "role": role,
                        "status": st, "obs": "; ".join(obs)})
+        st_of[uid] = status[-1]
+        if uid not in final_club:
+            pc, oc, _j = file_club(rs)
+            cl = pc or oc or ((docs.get(d) or {}).get("team") or {}).get("fm_id") if d else (pc or oc)
+            final_club[uid] = as_dbid(cl) if cl else None
+        rat = {}
+        for ed in (fm27, fm26, fm24, fm17):
+            if d and ed.type(d) in (2, 3):
+                rat = ed.player_block(d)
+                break
+        for pp in POSITIONS:
+            v = last_int(rs, pp)
+            if v is not None:
+                rat[pp] = v
+        full, short = name_parts(rs)
+        outfield = max([v for pp, v in rat.items() if pp in PROP_SLOT and pp != "Pgoa"] or [0])
+        people[uid] = {"club": final_club[uid], "role": role, "gk": rat.get("Pgoa", 0) >= max(15, outfield),
+                       "names": [name] + full + short + _TERMS.get(uid, []), "full": [name] + full,
+                       "slots": {PROP_SLOT[pp] for pp, v in rat.items() if pp in PROP_SLOT and v and v >= 15}}
+
+    # in the squad? A legend at a club the squad sheet lists must be in that
+    # club's squad; one who is not is dropped - not recreated, every change
+    # removed, no retirement (user, 2026-11-14: Vitor at Pacos, Karim Fellahi)
+    namer.fetch([("team", p["club"]) for p in people.values() if p["club"]])
+    rosters = {}
+    for p in people.values():
+        if p["club"] and p["club"] not in rosters:
+            rosters[p["club"]] = squad_of(squads, p["club"], namer, country)
+    for u, p in people.items():
+        p["exact_elsewhere"] = any(as_dbid(cl) != p["club"] for n in p["names"] if n
+                                   for cl, _y in by_sheet.get(norm_name(n), []))
+    match = squad_match({k: v for k, v in rosters.items() if v is not None}, people)
+    if os.environ.get("FM27_DEBUG"):
+        import pickle
+        pickle.dump((people, rosters, match), open(os.path.join(ROOT, "work", "_squad_debug.pkl"), "wb"))
+    gone = []
+    for uid, m in match.items():
+        row = st_of[uid]
+        if m:
+            row["sheet_name"], row["sheet_how"] = m
+            if m[1].startswith("duplicate of"):
+                row["status"] = ORANGE if row["status"] == GREEN else row["status"]
+                row["obs"] += ("; " if row["obs"] else "") + "the squad sheet row %s is also another record of the file (%s) - two records of one player? check" % (m[0], st_of[m[1].split()[-1]]["name"])
+                count["second record of a squad sheet player"] += 1
+            continue
+        elsewhere = sorted({namer.club(as_dbid(cl)) or cl for n in people[uid]["full"] if len(_w(n)) >= 2
+                            for cl, _y in by_sheet.get(norm_name(n), []) if as_dbid(cl) != final_club[uid]})
+        if elsewhere:
+            # his exact name is a squad sheet row at another club: maybe him, maybe
+            # a namesake - asked, not dropped (Luis Barry, Atl. Reguengos)
+            row["status"] = ORANGE if row["status"] in (GREEN, BLUE) else row["status"]
+            row["obs"] += ("; " if row["obs"] else "") + "not in %s's squad; the squad sheet has his name at %s - move him there?" % (
+                namer.club(final_club[uid]) or final_club[uid], " / ".join(map(str, elsewhere)))
+            count["not in his club's squad, name elsewhere - asked"] += 1
+            print("  asked: %s %s at %s, sheet has him at %s" % (uid, row["name"], namer.club(final_club[uid]), elsewhere))
+            continue
+        drop.add(uid)
+        if uid in move:
+            drop.add(move[uid])
+        gone.append(uid)
+        row["status"] = "dropped"
+        row["obs"] = "not in %s's squad in the squad sheet - every change dropped" % (
+            namer.club(final_club[uid]) or final_club[uid])
+        count["not in the squad sheet, dropped"] += 1
+    with open(os.path.join(ROOT, "work", "%s_squad_match.json" % country.lower()), "w", encoding="utf-8") as fh:
+        json.dump({st_of[u]["uid"]: {"club": final_club[u], "sheet_name": (m or [None])[0],
+                                     "how": m[1] if m else "not in the squad"}
+                   for u, m in match.items()}, fh, ensure_ascii=False, indent=0)
 
     print("%s: %d legends; %s" % (country, len(status), dict(count)))
     for u, n, cu, cn in twins:
         print("  old twin: %s %s -> created %s %s%s" % (u, n, cu, cn, " (changes dropped)" if u in drop else ""))
     print("status:", dict(Counter(s["status"] for s in status)))
+    for u in gone:
+        near = sorted({"%s (%s)" % (k, "/".join(namer.club(as_dbid(cl)) or cl for cl, _y in by_sheet[k]))
+                       for k in by_sheet if name_score(people[u]["names"], k) >= 2})
+        print("  dropped: %s %s at %s%s" % (u, st_of[u]["name"], namer.club(final_club[u]) or final_club[u],
+                                            "  | sheet has " + "; ".join(near[:4]) if near else ""))
     if a.status_out:
         with open(a.status_out, "w", newline="", encoding="utf-8") as fh:
-            w = csv.DictWriter(fh, fieldnames=STATUS_COLS, lineterminator="\n")
+            w = csv.DictWriter(fh, fieldnames=STATUS_COLS, lineterminator="\n", extrasaction="ignore")
             w.writeheader()
             w.writerows(status)
     if a.dry_run:
@@ -1439,7 +1745,8 @@ def main(argv=None):
     for rec in list(changes):
         u = rec.find('large[@id="db_unique_id"]')
         uid = u.get("value") if u is not None else None
-        if uid in drop:
+        if uid in drop or (c.rec_prop(rec) == "ADDR" and any(
+                el.get("value") in drop for el in rec.iter("large") if el.get("id") == "db_unique_id")):
             continue
         if uid in head and uid not in started:
             out.extend(head[uid])
@@ -1455,7 +1762,7 @@ def main(argv=None):
         if uid in move and c.rec_prop(rec) != "ADDR":
             u.set("value", move[uid])
         out.append(rec)
-    out.extend(tail)
+    out.extend(t for t in tail if t.find('large[@id="db_unique_id"]').get("value") not in drop)
     for rec in list(changes):
         changes.remove(rec)
     changes.extend(out)
@@ -1473,7 +1780,7 @@ def main(argv=None):
     rows += status
     os.makedirs(os.path.dirname(STATUS), exist_ok=True)
     with open(STATUS, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=STATUS_COLS, lineterminator="\n")
+        w = csv.DictWriter(fh, fieldnames=STATUS_COLS, lineterminator="\n", extrasaction="ignore")
         w.writeheader()
         w.writerows(sorted(rows, key=lambda r: (r["file"], r["name"].lower(), r["uid"])))
     print("statuses -> %s" % STATUS)

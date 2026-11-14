@@ -57,7 +57,7 @@ def last_ref(rs, prop):
             ref = c.club_of(r.find('*[@id="new_value"]'))
             if ref:
                 v = int(ref[1])
-                v = v // S if v > 10 ** 8 else v
+                v = v // S if v >= S else v
     return v
 
 
@@ -67,12 +67,18 @@ def nat_of(rs):
             for el in r.iter():
                 if el.get("id") in ("Nnat", "DBID") and el.get("value"):
                     v = int(el.get("value"))
-                    return v // S if v > 10 ** 8 else v
+                    return v // S if v >= S else v
     return None
 
 
 NATION = {"The Islamic Republic of Iran": "Iran", "The Democratic Republic of the Congo": "DR Congo",
-          "Korea Republic": "South Korea", "Republic of Ireland": "Ireland"}
+          "Korea Republic": "South Korea", "Republic of Ireland": "Ireland",
+          # the sheet's own spelling (user, 2026-11-14: "United States", not "The
+          # United States of America")
+          "The United States of America": "United States", "United States of America": "United States",
+          "Côte d'Ivoire": "Ivory Coast", "Türkiye": "Turkey", "People's Republic of China": "China",
+          "Republic of Korea": "South Korea", "Bosnia and Herzegovina": "Bosnia",
+          "Dominican Republic": "Dominican Rep.", "São Tomé & Príncipe": "S. Tomé and Príncipe"}
 
 
 def nation_name(n):
@@ -180,16 +186,26 @@ def main():
     people = {q["uid"]: q for q in json.load(open(os.path.join(ROOT, "work", "comparativo_%s.json" % country.lower()), encoding="utf-8"))["people"]}
     # the current statuses: a legend the fix no longer carries (an old twin) drops out
     miss = [people[p["uid"]] for p in miss if p["uid"] in people]
+    if "--all" in sys.argv:
+        # every legend: the sheet rebuild decides which are already in the sheet
+        miss = list(people.values())
+        sys.argv.remove("--all")
     for u in sys.argv[2:]:
         if u in people and all(u != p["uid"] for p in miss):
             miss.append(people[u])
-    by_club = sheet_names(country)
+    # the squad sheet row each legend is, as fm27_fix matched it (one to one,
+    # position checked): its name is the one the Comparativo uses
+    mpath = os.path.join(ROOT, "work", "%s_squad_match.json" % country.lower())
+    sq = json.load(open(mpath, encoding="utf-8")) if os.path.exists(mpath) else {}
+    import re as _re
     sheet_team = json.load(open(os.path.join(ROOT, "work", "sheet_team_names.json"), encoding="utf-8"))
     sheet_set = set(sheet_team)
     docs = F.index_docs([int(status[p["uid"]]["dbid"]) for p in miss if status[p["uid"]]["dbid"]])
     rows = []
     for p in miss:
         st = status[p["uid"]]
+        if st["status"] == "dropped":
+            continue                    # not in his club's squad: gone from the file
         d = int(st["dbid"]) if st["dbid"] else None
         rs = recs.get(p["uid"], []) + (recs.get(str(d * S), []) if d else [])
         # positions: the database's, overruled by what the file sets
@@ -201,7 +217,7 @@ def main():
             v = last_val(rs, prop)
             if v is not None:
                 rat[prop] = int(v)
-        pos = pos_string(rat) if p["role"] == "player" else ""
+        pos = pos_string(rat) if st["role"] == "player" else ""
         # CA/PA: the file's, else the database's (u16 at bytes 11 and 13 in FM17,
         # FM24, FM26 and FM27 alike - FM24-built odvl and the editions agree)
         ca, pa = F.last_int(rs, "PCAB"), F.last_int(rs, "PPAB")
@@ -215,6 +231,9 @@ def main():
                     pa = dpa
                 if ca and pa:
                     break
+        # PA below CA reads CA, as the fix writes it (user, 2026-11-14)
+        if ca and pa and 0 < pa < ca:
+            pa = ca
         # nationality: the file's, else FM26's database
         nat = nat_of(rs)
         for ed in (ed27, ed26, ed24, ed17):
@@ -224,7 +243,7 @@ def main():
         # club: what the fix wrote (Pcti / open spell), else FM27's own
         pcti, spell, _ = F.file_club(rs)
         club = pcti or spell
-        club = int(club) // S if club and int(club) > 10 ** 8 else (int(club) if club else None)
+        club = int(club) // S if club and int(club) >= S else (int(club) if club else None)
         doc = docs.get(d) if d else None
         if club is None and doc and doc.get("team"):
             club = int(doc["team"]["fm_id"])
@@ -268,18 +287,15 @@ def main():
             # an extinct club carries no nation in the index: its country from the
             # competitions it played in (fm_names.nation), as the league (user,
             # 2026-11-14: "use that country as the league")
-            team, league = hit, e.get("na") or namer.nation(club) or nation_name(club_country(club, namer))
+            team, league = hit, nation_name(e.get("na") or namer.nation(club) or club_country(club, namer))
         # the squad sheet's own name for him at that club (Pedro Barbosa for
         # Pedro Alexandre Santos Barbosa): every word of it one of his
         disp = p["name"]
-        if club:
-            mine = {w for n in [p["name"]] + list(F.name_parts(rs)[0]) + list(F.name_parts(rs)[1])
-                    for w in F.norm_name(n).split() if len(w) > 2}
-            fits = [dn for dn, ws in by_club.get(club, []) if ws and ws <= mine]
-            if fits:
-                disp = max(fits, key=len)
+        m = sq.get(p["uid"]) or {}
+        if m.get("sheet_name"):
+            disp = " ".join(_re.sub(r"\((C|VC)\)", " ", m["sheet_name"], flags=_re.I).split())
         kit = club_colours(club) if club else None
-        rows.append({"uid": p["uid"], "name": disp, "file_name": p["name"], "kit": kit, "role": p["role"], "pos": pos,
+        rows.append({"uid": p["uid"], "name": disp, "file_name": p["name"], "kit": kit, "role": st["role"], "pos": pos,
                      "ca": ca, "pa": pa, "country": nation_name(namer.get("nation", nat)) if nat else "",
                      "team": team, "league": league, "file": country,
                      "obs": "/".join(x for x in ("Youth" if p["youth"] else "", p["ot"]) if x),

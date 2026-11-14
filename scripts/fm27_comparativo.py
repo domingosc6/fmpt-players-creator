@@ -96,7 +96,7 @@ def file_nations(rs):
             for el in r.iter():
                 if el.get("id") == "Nnat":
                     v = int(el.get("value"))
-                    out.append(v // S if v > 10 ** 8 else v)
+                    out.append(v // S if v >= S else v)
     return out
 
 

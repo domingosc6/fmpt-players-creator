@@ -1,4 +1,5 @@
-"""work/<country>_sheet_clubs.json from a squad sheet dump: {name: [[club, youth]]}.
+"""work/<country>_sheet_clubs.json from a squad sheet dump: {name: [[club, youth]]},
+and work/<country>_sheet_squads.json: {club: [[position, name, nation, youth]]}.
 
     py scripts/fm27_sheet_clubs.py Portugal work/portugal_squad_sheet_raw.json
 
@@ -22,13 +23,28 @@ def plain(s):
 def main(country, dump):
     raw = json.load(open(dump, encoding="utf-8"))
     sheets = raw.get("content", raw)["sheets"]
-    out, counts = {}, {}
+    out, counts, squads = {}, {}, {}
     for sh in sheets:
         title = sh["properties"]["title"]
         youth = plain(title).startswith("camadas")
         grid = [[(c.get("formattedValue") or "").strip() for c in (r.get("values") or [])]
                 for r in (sh.get("data") or [{}])[0].get("rowData", [])]
         n = 0
+        if grid and grid[0] and plain(grid[0][0]) == "jogador":
+            # a list tab (Camadas Jovens, Avulsos): Jogador | Posicao | Pais | Equipa | ...
+            for line in grid[1:]:
+                line = line + [""] * 5
+                name, pos, nat, club, flag = line[:5]
+                if not (name and club):
+                    continue
+                y = youth or bool(flag.strip()) and plain(title).startswith("avulsos")
+                squads.setdefault(club, []).append([pos, name, nat, y])
+                ent = [club, y]
+                if ent not in out.setdefault(name, []):
+                    out[name].append(ent)
+                    n += 1
+            counts[title] = n
+            continue
         for r, row in enumerate(grid):
             for c, cell in enumerate(row):
                 if plain(cell) not in ("posicao", "posição") or r == 0:
@@ -46,6 +62,8 @@ def main(country, dump):
                     if plain(pos) in ("posicao",) or (not name and not pos):
                         break
                     if name and club:
+                        nat = line[c + 2] if c + 2 < len(line) else ""
+                        squads.setdefault(club, []).append([pos, name, nat, youth])
                         ent = [club, youth]
                         if ent not in out.setdefault(name, []):
                             out[name].append(ent)
@@ -56,6 +74,12 @@ def main(country, dump):
     path = os.path.join(ROOT, "work", "%s_sheet_clubs.json" % country.lower())
     json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     print(len(out) - 1, "names ->", path)
+    # the squads themselves, for the membership check (fm27_fix: a legend at a
+    # club the sheet lists must be in that club's squad)
+    squads = {k: [list(x) for x in dict.fromkeys(tuple(e) for e in v)] for k, v in squads.items()}
+    spath = os.path.join(ROOT, "work", "%s_sheet_squads.json" % country.lower())
+    json.dump(squads, open(spath, "w", encoding="utf-8"), ensure_ascii=False, indent=0)
+    print(len(squads), "squads ->", spath)
     for t, n in counts.items():
         print("  %4d  %s" % (n, t))
 

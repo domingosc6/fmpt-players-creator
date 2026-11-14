@@ -1164,7 +1164,33 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
   Sougou). FM27 lost him: not recreated (Miguel = Miguel Monteiro).
 - **Comparativo duplicates** (appended rows): same club, overlapping positions, CA within
   5, PA within 5 or a negative PA whose range covers the other, a shared name word (one
-  word only with both CAs within 3); the status goes to the existing row.
+  word only with both CAs within 3); the status goes to the existing row. Matched against
+  rows of ANY Editor File (Samu Aghehowa's row is under Spain). Rebuilt by
+  `work/rebuild_sheet.py` from `fm27_comparativo_append.py <Country> --all`.
+- **Squad membership** (user, 2026-11-14): a PLAYER at a club the country's squad sheet
+  lists must be in that club's squad (`work/<country>_sheet_squads.json`, written by
+  `fm27_sheet_clubs.py`, Camadas Jovens and Avulsos included). Not there: every change
+  dropped, not recreated, no retirement (Vitor at Pacos, Karim Fellahi at Estoril;
+  Portugal 61). Rows are matched one to one, best name first, the sheet's rough
+  position only breaking ties - except goalkeeper vs outfield, which never match (the
+  sheet's GR Domingos is not Patalino). Clubs compare by name too (`club_family`): the
+  sheet writes U. Leiria / UD Leiria, Sp. / SC Espinho, and old Estrela da Amadora vs
+  the SAD, which resolve to different ids. Two records on one sheet row are flagged
+  orange, not dropped; a full two-word name the sheet has at ANOTHER club is asked
+  (orange), not dropped. No matching by elimination - it paired Vitor with Andrezinho.
+  Staff are not checked (the sheet lists only the coach and president).
+- **Staff with no attributes stay staff** (user, 2026-11-14: Goncalo Pedro, Joao Pedro
+  Sousa): no type change when neither the file nor any database has attributes.
+- **PA below CA is raised to CA** in the file and the Comparativo (user, 2026-11-14).
+- **`as_dbid`**: a changeset id is DBID * 4294967297, so divide only at >= 2^32. The old
+  10^8 cut turned new DBIDs (2000030636, Estrela da Amadora SAD) into 0.
+- **FM17 date of birth**: a candidate needs a year 1850-2010 (not 1900), a nation row
+  under 300 and personality values <= 20 (0 is FM17's unset); a name id read as a date
+  made Avelino and Vitor Algerian.
+- **Sheets: never set a basic filter with sortSpecs before writing by position.** It
+  re-sorts at once, and the filter range then decides which columns move: a status
+  column outside it stays put and misaligns every row. Players' filter now spans A:L
+  with no sort (2026-11-14, restored to 16:47 and redone after exactly that).
 
 ## 6. Known limitations (not converter bugs)
 
