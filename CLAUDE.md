@@ -1179,6 +1179,30 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
   orange, not dropped; a full two-word name the sheet has at ANOTHER club is asked
   (orange), not dropped. No matching by elimination - it paired Vitor with Andrezinho.
   Staff are not checked (the sheet lists only the coach and president).
+- **Membership, user's rules (2026-11-14/15) - `scripts/fm27_membership.py`.** Replaces the
+  squad-sheet club moves and the squad match: NO club is ever moved by a sheet. Per player:
+  name = Common Name, else First + Last, else full name (real records with no name change
+  read it from FM's own name tables, `Edition.names`: server_db.dat holds first, second and
+  common names as numbered entries - Tinaia is common name 48928); club = latest club
+  change of the whole person (club set, else open spell; loan club `PLcl` counts too),
+  else the FM27 database's. A Comparativo row with that name at that club, CA within 10
+  of CA and PA within 10 of PA (PA = the latest of PPAB / PPAR - a negative PA lives in
+  PPAR) is his row. Names: exact first, then accents/special letters folded (o-slash = o),
+  then a short name inside the full one / words reordered; ties by position, then
+  nationality. No row: his name at his club in ANY country squad sheet
+  (`scripts/fm27_sheets.py` reads work/squad_sheets/*.xlsx, Drive xlsx exports) -> added;
+  youth tab only -> added if 19 or younger on 1 July 2026; nowhere -> removed. A record
+  with any FM26/FM27 change (build 3733+) is never removed (kept, added orange); an FM24
+  one that fails is held for the user. FM27-database moves the file never re-clubs are
+  set back to the Comparativo club (yellow). Hand aliases: legends/<country>_name_aliases.json.
+- **Split records.** A file-created record edited in a later editor keeps its high 32 bits
+  under that editor's session id (low 32 = the new DBID): Crisanto 3718543889831847463,
+  FM26 edits under 3718543890439258016. `whole()` reads both as one person; removed together.
+- **Club tests ignore words under 4 letters**: FC Porto's "FCP" begins Pacos de Ferreira's
+  "FCPF" and made the two one club.
+- **The negative-PA rule never overwrites an author's PPAR** (Ze Beto -75).
+- Comparativo writing: `work/write_comparativo.py` (statuses K/L, appended block, second
+  records and same-player duplicates attached to their existing row).
 - **Staff with no attributes stay staff** (user, 2026-11-14: Goncalo Pedro, Joao Pedro
   Sousa): no type change when neither the file nor any database has attributes.
 - **PA below CA is raised to CA** in the file and the Comparativo (user, 2026-11-14).
