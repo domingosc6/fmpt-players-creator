@@ -332,6 +332,12 @@ class Edition:
         s = self.db.prows[d][0]
         rec = self.db.people
         out = {p: rec[s + self.lay["pos"] + i] for i, p in enumerate(POSITIONS)}
+        # a goalkeeper's rating sits one byte BEFORE the block (FM24/26/27 alike:
+        # Marafona, Antonio Filipe, Pedro Trigueira read 20 there and 1s after);
+        # the attributes do not move (FM26 odvl, 212 of 225 at the usual offset)
+        before = rec[s + self.lay["pos"] - 1]
+        if max(out.values()) < 15 and 15 <= before <= 20:
+            out["Pgoa"] = before
         out.update({p: rec[s + self.lay["attr"] + i] for i, p in enumerate(ATTRIBUTES)})
         return {p: v for p, v in out.items() if v}
 
@@ -1561,6 +1567,11 @@ def main(argv=None):
         d = dbid_of(uid)
         kind = "created" if uid in created else ("real" if d else "session")
         role = "staff" if uid in staff else "player"
+        # the LATEST person type decides: a record created as a player and later set
+        # to non-player (Ptyp 1) is staff (Jose Gomes, Est. Amadora - user, 2026-11-15)
+        last_t = last_int(whole(uid, rs), "Ptyp")
+        if last_t == 1:
+            role = "staff"
         name = _NAME.get(uid) or names.get(uid) or ""
         obs, st = [], GREEN
         props = {c.rec_prop(r) for r in rs}
@@ -1877,6 +1888,10 @@ def main(argv=None):
                 pa = epa if pa is None else pa
         if ca and pa is not None and 0 < pa < ca:
             pa = ca                     # raised above
+        born_ = dob_of.get(uid)
+        if (role == "player" and pa and pa > 0 and born_ and born_[2] >= YOUNG_FROM
+                and not any(c.rec_prop(r) == "PPAR" for r in ws)):
+            pa = negative_pa(pa)        # what the negative-PA rule writes
         # protected: edited in FM26 or FM27 (user, 2026-11-14 - FM24 builds are
         # also what the FM24->FM26 converter stamped on its own rebuilds)
         protected = max([c.rec_build(r) or 0 for r in ws] or [0]) >= M.PROTECTED_FROM
