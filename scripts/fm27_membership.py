@@ -279,3 +279,67 @@ def moved_back(legends, comp_rows, out, taken_rows):
             got[uid] = (hits[0][0], hits[0][2], hits[0][3])
             taken_rows.add(hits[0][0])
     return got
+
+
+STAFF_POS = {"t", "adj", "adj.", "pres", "pres.", "presidente", "treinador", "tr. adj.", "ta"}
+HEAD_COACH = 5      # PCJO, the contract job: 1 chairman, 2 director, 4 director of football, 5 manager, 6 assistant
+
+
+def decide_staff(staff, rows, sheet_players, clubs, family, sheet_nation):
+    """The user's rules for staff (2026-11-15), the players' rules otherwise:
+    a Staff tab row with his name at his club, CA and PA each within 10 (staff
+    ability, Ncra / Npta) is his; no row: his name at his club in any squad sheet
+    (staff are listed there as T, Adj., Pres.) keeps him; a record edited in FM26/27
+    is kept anyway; anyone else is removed - FM24 ones too (user: Bernardino
+    Pedroto, Miguel Leal, Raul Jose, Arnaldo Teixeira, Fernando Ferreira).
+    Only head coaches get a NEW row. staff: {uid: {name, club, ca, pa, job,
+    protected}}; rows: [(row number, name, role, CA, PA, team)]."""
+    cands = []
+    for uid, s in staff.items():
+        for n, name, _role, ca, pa, team in rows:
+            t = name_tier(s["name"], name)
+            if not t or not clubs.same(team, None, s["club"], family):
+                continue
+            ca, pa = num(ca), num(pa)
+            if s["ca"] is not None and ca is not None and abs(s["ca"] - ca) > 10:
+                continue
+            if s["pa"] is not None and pa is not None and abs(s["pa"] - pa) > 10:
+                continue
+            cands.append((-t, abs((s["ca"] or 0) - (ca or 0)), uid, n))
+    cands.sort()
+    out, taken = {}, set()
+    for _t, _d, uid, n in cands:
+        if uid in out or n in taken:
+            continue
+        out[uid] = {"how": "row", "row": n}
+        taken.add(n)
+    for uid, s in staff.items():
+        if uid in out:
+            continue
+        hits = []
+        for x in sheet_players:
+            t = name_tier(s["name"], x["name"])
+            as_staff = (x.get("pos") or "").strip().lower() in STAFF_POS
+            # a one-word short name is a staff name only where the sheet lists him as
+            # staff: Andre Villas-Boas is not FC Porto's midfielder "Andre"
+            if t in (1, 2) and not as_staff and min(len(fold(s["name"]).split()), len(fold(x["name"]).split())) < 2:
+                continue
+            if t and clubs.same(x["club"], sheet_nation(x), s["club"], family):
+                hits.append((-t, not as_staff, x))
+        hits.sort(key=lambda h: (h[0], h[1]))
+        if hits:
+            x = hits[0][2]
+            pos = (x.get("pos") or "").strip()
+            out[uid] = {"how": "sheet", "sheet": "%s / %s: %s (%s)" % (x["sheet"], x["tab"], x["name"], pos),
+                        "sheet_pos": pos, "sheet_team": x["club"],
+                        # listed as a player: a player by hand (user, 2026-11-15: Rabiola)
+                        "sheet_as_player": pos.lower() not in STAFF_POS}
+        elif s["protected"]:
+            out[uid] = {"how": "protected", "why": "not in the Staff tab nor in any squad sheet at his club"}
+        else:
+            out[uid] = {"how": "removed", "why": "not in the Staff tab nor in any squad sheet at his club"}
+    for uid, v in out.items():
+        s = staff[uid]
+        coach = s["job"] == HEAD_COACH or (s["job"] is None and (v.get("sheet_pos") or "").upper() == "T")
+        v["append"] = v["how"] in ("sheet", "protected") and coach
+    return out

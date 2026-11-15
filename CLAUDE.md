@@ -1203,6 +1203,17 @@ Database facts learned on the way (verified against first-touch FM26 `odvl`):
 - **The negative-PA rule never overwrites an author's PPAR** (Ze Beto -75).
 - Comparativo writing: `work/write_comparativo.py` (statuses K/L, appended block, second
   records and same-player duplicates attached to their existing row).
+- **Staff membership** (user, 2026-11-15, `M.decide_staff`): the players' rules against the Comparativo
+  Staff tab (`work/staff_now.json`), CA/PA = staff ability (`Ncra`/`Npta`). No row: the squad sheets list
+  staff too (T, Adj., Pres.) - found keeps him; FM26/27 record kept (orange); everyone else removed, FM24
+  ones too. Only HEAD COACHES (PCJO 5, or no job and T in the sheet) get a new row. Real staff edited
+  only on staff fields (chairmen, directors) are not legends and go through `other_staff()`; FM27's own
+  non-players the file merely touches (Ptaj, Pcti) may only claim a row (Mariano Maroto). Staff twins
+  (a real record of a created staff legend, same name and club - FM26/27 had lost the real one) are
+  dropped. FM27 moves undone like players (Sergio Fonseca -> Ac. Viseu, Marco Couto -> Moreirense).
+  Staff gone from FM27 are red, never recreated (Luis Filipe Vieira). The LATEST `Ptyp` decides both
+  ways: a dcty-1 creation later set to 2 is a player (Andre Cruz, China). Club aliases with no shared
+  name: `legends/club_aliases.json` (AVS Futebol SAD = Desp. Aves).
 - **Staff with no attributes stay staff** (user, 2026-11-14: Goncalo Pedro, Joao Pedro
   Sousa): no type change when neither the file nor any database has attributes.
 - **PA below CA is raised to CA** in the file and the Comparativo (user, 2026-11-14).

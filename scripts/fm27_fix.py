@@ -1187,12 +1187,18 @@ def as_dbid(x):
     return x // S if x >= S else x
 
 
+# one club under two ids that share no name (user, 2026-11-15: AVS Futebol SAD is
+# Desportivo das Aves - Jose Mota's Staff tab row)
+CLUB_ALIASES = {frozenset(x[:2]) for x in json.load(open(os.path.join(ROOT, "legends", "club_aliases.json"),
+                                                       encoding="utf-8")) if isinstance(x, list)}
+
+
 def club_family(a, b, namer):
     """One club under two ids: the old Estrela da Amadora and Estrela da Amadora
     SAD, U. Leiria and UD Leiria - every distinctive word of one's names begins a
     word of the other's."""
     a, b = as_dbid(a), as_dbid(b)
-    if a == b:
+    if a == b or frozenset((a, b)) in CLUB_ALIASES:
         return True
     if namer is None:
         return False
@@ -1572,6 +1578,8 @@ def main(argv=None):
         last_t = last_int(whole(uid, rs), "Ptyp")
         if last_t == 1:
             role = "staff"
+        elif last_t == 2:
+            role = "player"     # created as a non-player, made a player later (Andre Cruz FM17, China FM16)
         name = _NAME.get(uid) or names.get(uid) or ""
         obs, st = [], GREEN
         props = {c.rec_prop(r) for r in rs}
@@ -1913,7 +1921,9 @@ def main(argv=None):
                        "name": M.rule_name(got, (namer.person(d) if d else None) or name),
                        "ca": ca, "pa": pa, "dob": last_dob(ws) or dob_of.get(uid), "protected": protected,
                        "fm24": edited24, "loan": loan, "slots": legend_pos(d, ws)[1],
-                       "nation": nation_name(ws, d), "file_club": any(file_club(ws)[:2])}
+                       "nation": nation_name(ws, d), "file_club": any(file_club(ws)[:2]),
+                       # staff: ability as staff (Ncra/Npta) and the contract job (PCJO)
+                       "nca": last_int(ws, "Ncra"), "npa": last_int(ws, "Npta"), "job": last_int(ws, "PCJO")}
 
     # who stays, and his Comparativo row: fm27_membership (user's rules, 2026-11-14)
     namer.fetch([("team", p["club"]) for p in people.values() if p["club"]])
@@ -1996,6 +2006,110 @@ def main(argv=None):
                                          protected=players[u]["protected"])
                    for u, v in verdict.items()}, fh, ensure_ascii=False, indent=0)
     print("membership:", dict(Counter(v["how"] for v in verdict.values())))
+    # staff, for the Comparativo Staff tab (matched by work/staff_membership.py)
+    def other_staff():
+        """Real staff the file edits only on their staff fields (chairmen, directors,
+        coaches with no playing history): not legends, but rows of the Staff tab."""
+        out_ = {}
+        us = [u for u in recs if u not in legends and dbid_of(u) and (
+            u in staff or (fm27.has(dbid_of(u)) and fm27.type(dbid_of(u)) == 1))]
+        dd = index_docs([dbid_of(u) for u in us])
+        for u in us:
+            rs, d = recs[u], dbid_of(u)
+            got = {}
+            for r in rs:
+                if c.rec_prop(r) in ("Pfna", "Psna", "Pcna", "Pfln"):
+                    nv = r.find('*[@id="new_value"]')
+                    if nv is not None:
+                        got[c.rec_prop(r)] = nv.get("value") or ""
+            if fm27.has(d):
+                for k_, v_ in fm27.names(d).items():
+                    got.setdefault(k_, v_)
+            doc = dd.get(d) or {}
+            pc, oc, _j = file_club(rs)
+            cl = pc or oc or (doc.get("team") or {}).get("fm_id")
+            cl = as_dbid(cl) if cl else None
+            builds = [c.rec_build(r) or 0 for r in rs]
+            out_[u] = {"name": M.rule_name(got, doc.get("name") or namer.person(d) or names.get(u) or ""),
+                       "club": cl, "club_name": namer.club(cl) if cl else None,
+                       "ca": last_int(rs, "Ncra"), "pa": last_int(rs, "Npta"), "job": last_int(rs, "PCJO"),
+                       "dob": last_dob(rs), "protected": max(builds or [0]) >= M.PROTECTED_FROM,
+                       "fm24": max(builds or [0]) >= M.FM24, "nation": nation_name(rs, d), "in_fm27": fm27.has(d),
+                       "status": GREEN if fm27.has(d) else RED,
+                       "obs": "" if fm27.has(d) else "gone from FM27; staff are not recreated", "legend": False,
+                       # FM27's own staff the file only touches (Ptaj, a club set): they may
+                       # claim a Staff tab row (Mariano Maroto, PSJO only), nothing else
+                       "pool_only": u not in staff}
+        namer.fetch([("team", v["club"]) for v in out_.values() if v["club"]])
+        for v in out_.values():
+            v["club_name"] = namer.club(v["club"]) if v["club"] else None
+        return out_
+    sstaff = {u: {"name": p["name"], "club": p["club"], "ca": p["nca"], "pa": p["npa"], "job": p["job"],
+                  "dob": p["dob"], "protected": p["protected"], "fm24": p["fm24"], "nation": p["nation"],
+                  "file_club": p["file_club"], "legend": True,
+                  "in_fm27": True, "status": st_of[u]["status"], "obs": st_of[u]["obs"]}
+              for u, p in people.items() if p["role"] == "staff"}
+    others = other_staff()
+    for u, v in others.items():
+        v["file_club"] = any(file_club(recs[u])[:2])
+    # staff twins (user, 2026-11-15, the old-twin rule): a real record whose
+    # person the file already carries as a created staff legend - same name, same
+    # club. FM26 and FM27 lost the real one (Pinto da Costa, Quinito, Jesualdo):
+    # every change on it is dropped.
+    fam = lambda a_, b_: club_family(a_, b_, namer)
+    sverdict = {}
+    for u, v in list(others.items()):
+        for lu, L in sstaff.items():
+            if M.name_tier(v["name"], L["name"]) >= 3 and v["club"] and L["club"] and fam(v["club"], L["club"]):
+                sverdict[u] = {"how": "twin", "twin": st_of[lu]["uid"],
+                               "why": "second record of %s (created %s)" % (L["name"], st_of[lu]["uid"])}
+                drop.add(u)
+                drop.update(conts.get(u, []))
+                count["staff twin dropped"] += 1
+                break
+    sstaff.update({u: v for u, v in others.items() if u not in sverdict})
+    sgrid = json.load(open(os.path.join(ROOT, "work", "staff_now.json"), encoding="utf-8"))["values"]
+    srows = [(n, r[0], r[1], r[2], r[3], r[6]) for n, r in enumerate(sgrid[1:], start=2) if r and r[7] == country]
+    sverdict.update(M.decide_staff(sstaff, srows, fm27_sheets.load(), clubs, fam, lambda x: SHEET_NATION.get(x["sheet"])))
+    for u in [u for u, v in sverdict.items() if (sstaff.get(u) or {}).get("pool_only") and v["how"] != "row"]:
+        del sverdict[u]
+    # FM27 moved him and the file never re-clubs him: his row's club, set back
+    # (Sergio Fonseca AVS -> Academico de Viseu, Marco Couto -> Moreirense)
+    staken = {v["row"] for v in sverdict.values() if v.get("row")}
+    back = M.moved_back(sstaff, [(n, nm, tm, "Portugal", ca, pa) for n, nm, _r, ca, pa, tm in srows],
+                        sverdict, staken)
+    for u, (rown, team, nation) in back.items():
+        cid = resolve(team, nation)
+        if not cid:
+            continue
+        was = sstaff[u]["club"]
+        sverdict[u] = {"how": "row", "row": rown, "moved_back": cid, "append": False}
+        sstaff[u]["club"] = cid
+        tail.extend(club_ops(int(st_of[u]["uid"]) if u in st_of else int(u), cid, None, rng))
+        sstaff[u]["status"] = YELLOW
+        sstaff[u]["obs"] = "FM27 moved him to %s; club set back to %s (Comparativo)" % (
+            namer.club(was) or was or "no club", namer.club(cid) or team)
+        count["staff FM27 move undone"] += 1
+    for u, v in sverdict.items():
+        if v["how"] == "removed":
+            drop.add(u)
+            drop.update(conts.get(u, []))
+            count["staff removed (not in the Staff tab or squad sheets)"] += 1
+            if u in st_of:
+                st_of[u]["status"] = "dropped"
+                st_of[u]["obs"] = v["why"] + " - every change dropped"
+        elif v["how"] == "protected" and sstaff[u]["status"] == GREEN:
+            sstaff[u]["status"] = ORANGE
+            sstaff[u]["obs"] = v["why"] + " - kept (FM26/27 record)"
+        if v["how"] != "twin" and not sstaff[u]["in_fm27"]:
+            sstaff[u]["status"], sstaff[u]["obs"] = RED, "gone from FM27; staff are not recreated"
+    with open(os.path.join(ROOT, "work", "%s_staff.json" % country.lower()), "w", encoding="utf-8") as fh:
+        json.dump({(st_of[u]["uid"] if u in st_of else u): dict(sstaff.get(u) or others.get(u),
+                                                                club_name=namer.club((sstaff.get(u) or others[u])["club"])
+                                                                if (sstaff.get(u) or others[u])["club"] else None, **v)
+                   for u, v in sverdict.items()}, fh, ensure_ascii=False, indent=0)
+    print("staff:", dict(Counter(v["how"] for v in sverdict.values())),
+          "new rows:", sum(1 for v in sverdict.values() if v.get("append")))
 
     print("%s: %d legends; %s" % (country, len(status), dict(count)))
     for u, n, cu, cn in twins:
